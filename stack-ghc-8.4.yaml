@@ -1,0 +1,14 @@
+resolver: lts-12.26
+
+packages:
+- .
+
+extra-deps:
+- HDBC-postgresql-2.3.2.7@rev:0
+- socket-0.8.2.0@sha256:77a3fb851d1dba7f3fd979773174d62cdbb59b5ad927cc9d00779a3eb2e859e9
+- socket-unix-0.2.0.0@sha256:8cecd07268b14ba47b13e7855f9862f3ce34a7079ccf21ea97057f6bd4f6fb66
+- single-tuple-0.1.0.0@rev:2
+- list-tuple-0.1.1.0@rev:1
+- homotuple-0.1.0.0@rev:2
+- github: postgres-haskell/postgres-wire
+  commit: fda5e3b70c3cc0bab8365b4b872991d50da0348c

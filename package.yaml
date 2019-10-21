@@ -1,0 +1,243 @@
+name: postgresql-pure
+version: 0.1.0.0
+github: iij-ii/postgresql-pure
+license: BSD-3-Clause
+author: Kazuki Okamoto
+maintainer: kazukiokamoto@iij.ad.jp
+copyright: 2019 IIJ Innovation Institute Inc.
+category: Database
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+synopsis: pure Haskell PostgreSQL driver
+description: pure Haskell PostgreSQL driver
+
+flags:
+  pure-md5:
+    default: false
+    manual: false
+
+dependencies:
+- base >= 4.7
+- attoparsec
+- base16-bytestring
+- containers
+- convertible
+- bytestring
+- data-default-class
+- double-conversion
+- HDBC
+- homotuple
+- list-tuple
+- memory
+- mtl
+- network
+- Only
+- postgresql-binary
+- pretty-hex
+- safe-exceptions
+- scientific
+- single-tuple
+- text
+- time
+- utf8-string
+
+when:
+- condition: flag(pure-md5)
+  then:
+    dependencies:
+    - pureMD5
+    cpp-options:
+    - -DPURE_MD5
+  else:
+    dependencies:
+    - cryptohash-md5
+
+ghc-options:
+- -Wall
+- -Wcompat
+- -Wincomplete-uni-patterns
+- -Wincomplete-record-updates
+- -Wmonomorphism-restriction
+- -Wmissing-exported-signatures
+- -Wmissing-export-lists
+- -Wmissing-home-modules
+- -Widentities
+- -Wredundant-constraints
+- -Wpartial-fields
+- -Wno-name-shadowing
+
+library:
+  source-dirs: src
+  ghc-options:
+  - -Wmissing-import-lists
+  default-extensions:
+  - Strict
+  other-modules:
+  - Database.HDBC.PostgreSQL.Pure.Parser
+  - Database.PostgreSQL.Pure.Internal.Builder
+  - Database.PostgreSQL.Pure.Internal.Connection
+  - Database.PostgreSQL.Pure.Internal.Data
+  - Database.PostgreSQL.Pure.Internal.Exception
+  - Database.PostgreSQL.Pure.Internal.IsLabel
+  - Database.PostgreSQL.Pure.Internal.MonadFail
+  - Database.PostgreSQL.Pure.Internal.Parser
+  - Database.PostgreSQL.Pure.Internal.Query
+  - Database.PostgreSQL.Pure.Internal.SocketIO
+  - Database.PostgreSQL.Simple.Time.Internal.Parser
+  - Database.PostgreSQL.Simple.Time.Internal.Printer
+  generated-other-modules:
+  - Paths_postgresql_pure
+
+tests:
+  original:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wno-incomplete-uni-patterns
+    - -Wno-missing-export-lists
+    - -Wno-monomorphism-restriction
+    dependencies:
+    - postgresql-pure
+    - hspec
+    - hspec-core
+    - Only
+
+  hdbc-postgresql:
+    main: runtests.hs
+    source-dirs:
+    - test-hdbc-postgresql
+    - src
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wno-all
+    - -Wno-compat
+    - -Wno-incomplete-uni-patterns
+    - -Wno-incomplete-record-updates
+    - -Wno-monomorphism-restriction
+    - -Wno-missing-exported-signatures
+    - -Wno-missing-export-lists
+    - -Wno-missing-home-modules
+    - -Wno-identities
+    - -Wno-redundant-constraints
+    - -Wno-partial-fields
+    dependencies:
+    - HUnit
+    - QuickCheck
+    - old-time
+    default-extensions:
+    - Strict
+
+  relational-record:
+    main: Spec.hs
+    source-dirs:
+    - test-relational-record
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wno-all
+    - -Wno-compat
+    - -Wno-incomplete-uni-patterns
+    - -Wno-incomplete-record-updates
+    - -Wno-monomorphism-restriction
+    - -Wno-missing-exported-signatures
+    - -Wno-missing-export-lists
+    - -Wno-missing-home-modules
+    - -Wno-identities
+    - -Wno-redundant-constraints
+    - -Wno-partial-fields
+    dependencies:
+    - postgresql-pure
+    - hspec
+    - hspec-core
+    - relational-record
+    - relational-query
+    - relational-query-HDBC
+    - persistable-record
+    - HDBC-session
+    - HDBC-postgresql
+
+  doctest:
+    main: doctest.hs
+    source-dirs:
+    - test-doctest
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wno-all
+    - -Wno-compat
+    - -Wno-incomplete-uni-patterns
+    - -Wno-incomplete-record-updates
+    - -Wno-monomorphism-restriction
+    - -Wno-missing-exported-signatures
+    - -Wno-missing-export-lists
+    - -Wno-missing-home-modules
+    - -Wno-identities
+    - -Wno-redundant-constraints
+    - -Wno-partial-fields
+    dependencies:
+    - doctest
+
+benchmarks:
+  requests-per-second:
+    main: requests-per-second.hs
+    source-dirs: benchmark
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - base >= 4.7 && < 5
+    - bytestring
+    - clock
+    - data-default-class
+    - deepseq
+    - homotuple
+    - Only
+    - optparse-applicative
+    - postgresql-libpq
+    - postgresql-pure
+    - vector
+    when:
+    - condition: '!os(windows)'
+      dependencies:
+      - postgres-wire
+
+  requests-per-second-constant:
+    main: requests-per-second-constant.hs
+    source-dirs: benchmark
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - base >= 4.7 && < 5
+    - bytestring
+    - cassava
+    - clock
+    - data-default-class
+    - deepseq
+    - homotuple
+    - hourglass
+    - Only
+    - optparse-applicative
+    - postgresql-libpq
+    - postgresql-pure
+    - postgresql-simple
+    - postgresql-typed
+    - random-shuffle
+    - utf8-string
+    - vector
+    when:
+    - condition: '!os(windows)'
+      dependencies:
+      - postgres-wire

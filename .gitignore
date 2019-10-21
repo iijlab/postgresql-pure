@@ -1,0 +1,6 @@
+.stack-work/
+postgresql-pure.cabal
+stack.yaml
+*~
+
+TAGS

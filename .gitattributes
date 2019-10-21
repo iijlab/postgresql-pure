@@ -1,0 +1,5 @@
+*       text=auto eol=lf
+*.hs    text      eol=lf
+*.yaml  text      eol=lf
+*.cabal text      eol=lf
+*.ps1   text      eol=crlf

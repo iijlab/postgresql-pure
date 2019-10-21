@@ -1,0 +1,1 @@
+:set -XOverloadedStrings -XFlexibleContexts -XTypeFamilies -XDataKinds -XTypeApplications -fno-ignore-asserts
