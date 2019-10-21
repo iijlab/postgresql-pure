@@ -106,7 +106,7 @@ receive parser = do
 -- Before network 3.0.0.0, recvBuf raises error on EOF. Otherwise it returns 0 on EOF.
 recvBuf :: NS.Socket -> Ptr Word8 -> Int -> IO Int
 #if MIN_VERSION_network(3, 0, 0)
-recvBuf s ptr nbytes = NS.recvBuf s ptr nBytes
+recvBuf s ptr nbytes = NS.recvBuf s ptr nbytes
 #else
 recvBuf s ptr nbytes = do
   r <- tryJust (guard . isEOFError) $ NS.recvBuf s ptr nbytes
