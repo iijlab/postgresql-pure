@@ -71,7 +71,7 @@ instance Pretty ResponseParsingFailed where
 
 data InternalException
   = InternalResponseParsingFailed String BS.ByteString
-  | InternalErrorResponse ErrorFields (Maybe TransactionState)
+  | InternalErrorResponse ErrorFields (Maybe TransactionState) BS.ByteString
   | InternalExtraData BS.ByteString
   deriving (Show, Read, Eq, Typeable)
 
@@ -79,7 +79,7 @@ instance E.Exception InternalException
 
 internalExcepionToExposedException :: InternalException -> Exception
 internalExcepionToExposedException e@InternalResponseParsingFailed {} = Exception $ ResponseParsingFailed $ displayException e
-internalExcepionToExposedException (InternalErrorResponse (ErrorFields fields) transactionState) =
+internalExcepionToExposedException (InternalErrorResponse (ErrorFields fields) transactionState _) =
   Exception ErrorResponse { severity, code, message, transactionState }
   where
     (severity, code, message) = map3 BSS.fromShort $ foldr go ("", "", "") fields

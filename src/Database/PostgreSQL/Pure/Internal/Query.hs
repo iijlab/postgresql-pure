@@ -58,6 +58,7 @@ import           Control.Applicative                         ((<|>))
 import           Control.Exception.Safe                      (throw, try)
 import           Control.Monad                               (void, when)
 import           Control.Monad.Fail                          (MonadFail)
+import           Control.Monad.State.Strict                  (put)
 import qualified Data.Attoparsec.ByteString                  as AP
 import qualified Data.Attoparsec.Combinator                  as AP
 import qualified Data.ByteString.Builder                     as BSB
@@ -246,37 +247,38 @@ type instance MessageResult [m] = [MessageResult m]
 -- | To build and send the given message and a “Flush” message and to receive and parse those responses.
 flush :: Message m => Connection -> m -> IO (MessageResult m)
 flush Connection { socket, sendingBuffer, receptionBuffer, config } m =
-  Exception.convert $ do
-    r <- try $
-      runSocketIO socket sendingBuffer receptionBuffer config $ do
+  Exception.convert $
+    runSocketIO socket sendingBuffer receptionBuffer config $ do
+      r <- try $ do
         buildAndSend $ builder m <> BSB.byteString Builder.flush
         receive $ parser m
-    case r of
-      Right r -> pure r
-      Left (Exception.InternalErrorResponse fields _) -> do
-        ReadyForQuery ts <-
-          runSocketIO socket sendingBuffer receptionBuffer config $ do
+      case r of
+        Right r -> pure r
+        Left (Exception.InternalErrorResponse fields _ _) -> do
+          ReadyForQuery ts <- do
+            put mempty
             send Builder.sync
             receive Parser.readyForQuery
-        throw $ Exception.InternalErrorResponse fields $ Just ts
-      Left e -> throw e
+          throw $ Exception.InternalErrorResponse fields (Just ts) mempty
+        Left e -> throw e
 
 -- | To build and send the given message and a “Sync” message and to receive and parse those responses.
 sync :: Message m => Connection -> m -> IO (MessageResult m, TransactionState)
 sync Connection { socket, sendingBuffer, receptionBuffer, config } m =
-  Exception.convert $ do
-    r <-
-      try $
-        runSocketIO socket sendingBuffer receptionBuffer config $ do
+  Exception.convert $
+    runSocketIO socket sendingBuffer receptionBuffer config $ do
+      r <-
+        try $ do
           buildAndSend $ builder m <> BSB.byteString Builder.sync
           (r, ReadyForQuery ts) <- receive $ (,) <$> parser m <*> Parser.readyForQuery
           pure (r, ts)
-    case r of
-      Right r -> pure r
-      Left (Exception.InternalErrorResponse fields _) -> do
-        ReadyForQuery ts <- runSocketIO socket sendingBuffer receptionBuffer config $ receive Parser.readyForQuery
-        throw $ Exception.InternalErrorResponse fields $ Just ts
-      Left e -> throw e
+      case r of
+        Right r -> pure r
+        Left (Exception.InternalErrorResponse fields _ rest) -> do
+          put rest
+          ReadyForQuery ts <- receive Parser.readyForQuery
+          throw $ Exception.InternalErrorResponse fields (Just ts) mempty
+        Left e -> throw e
 
 -- | To send @BEGIN@ SQL statement.
 begin :: ExecutedProcedure ()

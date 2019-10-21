@@ -79,8 +79,8 @@ recvAndParse sock (Buffer bfptr blen) carry parser =
     result <- AP.parseWith recv parser carry
     case result of
       AP.Done rest response -> pure (response, rest)
-      AP.Fail rest [] msg      -> throw $ Exception.InternalResponseParsingFailed msg rest
-      AP.Fail rest ctxs msg    -> throw $ Exception.InternalResponseParsingFailed (intercalate " > " ctxs <> ": " <> msg) rest
+      AP.Fail rest [] msg   -> throw $ Exception.InternalResponseParsingFailed msg rest
+      AP.Fail rest ctxs msg -> throw $ Exception.InternalResponseParsingFailed (intercalate " > " ctxs <> ": " <> msg) rest
       AP.Partial _          -> Exception.cantReachHere
 
 receiveJust :: AP.Parser response -> SocketIO response
@@ -95,14 +95,12 @@ receive :: AP.Parser response -> SocketIO response
 receive parser = do
   r <- try $ receiveJust parser
   case r of
-    Right r             -> pure r
-    Left e@(Exception.InternalResponseParsingFailed _ raw) -> do
-      let
-        r = AP.parseOnly Parser.skipUntilError raw
-      throw $
-        case r of
-          Right (Error fields) -> Exception.InternalErrorResponse fields Nothing
-          Left _               -> e
+    Right r -> pure r
+    Left e@(Exception.InternalResponseParsingFailed _ raw) ->
+      case AP.parse Parser.skipUntilError raw of
+        AP.Done rest (Error fields) -> throw $ Exception.InternalErrorResponse fields Nothing rest
+        AP.Fail _ _ _               -> throw e
+        AP.Partial _                -> throw e
     Left e -> throw e
 
 -- Before network 3.0.0.0, recvBuf raises error on EOF. Otherwise it returns 0 on EOF.
