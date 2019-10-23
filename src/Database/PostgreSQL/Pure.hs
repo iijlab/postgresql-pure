@@ -192,7 +192,7 @@ instance (oids ~ Homotuple n Oid, Item oids ~ Oid, IsList oids) => HasField "par
 resultInfos :: (IsHomolisttuple m ColumnInfo, IsHomotupleItem m ColumnInfo) => PreparedStatement n m -> Homotuple m ColumnInfo
 resultInfos (PreparedStatement Data.PreparedStatement { resultInfos }) = fromList resultInfos
 
--- | This represents a prepared statemnt which is not yet processed by a server.
+-- | This represents a prepared statement which is not yet processed by a server.
 newtype PreparedStatementProcedure (parameterLength :: Nat) (resultLength :: Nat) =
   PreparedStatementProcedure Data.PreparedStatementProcedure
   deriving newtype (Show, Message)

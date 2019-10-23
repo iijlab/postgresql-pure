@@ -196,7 +196,7 @@ instance Close PreparedStatement where
 instance Close Portal where
   close p = CloseProcedure (Builder.closePortal $ #name p) Parser.closeComplete
 
--- | This means than @r@ is a objective of 'flush' and 'sync'.
+-- | This means that @r@ is a objective of 'flush' and 'sync'.
 class Message m where
   builder :: m -> BSB.Builder
   default builder :: IsLabel "builder" (m -> BSB.Builder) => m -> BSB.Builder

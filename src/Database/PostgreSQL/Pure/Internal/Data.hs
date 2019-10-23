@@ -174,7 +174,7 @@ data TypeLength = VariableLength | FixedLength Int16 deriving (Show, Read, Eq, O
 
 type TypeModifier = Int32
 
--- | Format code of patameters of results.
+-- | Format code of parameters of results.
 data FormatCode = TextFormat | BinaryFormat deriving (Show, Read, Eq, Enum)
 
 data BindParameterFormatCodes
@@ -318,7 +318,7 @@ pattern Value a = Raw (Just a)
 -- This 'Data.String.fromString' counts only ASCII, becouse it is the same with 'BS.ByteString'.
 newtype Query = Query BS.ByteString deriving (Show, Read, Eq, Ord, IsString)
 
--- | To convert a type which means that is is not prcessed by the server to a respective type which means that it is processed by the server.
+-- | To convert a type which means that it is not processed by the server to a respective type which means that it is processed by the server.
 type family MessageResult m :: Type
 
 -- | This represents a prepared statement which is already processed by a server.
@@ -335,7 +335,7 @@ instance Show PreparedStatement where
 instance Eq PreparedStatement where
   (PreparedStatement name0 parameterOids0 resultInfos0) == (PreparedStatement name1 parameterOids1 resultInfos1) = (name0, parameterOids0, resultInfos0) == (name1, parameterOids1, resultInfos1)
 
--- | This represents a prepared statemnt which is not yet processed by a server.
+-- | This represents a prepared statement which is not yet processed by a server.
 data PreparedStatementProcedure =
   PreparedStatementProcedure
     { name            :: PreparedStatementName
