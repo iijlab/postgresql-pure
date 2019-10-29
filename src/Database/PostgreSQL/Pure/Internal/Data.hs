@@ -99,16 +99,18 @@ import qualified Text.Read.Lex                as R
 --
 -- Default configuration is 'def', which is following.
 --
--- @
--- 'Config'
---   { address = 'AddressResolved' $ 'NS.SockAddrInet' 5432 $ 'NS.tupleToHostAddress' (127, 0, 0, 1)
---   , user = "postgres"
---   , password = ""
---   , database = ""
---   , sendingBufferSize = 2 ^ (12 :: 'Int')
---   , receptionBufferSize = 2 ^ (12 :: 'Int')
---   }
--- @
+-- >>> address def
+-- AddressResolved 127.0.0.1:5432
+-- >>> user def
+-- "postgres"
+-- >>> password def
+-- ""
+-- >>> database def
+-- ""
+-- >>> sendingBufferSize def
+-- 4096
+-- >>> receptionBufferSize def
+-- 4096
 data Config =
   Config
     { address             :: Address -- ^ Server address.

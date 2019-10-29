@@ -73,19 +73,22 @@ import qualified PostgreSQL.Binary.Encoding                   as BE
 --
 -- Default configuration is 'def', which is following.
 --
+-- >>> address def
+-- AddressResolved 127.0.0.1:5432
+-- >>> user def
+-- "postgres"
+-- >>> password def
+-- ""
+-- >>> database def
+-- ""
+-- >>> sendingBufferSize def
+-- 4096
+-- >>> receptionBufferSize def
+-- 4096
+--
 -- @
--- let 'Pure.Config' { address, user, password, database, sendingBufferSize, receptionBufferSize } = 'def'
--- in
---   'Config'
---     { address = address
---     , user = user
---     , password = password
---     , database = database
---     , sendingBufferSize = sendingBufferSize
---     , receptionBufferSize = receptionBufferSize
---     , encodeString = \code -> case code of \"UTF8\" -> 'pure' . 'BSU.fromString'; _ -> 'const' $ 'fail' $ "unexpected character code: " <> 'show' code
---     , decodeString = \code -> case code of \"UTF8\" -> 'pure' . 'BSU.toString'; _ -> 'const' $ 'fail' $ "unexpected character code: " <> 'show' code
---     }
+-- encodeString def = \code -> case code of \"UTF8\" -> 'pure' . 'BSU.fromString'; _ -> 'const' $ 'fail' $ "unexpected character code: " <> 'show' code
+-- decodeString def = \code -> case code of \"UTF8\" -> 'pure' . 'BSU.toString'; _ -> 'const' $ 'fail' $ "unexpected character code: " <> 'show' code
 -- @
 data Config =
   Config
