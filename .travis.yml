@@ -112,11 +112,11 @@ install:
 script:
 - |
   set -ex
-  stack --no-terminal $ARGS build --pedantic --haddock --no-haddock-deps postgresql-pure:lib
-  stack --no-terminal $ARGS build --pedantic --no-run-tests              postgresql-pure:test:doctest
-  stack --no-terminal $ARGS build --pedantic --no-run-tests              postgresql-pure:test:hdbc-postgresql
-  stack --no-terminal $ARGS build --pedantic --no-run-tests              postgresql-pure:test:original
-  stack --no-terminal $ARGS build --pedantic --no-run-benchmarks         postgresql-pure:bench:requests-per-second
+  stack --no-terminal $ARGS build --ghc-options -Werror --haddock --no-haddock-deps postgresql-pure:lib
+  stack --no-terminal $ARGS build --ghc-options -Werror --no-run-tests              postgresql-pure:test:doctest
+  stack --no-terminal $ARGS build --ghc-options -Werror --no-run-tests              postgresql-pure:test:hdbc-postgresql
+  stack --no-terminal $ARGS build --ghc-options -Werror --no-run-tests              postgresql-pure:test:original
+  stack --no-terminal $ARGS build --ghc-options -Werror --no-run-benchmarks         postgresql-pure:bench:requests-per-second
   # needs a PostgreSQL server on compilation
   #   - postgresql-pure:test:relational-record
   #   - postgresql-pure:bench:requests-per-second-constant
