@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP                   #-}
 {-# LANGUAGE DataKinds             #-}
 {-# LANGUAGE DefaultSignatures     #-}
 {-# LANGUAGE DerivingStrategies    #-}
@@ -57,7 +58,6 @@ import           Database.PostgreSQL.Pure.Internal.SocketIO  (buildAndSend, rece
 import           Control.Applicative                         ((<|>))
 import           Control.Exception.Safe                      (throw, try)
 import           Control.Monad                               (void, when)
-import           Control.Monad.Fail                          (MonadFail)
 import           Control.Monad.State.Strict                  (put)
 import qualified Data.Attoparsec.ByteString                  as AP
 import qualified Data.Attoparsec.Combinator                  as AP
@@ -66,6 +66,10 @@ import qualified Data.ByteString.Char8                       as BSC
 import           Data.Functor                                (($>))
 import           Data.List                                   (genericLength)
 import           GHC.OverloadedLabels                        (IsLabel)
+
+#if !MIN_VERSION_base(4,13,0)
+import           Control.Monad.Fail                          (MonadFail)
+#endif
 
 -- | To get the procedure to build the message of parsing SQL query and to parse its response.
 parse

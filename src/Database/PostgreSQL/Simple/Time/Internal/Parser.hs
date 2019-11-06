@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, ScopedTypeVariables #-}
+{-# LANGUAGE CPP, BangPatterns, ScopedTypeVariables #-}
 
 -- |
 -- Module:      Database.PostgreSQL.Simple.Time.Internal.Parser
@@ -24,7 +24,6 @@ module Database.PostgreSQL.Simple.Time.Internal.Parser
     , diffTime
     ) where
 
-import Control.Applicative ((<$>), (<*>), (<*), (*>))
 import Data.Attoparsec.ByteString.Char8 (Parser, peekChar, anyChar, satisfy, option, digit, isDigit, char, takeWhile1, decimal)
 import Data.Bits ((.&.))
 import Data.Char (ord)
@@ -35,6 +34,10 @@ import Data.Time.Calendar (Day, fromGregorianValid, addDays)
 import Data.Time.Clock (UTCTime(UTCTime), DiffTime, picosecondsToDiffTime)
 import qualified Data.ByteString.Char8 as B8
 import qualified Data.Time.LocalTime as Local
+
+#if !MIN_VERSION_base(4,13,0)
+import Control.Applicative ((<$>), (<*>), (<*), (*>))
+#endif
 
 -- | Parse a date of the form @YYYY-MM-DD@.
 day :: Parser Day

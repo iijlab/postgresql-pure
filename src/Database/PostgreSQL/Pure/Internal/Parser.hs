@@ -64,7 +64,6 @@ import qualified Database.PostgreSQL.Simple.Time.Internal.Parser as Time
 
 import           Prelude                                         hiding (error, fail)
 
-import           Control.Applicative                             ((*>), (<|>))
 import           Control.Exception                               (assert)
 import           Control.Monad                                   (replicateM, unless, void)
 import           Control.Monad.Fail                              (MonadFail (fail))
@@ -93,6 +92,12 @@ import           Foreign.Storable                                (Storable, peek
 import           GHC.Stack                                       (HasCallStack, callStack, prettyCallStack)
 import qualified PostgreSQL.Binary.Decoding                      as BD
 import           System.IO.Unsafe                                (unsafeDupablePerformIO)
+
+#if MIN_VERSION_base(4,13,0)
+import           Control.Applicative                             ((<|>))
+#else
+import           Control.Applicative                             ((*>), (<|>))
+#endif
 
 response :: AP.Parser Response
 response =

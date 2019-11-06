@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP                   #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
@@ -47,7 +48,6 @@ import           Control.Concurrent                           (MVar, modifyMVar_
 import           Control.Exception.Safe                       (Exception (displayException, fromException, toException),
                                                                impureThrow, try)
 import           Control.Monad                                (unless, void)
-import           Control.Monad.Fail                           (MonadFail)
 import qualified Data.ByteString                              as BS
 import qualified Data.ByteString.Short                        as BSS
 import qualified Data.ByteString.UTF8                         as BSU
@@ -68,6 +68,10 @@ import           Data.Typeable                                (Typeable, cast)
 import           Data.Version                                 (showVersion)
 import           Data.Word                                    (Word32, Word64)
 import qualified PostgreSQL.Binary.Encoding                   as BE
+
+#if !MIN_VERSION_base(4,13,0)
+import           Control.Monad.Fail                           (MonadFail)
+#endif
 
 -- | A configuration of a connection.
 --
@@ -414,11 +418,7 @@ instance IConnection Connection where
         decode = decodeString charCode
         decodeIO = MonadFail.fromEither . decode :: BS.ByteString -> IO String
         q :: Pure.Query
-        q =
-          "SELECT attname, atttypid, attlen, atttypmod, attnotnull\
-          \ FROM pg_attribute, pg_class, pg_namespace\
-          \ WHERE attnum > 0 AND attisdropped IS FALSE AND attrelid = pg_class.oid AND relnamespace = pg_namespace.oid AND relname = $1\
-          \ ORDER BY attnum"
+        q = "SELECT attname, atttypid, attlen, atttypmod, attnotnull FROM pg_attribute, pg_class, pg_namespace WHERE attnum > 0 AND attisdropped IS FALSE AND attrelid = pg_class.oid AND relnamespace = pg_namespace.oid AND relname = $1 ORDER BY attnum"
       ((_, _, e, _), _) <-
         Pure.sync connection $ Pure.execute 0 decode $ forceBind $ Pure.bind "" Pure.TextFormat Pure.TextFormat parameters encode (Only tableName) $ Pure.parse "" q (Right ([Oid.name], [Oid.name, Oid.oid, Oid.int2, Oid.int4, Oid.bool]))
       for (Pure.records e) $ \(attname, atttypid, attlen, atttypmod, attnotnull) -> do

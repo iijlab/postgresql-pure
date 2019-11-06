@@ -93,7 +93,9 @@ addrInfo address =
           NS.SockAddrInet {}  -> NS.AF_INET
           NS.SockAddrInet6 {} -> NS.AF_INET6
           NS.SockAddrUnix {}  -> NS.AF_UNIX
+#if !MIN_VERSION_network(3,0,0)
           _                   -> NS.AF_UNSPEC
+#endif
     }
 
 resolve :: NS.HostName -> NS.ServiceName -> IO NS.AddrInfo

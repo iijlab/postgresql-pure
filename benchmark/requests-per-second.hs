@@ -36,6 +36,7 @@ import qualified Database.PostgreSQL.Pure                     as Pure
 import qualified Database.PostgreSQL.Pure.Oid                 as Pure
 
 #ifndef mingw32_HOST_OS
+#if !MIN_VERSION_base(4,13,0)
 import qualified Data.ByteString.Lazy                         as BL
 
 import           Database.PostgreSQL.Driver
@@ -44,6 +45,7 @@ import           Database.PostgreSQL.Protocol.DataRows
 import qualified Database.PostgreSQL.Protocol.Decoders        as WD
 import qualified Database.PostgreSQL.Protocol.Store.Decode    as WD
 import           Database.PostgreSQL.Protocol.Types
+#endif
 #endif
 
 {-
@@ -136,6 +138,8 @@ queryStatement = \case
 benchPw :: Config -> RowsType -> IO ()
 #ifdef mingw32_HOST_OS
 benchPw = error "postgres-wire can run on only UNIX-like environments"
+#elif MIN_VERSION_base(4,13,0)
+benchPw = error "postgres-wire is not compatible with base >= 4.13.0"
 #else
 benchPw Config { host, database, user, password } rowsType =
   benchRequests createConnection $ \c ->
@@ -285,6 +289,8 @@ benchRequests connectAction queryAction = do
 benchLoop :: Config -> IO ()
 #ifdef mingw32_HOST_OS
 benchLoop = error "postgres-wire can run on only UNIX-like environments"
+#elif MIN_VERSION_base(4,13,0)
+benchLoop = error "postgres-wire is not compatible with base >= 4.13.0"
 #else
 benchLoop _config = do
     counter <- newIORef 0  :: IO (IORef Word)

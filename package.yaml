@@ -208,7 +208,7 @@ benchmarks:
     - postgresql-pure
     - vector
     when:
-    - condition: '!os(windows)'
+    - condition: '!os(windows) && impl(ghc < 8.8.0)'
       dependencies:
       - postgres-wire
 
@@ -233,11 +233,13 @@ benchmarks:
     - postgresql-libpq
     - postgresql-pure
     - postgresql-simple
-    - postgresql-typed
     - random-shuffle
     - utf8-string
     - vector
     when:
-    - condition: '!os(windows)'
+    - condition: '!os(windows) && impl(ghc < 8.8.0)'
       dependencies:
       - postgres-wire
+    - condition: 'impl(ghc < 8.8.0)'
+      dependencies:
+      - postgresql-typed

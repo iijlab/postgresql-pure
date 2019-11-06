@@ -13,8 +13,6 @@ import qualified Database.PostgreSQL.Pure.Internal.Exception as Exception
 import qualified Database.PostgreSQL.Pure.Internal.Parser    as Parser
 
 import           Control.Concurrent                          (yield)
-import           Control.Exception.Safe                      (throw, try, tryJust)
-import           Control.Monad                               (guard, unless)
 import           Control.Monad.IO.Class                      (liftIO)
 import           Control.Monad.Reader                        (ReaderT, ask, runReaderT)
 import           Control.Monad.State.Strict                  (StateT, get, put, runStateT)
@@ -28,7 +26,15 @@ import           Data.Word                                   (Word8)
 import           Foreign                                     (ForeignPtr, Ptr, withForeignPtr)
 import qualified Network.Socket                              as NS
 import qualified Network.Socket.ByteString                   as NSB
+
+#if MIN_VERSION_base(4,13,0)
+import           Control.Exception.Safe                      (throw, try)
+import           Control.Monad                               (unless)
+#else
+import           Control.Exception.Safe                      (throw, try, tryJust)
+import           Control.Monad                               (guard, unless)
 import           System.IO.Error                             (isEOFError)
+#endif
 
 type SocketIO = StateT Carry (ReaderT (NS.Socket, Buffer, Buffer, Config) IO)
 

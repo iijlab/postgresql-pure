@@ -1,4 +1,5 @@
 {-# LANGUAGE AllowAmbiguousTypes        #-}
+{-# LANGUAGE CPP                        #-}
 {-# LANGUAGE DataKinds                  #-}
 {-# LANGUAGE DerivingStrategies         #-}
 {-# LANGUAGE DuplicateRecordFields      #-}
@@ -73,7 +74,6 @@ module Database.PostgreSQL.Pure.Internal.Data
 import           Database.PostgreSQL.Pure.Oid (Oid (Oid))
 
 import           Control.Applicative          ((<|>))
-import           Control.Monad.Fail           (MonadFail)
 import qualified Data.Attoparsec.ByteString   as AP
 import qualified Data.ByteString              as BS
 import qualified Data.ByteString.Builder      as BSB
@@ -94,6 +94,10 @@ import qualified Network.Socket               as NS
 import           Text.Read                    (Read (readPrec))
 import qualified Text.Read                    as R
 import qualified Text.Read.Lex                as R
+
+#if !MIN_VERSION_base(4,13,0)
+import           Control.Monad.Fail           (MonadFail)
+#endif
 
 -- | A configuration of a connection.
 --

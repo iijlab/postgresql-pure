@@ -44,8 +44,12 @@ matrix:
     compiler: ": #stack 8.6.5"
     addons: {apt: {packages: [libgmp-dev]}}
 
+  - env: BUILD=stack ARGS="--stack-yaml stack-ghc-8.8.yaml"
+    compiler: ": #stack 8.8.1"
+    addons: {apt: {packages: [libgmp-dev]}}
+
   # Nightly builds are allowed to fail
-  - env: BUILD=stack ARGS="--stack-yaml stack-ghc-8.6.yaml --resolver nightly"
+  - env: BUILD=stack ARGS="--stack-yaml stack-ghc-8.8.yaml --resolver nightly"
     compiler: ": #stack nightly"
     addons: {apt: {packages: [libgmp-dev]}}
 
@@ -58,23 +62,23 @@ matrix:
     compiler: ": #stack 8.6.5 osx"
     os: osx
 
-  - env: BUILD=stack ARGS="--stack-yaml stack-ghc-8.6.yaml --resolver nightly"
+  - env: BUILD=stack ARGS="--stack-yaml stack-ghc-8.8.yaml"
+    compiler: ": #stack 8.8.1 osx"
+    os: osx
+
+  - env: BUILD=stack ARGS="--stack-yaml stack-ghc-8.8.yaml --resolver nightly"
     compiler: ": #stack nightly osx"
     os: osx
 
   allow_failures:
-  - env: BUILD=stack ARGS="--stack-yaml stack-ghc-8.6.yaml --resolver nightly"
+  - env: BUILD=stack ARGS="--stack-yaml stack-ghc-8.8.yaml --resolver nightly"
 
 before_install:
 # Using compiler above sets CC to an invalid value, so unset it
 - unset CC
 
-# We want to always allow newer versions of packages when building on GHC HEAD
-- CABALARGS=""
-- if [ "x$GHCVER" = "xhead" ]; then CABALARGS=--allow-newer; fi
-
 # Download and unpack the stack executable
-- export PATH=/opt/ghc/$GHCVER/bin:/opt/cabal/$CABALVER/bin:$HOME/.local/bin:$HOME/.cabal/bin:$PATH
+- export PATH=$HOME/.local/bin:$HOME/.cabal/bin:$PATH
 - mkdir -p ~/.local/bin
 - |
   if [ `uname` = "Darwin" ]
@@ -91,7 +95,6 @@ before_install:
 
 
 install:
-- echo "$(ghc --version) [$(ghc --print-project-git-commit-id 2> /dev/null || echo '?')]"
 - if [ -f configure.ac ]; then autoreconf -i; fi
 - |
   set -ex

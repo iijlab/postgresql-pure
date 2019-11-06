@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP                        #-}
 {-# LANGUAGE ConstraintKinds            #-}
 {-# LANGUAGE DataKinds                  #-}
 {-# LANGUAGE DefaultSignatures          #-}
@@ -163,7 +164,6 @@ import           Database.PostgreSQL.Pure.Internal.IsLabel    ()
 import           Database.PostgreSQL.Pure.Internal.Query      (Close, Message, close, flush, sync)
 import qualified Database.PostgreSQL.Pure.Internal.Query      as Query
 
-import           Control.Monad.Fail                           (MonadFail)
 import           Data.Bifunctor                               (bimap)
 import           Data.Kind                                    (Type)
 import           Data.Proxy                                   (Proxy (Proxy))
@@ -173,6 +173,10 @@ import           GHC.Exts                                     (IsList (Item, fro
 import           GHC.OverloadedLabels                         (IsLabel)
 import           GHC.Records                                  (HasField (getField))
 import           GHC.TypeLits                                 (KnownNat, Nat, natVal)
+
+#if !MIN_VERSION_base(4,13,0)
+import           Control.Monad.Fail                           (MonadFail)
+#endif
 
 -- | This represents a prepared statement which is already processed by a server.
 --

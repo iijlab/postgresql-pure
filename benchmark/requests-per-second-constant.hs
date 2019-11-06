@@ -9,6 +9,10 @@
 {-# OPTIONS_GHC -Wno-orphans                 #-}
 {-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-} -- for postgresql-typed's pgSQL quasiquotes
 
+#if __GLASGOW_HASKELL__ >= 808
+#define MIN_VERSION_postgresql_typed(a, b, c) 0
+#endif
+
 import qualified Database.PostgreSQL.Simple                   as S
 #if !MIN_VERSION_postgresql_simple(0,6,0)
 import qualified Database.PostgreSQL.Simple.FromField         as S
@@ -18,14 +22,18 @@ import qualified Database.PostgreSQL.Simple.FromRow           as S
 import qualified Database.PostgreSQL.Pure                     as P
 import qualified Database.PostgreSQL.Pure.Oid                 as P
 
+#if __GLASGOW_HASKELL__ < 808
 import qualified Database.PostgreSQL.Typed                    as T
+#endif
 
 #ifndef mingw32_HOST_OS
+#if !MIN_VERSION_base(4,13,0)
 import qualified Database.PostgreSQL.Driver                   as W
 import qualified Database.PostgreSQL.Protocol.Codecs.Decoders as WD
 import qualified Database.PostgreSQL.Protocol.DataRows        as W
 import qualified Database.PostgreSQL.Protocol.Decoders        as WD
 import qualified Database.PostgreSQL.Protocol.Store.Decode    as WD
+#endif
 #endif
 
 import qualified RepeatThreadPool                             as Pool
@@ -65,7 +73,7 @@ import           Time.System                                  (timeCurrentP)
 import           Time.Types                                   (Elapsed (Elapsed), ElapsedP (ElapsedP),
                                                                NanoSeconds (NanoSeconds), Seconds (Seconds))
 
-#if !MIN_VERSION_postgresql_typed(0,6,0)
+#if __GLASGOW_HASKELL__ < 808 && !MIN_VERSION_postgresql_typed(0,6,0)
 import           Network                                      (PortID (PortNumber))
 #endif
 
@@ -119,9 +127,7 @@ measures =
   [ ("pure", measurePure)
   , ("simple", measureSimple)
   , ("typed", measureTyped)
-#ifndef mingw32_HOST_OS
   , ("wire", measureWire)
-#endif
   ]
 
 data PureConnection = PureConnection { psRef :: IORef (Maybe (P.PreparedStatement 0 13)), connection :: P.Connection }
@@ -169,6 +175,9 @@ measureSimple config@Config { host } = do
         deepseq r $ pure ()
 
 measureTyped :: Config -> IO Result
+#if __GLASGOW_HASKELL__ >= 808
+measureTyped = error "postgresql-typed is not compatible with template-haskell >= 2.15.0.0"
+#else
 measureTyped config@Config { host } = do
   let
     postgresqlConfig =
@@ -193,10 +202,13 @@ measureTyped config@Config { host } = do
             [T.pgSQL|! SELECT 2147483647 :: int4, 9223372036854775807 :: int8, 1234567890.0123456789 :: numeric, 0.015625 :: float4, 0.00024414062 :: float8, 'hello' :: varchar, 'hello' :: text, '\xDEADBEEF' :: bytea, '1000-01-01 00:00:00.000001' :: timestamp, '2000-01-01 00:00:00.000001+14:30' :: timestamptz, '0001-01-01' :: date, '23:00:00' :: time, true :: bool |]
             :: IO [(Int32, Int64, Scientific, Float, Double, ByteString, ByteString, ByteString, LocalTime, UTCTime, Day, TimeOfDay, Bool)]
         deepseq r $ pure ()
+#endif
 
 measureWire :: Config -> IO Result
 #ifdef mingw32_HOST_OS
 measureWire = error "postgres-wire can run on only UNIX-like environments"
+#elif MIN_VERSION_base(4,13,0)
+measureWire = error "postgres-wire is not compatible with base >= 4.13.0"
 #else
 measureWire config@Config { host } = do
   let
