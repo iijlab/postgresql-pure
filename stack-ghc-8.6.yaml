@@ -13,3 +13,5 @@ extra-deps:
 - socket-unix-0.2.0.0@sha256:8cecd07268b14ba47b13e7855f9862f3ce34a7079ccf21ea97057f6bd4f6fb66
 - github: postgres-haskell/postgres-wire
   commit: fda5e3b70c3cc0bab8365b4b872991d50da0348c
+- github: dylex/postgresql-typed
+  commit: 4ef29b9357d749fc0c07d25b70dada85ea7afde0
