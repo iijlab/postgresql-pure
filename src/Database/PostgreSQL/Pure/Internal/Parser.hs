@@ -519,6 +519,12 @@ instance FromField Char where
           _   -> fail $ "expected 1 character, actual " <> show (length str) <> " characters"
   fromField _ ColumnInfo { typeOid } _ = fail $ "type mismatch (FromField): OID: " <> show typeOid <> ", Haskell: Char"
 
+instance FromField String where
+  fromField decode ColumnInfo { typeOid } (Just v)
+    | typeOid `elem` [Oid.text, Oid.bpchar, Oid.varchar, Oid.name]
+    = MonadFail.fromEither $ decode v
+  fromField _ ColumnInfo { typeOid } _ = fail $ "type mismatch (FromField): OID: " <> show typeOid <> ", Haskell: String"
+
 instance FromField BS.ByteString where
   fromField _ ColumnInfo { typeOid } (Just v)
     | typeOid `elem` [Oid.text, Oid.bpchar, Oid.varchar, Oid.name, Oid.bytea] = pure v
