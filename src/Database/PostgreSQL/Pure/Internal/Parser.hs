@@ -37,6 +37,7 @@ module Database.PostgreSQL.Pure.Internal.Parser
   , parameterDescription
   , skipUntilError
   , currentPos
+  , column
   ) where
 
 import           Database.PostgreSQL.Pure.Internal.Data          (AuthenticationMD5Password (AuthenticationMD5Password), AuthenticationResponse (AuthenticationMD5PasswordResponse, AuthenticationOkResponse),
@@ -824,6 +825,7 @@ instance
 instance FromField a => FromRecord [a] where
   fromRecord decode is = sequence $ column decode <$> is
 
+-- | For implementing 'fromRecord'.
 column :: FromField a => StringDecoder -> ColumnInfo -> AP.Parser a
 column decode info = do
   l <- anyInt32BE
