@@ -1,6 +1,10 @@
 .stack-work/
+dist-newstyle/
 postgresql-pure.cabal
 stack.yaml
 *~
 
 TAGS
+
+src/Database/PostgreSQL/Pure/Internal/Builder.hs
+src/Database/PostgreSQL/Pure/Internal/Parser.hs

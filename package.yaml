@@ -10,6 +10,10 @@ category: Database
 extra-source-files:
 - README.md
 - ChangeLog.md
+- template/Builder.hs
+- template/BuilderItem.hs
+- template/Parser.hs
+- template/ParserItem.hs
 
 synopsis: pure Haskell PostgreSQL driver
 description: pure Haskell PostgreSQL driver
@@ -69,6 +73,12 @@ ghc-options:
 - -Wpartial-fields
 - -Wno-name-shadowing
 
+custom-setup:
+  dependencies:
+  - Cabal
+  - base
+  - directory
+
 library:
   source-dirs: src
   ghc-options:
@@ -77,18 +87,18 @@ library:
   - Strict
   other-modules:
   - Database.HDBC.PostgreSQL.Pure.Parser
-  - Database.PostgreSQL.Pure.Internal.Builder
   - Database.PostgreSQL.Pure.Internal.Connection
   - Database.PostgreSQL.Pure.Internal.Data
   - Database.PostgreSQL.Pure.Internal.Exception
   - Database.PostgreSQL.Pure.Internal.IsLabel
   - Database.PostgreSQL.Pure.Internal.MonadFail
-  - Database.PostgreSQL.Pure.Internal.Parser
   - Database.PostgreSQL.Pure.Internal.Query
   - Database.PostgreSQL.Pure.Internal.SocketIO
   - Database.PostgreSQL.Simple.Time.Internal.Parser
   - Database.PostgreSQL.Simple.Time.Internal.Printer
   generated-other-modules:
+  - Database.PostgreSQL.Pure.Internal.Builder
+  - Database.PostgreSQL.Pure.Internal.Parser
   - Paths_postgresql_pure
 
 tests:

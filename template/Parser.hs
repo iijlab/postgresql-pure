@@ -601,231 +601,127 @@ instance {-# OVERLAPPABLE #-} (FromField a, Single c, t ~ c a) => FromRecord t w
   fromRecord decode [i] = Single <$> column decode i
   fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
 
--- 2 tuple
-instance (FromField a, FromField b) => FromRecord (a, b) where
-  fromRecord decode [i0, i1] =
-    (,)
-      <$> column decode i0
-      <*> column decode i1
-  fromRecord _ is = fail $ "length mismatch: expected 2: actual: " <> show (length is)
+---- embed 2
 
--- 3 tuple
-instance
-  (FromField a, FromField b, FromField c) => FromRecord (a, b, c) where
-  fromRecord decode [i0, i1, i2] =
-    (,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-  fromRecord _ is = fail $ "length mismatch: expected 3: actual: " <> show (length is)
+---- embed 3
 
--- 4 tuple
-instance
-  (FromField a, FromField b, FromField c, FromField d) => FromRecord (a, b, c, d) where
-  fromRecord decode [i0, i1, i2, i3] =
-    (,,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-      <*> column decode i3
-  fromRecord _ is = fail $ "length mismatch: expected 4: actual: " <> show (length is)
+---- embed 4
 
--- 5 tuple
-instance
-  (FromField a, FromField b, FromField c, FromField d, FromField e) => FromRecord (a, b, c, d, e) where
-  fromRecord decode [i0, i1, i2, i3, i4] =
-    (,,,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-      <*> column decode i3
-      <*> column decode i4
-  fromRecord _ is = fail $ "length mismatch: expected 5: actual: " <> show (length is)
+---- embed 5
 
--- 6 tuple
-instance
-  (FromField a, FromField b, FromField c, FromField d, FromField e, FromField f)
-  => FromRecord (a, b, c, d, e, f) where
-  fromRecord decode [i0, i1, i2, i3, i4, i5] =
-    (,,,,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-      <*> column decode i3
-      <*> column decode i4
-      <*> column decode i5
-  fromRecord _ is = fail $ "length mismatch: expected 6: actual: " <> show (length is)
+---- embed 6
 
--- 7 tuple
-instance
-  (FromField a, FromField b, FromField c, FromField d, FromField e, FromField f, FromField g)
-  => FromRecord (a, b, c, d, e, f, g) where
-  fromRecord decode [i0, i1, i2, i3, i4, i5, i6] =
-    (,,,,,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-      <*> column decode i3
-      <*> column decode i4
-      <*> column decode i5
-      <*> column decode i6
-  fromRecord _ is = fail $ "length mismatch: expected 7: actual: " <> show (length is)
+---- embed 7
 
--- 8 tuple
-instance
-  (FromField a, FromField b, FromField c, FromField d, FromField e, FromField f, FromField g, FromField h)
-  => FromRecord (a, b, c, d, e, f, g, h) where
-  fromRecord decode [i0, i1, i2, i3, i4, i5, i6, i7] =
-    (,,,,,,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-      <*> column decode i3
-      <*> column decode i4
-      <*> column decode i5
-      <*> column decode i6
-      <*> column decode i7
-  fromRecord _ is = fail $ "length mismatch: expected 8: actual: " <> show (length is)
+---- embed 8
 
--- 9 tuple
-instance
-  (FromField a, FromField b, FromField c, FromField d, FromField e, FromField f, FromField g, FromField h, FromField i)
-  => FromRecord (a, b, c, d, e, f, g, h, i) where
-  fromRecord decode [i0, i1, i2, i3, i4, i5, i6, i7, i8] =
-    (,,,,,,,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-      <*> column decode i3
-      <*> column decode i4
-      <*> column decode i5
-      <*> column decode i6
-      <*> column decode i7
-      <*> column decode i8
-  fromRecord _ is = fail $ "length mismatch: expected 9: actual: " <> show (length is)
+---- embed 9
 
--- 10 tuple
-instance
-  (FromField a, FromField b, FromField c, FromField d, FromField e, FromField f, FromField g, FromField h, FromField i, FromField j)
-  => FromRecord (a, b, c, d, e, f, g, h, i, j) where
-  fromRecord decode [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9] =
-    (,,,,,,,,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-      <*> column decode i3
-      <*> column decode i4
-      <*> column decode i5
-      <*> column decode i6
-      <*> column decode i7
-      <*> column decode i8
-      <*> column decode i9
-  fromRecord _ is = fail $ "length mismatch: expected 10: actual: " <> show (length is)
+---- embed 10
 
--- 11 tuple
-instance
-  (FromField a, FromField b, FromField c, FromField d, FromField e, FromField f, FromField g, FromField h, FromField i, FromField j, FromField k)
-  => FromRecord (a, b, c, d, e, f, g, h, i, j, k) where
-  fromRecord decode [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10] =
-    (,,,,,,,,,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-      <*> column decode i3
-      <*> column decode i4
-      <*> column decode i5
-      <*> column decode i6
-      <*> column decode i7
-      <*> column decode i8
-      <*> column decode i9
-      <*> column decode i10
-  fromRecord _ is = fail $ "length mismatch: expected 11: actual: " <> show (length is)
+---- embed 11
 
--- 12 tuple
-instance
-  (FromField a, FromField b, FromField c, FromField d, FromField e, FromField f, FromField g, FromField h, FromField i, FromField j, FromField k, FromField l)
-  => FromRecord (a, b, c, d, e, f, g, h, i, j, k, l) where
-  fromRecord decode [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11] =
-    (,,,,,,,,,,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-      <*> column decode i3
-      <*> column decode i4
-      <*> column decode i5
-      <*> column decode i6
-      <*> column decode i7
-      <*> column decode i8
-      <*> column decode i9
-      <*> column decode i10
-      <*> column decode i11
-  fromRecord _ is = fail $ "length mismatch: expected 12: actual: " <> show (length is)
+---- embed 12
 
--- 13 tuple
-instance
-  (FromField a, FromField b, FromField c, FromField d, FromField e, FromField f, FromField g, FromField h, FromField i, FromField j, FromField k, FromField l, FromField m)
-  => FromRecord (a, b, c, d, e, f, g, h, i, j, k, l, m) where
-  fromRecord decode [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12] =
-    (,,,,,,,,,,,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-      <*> column decode i3
-      <*> column decode i4
-      <*> column decode i5
-      <*> column decode i6
-      <*> column decode i7
-      <*> column decode i8
-      <*> column decode i9
-      <*> column decode i10
-      <*> column decode i11
-      <*> column decode i12
-  fromRecord _ is = fail $ "length mismatch: expected 13: actual: " <> show (length is)
+---- embed 13
 
--- 14 tuple
-instance
-  (FromField a, FromField b, FromField c, FromField d, FromField e, FromField f, FromField g, FromField h, FromField i, FromField j, FromField k, FromField l, FromField m, FromField n)
-  => FromRecord (a, b, c, d, e, f, g, h, i, j, k, l, m, n) where
-  fromRecord decode [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13] =
-    (,,,,,,,,,,,,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-      <*> column decode i3
-      <*> column decode i4
-      <*> column decode i5
-      <*> column decode i6
-      <*> column decode i7
-      <*> column decode i8
-      <*> column decode i9
-      <*> column decode i10
-      <*> column decode i11
-      <*> column decode i12
-      <*> column decode i13
-  fromRecord _ is = fail $ "length mismatch: expected 14: actual: " <> show (length is)
+---- embed 14
 
--- 15 tuple
-instance
-  (FromField a, FromField b, FromField c, FromField d, FromField e, FromField f, FromField g, FromField h, FromField i, FromField j, FromField k, FromField l, FromField m, FromField n, FromField o)
-  => FromRecord (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) where
-  fromRecord decode [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13, i14] =
-    (,,,,,,,,,,,,,,)
-      <$> column decode i0
-      <*> column decode i1
-      <*> column decode i2
-      <*> column decode i3
-      <*> column decode i4
-      <*> column decode i5
-      <*> column decode i6
-      <*> column decode i7
-      <*> column decode i8
-      <*> column decode i9
-      <*> column decode i10
-      <*> column decode i11
-      <*> column decode i12
-      <*> column decode i13
-      <*> column decode i14
-  fromRecord _ is = fail $ "length mismatch: expected 15: actual: " <> show (length is)
+---- embed 15
+
+---- embed 16
+
+---- embed 17
+
+---- embed 18
+
+---- embed 19
+
+---- embed 20
+
+---- embed 21
+
+---- embed 22
+
+---- embed 23
+
+---- embed 24
+
+---- embed 25
+
+---- embed 26
+
+---- embed 27
+
+---- embed 28
+
+---- embed 29
+
+---- embed 30
+
+---- embed 31
+
+---- embed 32
+
+---- embed 33
+
+---- embed 34
+
+---- embed 35
+
+---- embed 36
+
+---- embed 37
+
+---- embed 38
+
+---- embed 39
+
+---- embed 40
+
+---- embed 41
+
+---- embed 42
+
+---- embed 43
+
+---- embed 44
+
+---- embed 45
+
+---- embed 46
+
+---- embed 47
+
+---- embed 48
+
+---- embed 49
+
+---- embed 50
+
+---- embed 51
+
+---- embed 52
+
+---- embed 53
+
+---- embed 54
+
+---- embed 55
+
+---- embed 56
+
+---- embed 57
+
+---- embed 58
+
+---- embed 59
+
+---- embed 60
+
+---- embed 61
+
+---- embed 62
 
 -- list
 instance FromField a => FromRecord [a] where
