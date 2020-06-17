@@ -231,6 +231,7 @@ data Response
 
 data AuthenticationResponse
   = AuthenticationOkResponse
+  | AuthenticationCleartextPasswordResponse
   | AuthenticationMD5PasswordResponse AuthenticationMD5Password
   deriving (Show, Read, Eq)
 
@@ -486,8 +487,9 @@ instance Pretty Response where
   pretty (DebugResponse r)                = pretty r
 
 instance Pretty AuthenticationResponse where
-  pretty AuthenticationOkResponse              = "authentication ok"
-  pretty (AuthenticationMD5PasswordResponse r) = pretty r
+  pretty AuthenticationOkResponse                = "authentication ok"
+  pretty AuthenticationCleartextPasswordResponse = "authentication using cleartext"
+  pretty (AuthenticationMD5PasswordResponse r)   = pretty r
 
 instance Pretty AuthenticationMD5Password where
   pretty (AuthenticationMD5Password salt) = "authentication MD5 password:\n\tsalt: " <> simpleHex salt

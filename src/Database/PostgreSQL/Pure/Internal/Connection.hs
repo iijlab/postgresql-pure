@@ -11,7 +11,7 @@ module Database.PostgreSQL.Pure.Internal.Connection
 import qualified Database.PostgreSQL.Pure.Internal.Builder   as Builder
 import           Database.PostgreSQL.Pure.Internal.Data      (Address (AddressNotResolved, AddressResolved),
                                                               AuthenticationMD5Password (AuthenticationMD5Password),
-                                                              AuthenticationResponse (AuthenticationMD5PasswordResponse, AuthenticationOkResponse),
+                                                              AuthenticationResponse (AuthenticationMD5PasswordResponse, AuthenticationOkResponse, AuthenticationCleartextPasswordResponse),
                                                               BackendKey, BackendKeyData (BackendKeyData),
                                                               BackendParameters, Buffer (Buffer),
                                                               Config (Config, address, database, password, receptionBufferSize, sendingBufferSize, user),
@@ -129,6 +129,7 @@ authenticate response = do
   (_, _, _, Config { user, password }) <- ask
   case response of
     AuthenticationOkResponse                                           -> pure ()
+    AuthenticationCleartextPasswordResponse                            -> auth $ BSU.fromString password
     AuthenticationMD5PasswordResponse (AuthenticationMD5Password salt) -> auth $ hashMD5 user password salt
   (bps, pid, bk) <-
     receive $ do
