@@ -40,7 +40,7 @@ module Database.PostgreSQL.Pure.Internal.Parser
   , column
   ) where
 
-import           Database.PostgreSQL.Pure.Internal.Data          (AuthenticationMD5Password (AuthenticationMD5Password), AuthenticationResponse (AuthenticationMD5PasswordResponse, AuthenticationOkResponse),
+import           Database.PostgreSQL.Pure.Internal.Data          (AuthenticationMD5Password (AuthenticationMD5Password), AuthenticationResponse (AuthenticationMD5PasswordResponse, AuthenticationOkResponse, AuthenticationCleartextPasswordResponse),
                                                                   BackendKeyData (BackendKeyData),
                                                                   ColumnInfo (ColumnInfo, typeOid),
                                                                   CommandComplete (CommandComplete),
@@ -132,6 +132,7 @@ authentication =
       method <- anyInt32BE
       case method of
         0 -> pure AuthenticationOkResponse
+        3 -> pure AuthenticationCleartextPasswordResponse
         5 -> AuthenticationMD5PasswordResponse . AuthenticationMD5Password . BS.copy <$> AP.take 4
         t -> fail $ "not yet implemeted authentication type: " <> show t
 
