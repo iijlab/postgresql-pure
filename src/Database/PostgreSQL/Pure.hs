@@ -12,6 +12,7 @@
 {-# LANGUAGE NamedFieldPuns             #-}
 {-# LANGUAGE OverloadedLabels           #-}
 {-# LANGUAGE ScopedTypeVariables        #-}
+{-# LANGUAGE TypeApplications           #-}
 {-# LANGUAGE TypeFamilies               #-}
 {-# LANGUAGE UndecidableInstances       #-}
 
@@ -160,7 +161,6 @@ import           Database.PostgreSQL.Pure.Internal.Data       (Address (AddressN
                                                                TransactionState)
 import qualified Database.PostgreSQL.Pure.Internal.Data       as Data
 import qualified Database.PostgreSQL.Pure.Internal.Exception  as Exception
-import           Database.PostgreSQL.Pure.Internal.IsLabel    ()
 import           Database.PostgreSQL.Pure.Internal.Query      (Close, Message, close, flush, sync)
 import qualified Database.PostgreSQL.Pure.Internal.Query      as Query
 
@@ -170,7 +170,6 @@ import           Data.Proxy                                   (Proxy (Proxy))
 import           Data.Tuple.Homotuple                         (Homotuple, IsHomolisttuple, IsHomotupleItem)
 import           Data.Tuple.List                              (HasLength, Length)
 import           GHC.Exts                                     (IsList (Item, fromList, toList))
-import           GHC.OverloadedLabels                         (IsLabel)
 import           GHC.Records                                  (HasField (getField))
 import           GHC.TypeLits                                 (KnownNat, Nat, natVal)
 
@@ -254,8 +253,8 @@ class HasName r where
 
   -- | To get a name of @r@.
   name :: r -> Name r
-  default name :: IsLabel "name" (r -> Name r) => r -> Name r
-  name = #name
+  default name :: HasField "name" r (Name r) => r -> Name r
+  name = getField @"name"
 
 instance HasName (PreparedStatement n m) where
   type Name (PreparedStatement n m) = PreparedStatementName
@@ -273,8 +272,8 @@ instance HasName (PortalProcedure n m) where
 class HasParameterOids r a where
   -- | To get OIDs of a parameter.
   parameterOids :: r -> a
-  default parameterOids :: IsLabel "parameterOids" (r -> a) => r -> a
-  parameterOids = #parameterOids
+  default parameterOids :: HasField "parameterOids" r a => r -> a
+  parameterOids = getField @"parameterOids"
 
 instance (oids ~ Homotuple n Oid, Item oids ~ Oid, IsList oids) => HasParameterOids (PreparedStatement n m) oids
 

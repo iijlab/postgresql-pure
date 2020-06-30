@@ -8,6 +8,7 @@
 {-# LANGUAGE OverloadedLabels      #-}
 {-# LANGUAGE OverloadedStrings     #-}
 {-# LANGUAGE ScopedTypeVariables   #-}
+{-# LANGUAGE TypeApplications      #-}
 {-# LANGUAGE TypeFamilies          #-}
 
 module Database.PostgreSQL.Pure.Internal.Query
@@ -51,7 +52,6 @@ import           Database.PostgreSQL.Pure.Internal.Data      (BackendParameters,
                                                               TypeLength (FixedLength))
 import qualified Database.PostgreSQL.Pure.Internal.Data      as Data
 import qualified Database.PostgreSQL.Pure.Internal.Exception as Exception
-import           Database.PostgreSQL.Pure.Internal.IsLabel   ()
 import qualified Database.PostgreSQL.Pure.Internal.Parser    as Parser
 import           Database.PostgreSQL.Pure.Internal.SocketIO  (buildAndSend, receive, runSocketIO, send)
 
@@ -65,7 +65,7 @@ import qualified Data.ByteString.Builder                     as BSB
 import qualified Data.ByteString.Char8                       as BSC
 import           Data.Functor                                (($>))
 import           Data.List                                   (genericLength)
-import           GHC.OverloadedLabels                        (IsLabel)
+import           GHC.Records                                 (HasField (getField))
 
 #if !MIN_VERSION_base(4,13,0)
 import           Control.Monad.Fail                          (MonadFail)
@@ -195,20 +195,20 @@ class Close p where
   close :: p -> CloseProcedure
 
 instance Close PreparedStatement where
-  close p = CloseProcedure (Builder.closePreparedStatement $ #name p) Parser.closeComplete
+  close p = CloseProcedure (Builder.closePreparedStatement $ getField @"name" p) Parser.closeComplete
 
 instance Close Portal where
-  close p = CloseProcedure (Builder.closePortal $ #name p) Parser.closeComplete
+  close p = CloseProcedure (Builder.closePortal $ getField @"name" p) Parser.closeComplete
 
 -- | This means that @r@ is a objective of 'flush' and 'sync'.
 class Message m where
   builder :: m -> BSB.Builder
-  default builder :: IsLabel "builder" (m -> BSB.Builder) => m -> BSB.Builder
-  builder = #builder
+  default builder :: HasField "builder" m BSB.Builder => m -> BSB.Builder
+  builder = getField @"builder"
 
   parser :: m -> AP.Parser (MessageResult m)
-  default parser :: IsLabel "parser" (m -> AP.Parser (MessageResult m)) => m -> AP.Parser (MessageResult m)
-  parser = #parser
+  default parser :: HasField "parser" m (AP.Parser (MessageResult m)) => m -> AP.Parser (MessageResult m)
+  parser = getField @"parser"
 
 instance Message PreparedStatementProcedure
 
