@@ -1,4 +1,5 @@
 {-# LANGUAGE CPP                   #-}
+{-# LANGUAGE DataKinds             #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
@@ -67,6 +68,7 @@ import           Data.Tuple.Only                              (Only (Only))
 import           Data.Typeable                                (Typeable, cast)
 import           Data.Version                                 (showVersion)
 import           Data.Word                                    (Word32, Word64)
+import           GHC.Records                                  (HasField (getField))
 import qualified PostgreSQL.Binary.Encoding                   as BE
 
 #if !MIN_VERSION_base(4,13,0)
@@ -318,7 +320,7 @@ instance IConnection Connection where
         getColumnNames =
           convertException $ do
             closeUnnecessaryPreparedStatemtnts hc
-            sequence $ decodeIO . #name <$> Pure.resultInfos preparedStatement
+            sequence $ decodeIO . getField @"name" <$> Pure.resultInfos preparedStatement
 
         originalQuery :: String
         originalQuery = query

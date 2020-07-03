@@ -118,6 +118,5 @@ import           Database.PostgreSQL.Pure.Internal.Data       (Address (AddressN
                                                                TransactionState (Block, Failed, Idle))
 import qualified Database.PostgreSQL.Pure.Internal.Data       as Data
 import qualified Database.PostgreSQL.Pure.Internal.Exception  as Exception
-import           Database.PostgreSQL.Pure.Internal.IsLabel    ()
 import           Database.PostgreSQL.Pure.Internal.Query      (Bind (bind), Close (close), Execute (execute), Message,
                                                                begin, commit, flush, parse, rollback, sync)

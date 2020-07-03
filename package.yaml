@@ -90,7 +90,6 @@ library:
   - Database.PostgreSQL.Pure.Internal.Connection
   - Database.PostgreSQL.Pure.Internal.Data
   - Database.PostgreSQL.Pure.Internal.Exception
-  - Database.PostgreSQL.Pure.Internal.IsLabel
   - Database.PostgreSQL.Pure.Internal.MonadFail
   - Database.PostgreSQL.Pure.Internal.Query
   - Database.PostgreSQL.Pure.Internal.SocketIO
