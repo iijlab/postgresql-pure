@@ -1,34 +1,34 @@
 PWSH = pwsh
 
 .PHONY: build
-build: build-8.4 build-8.6 build-8.8 build-nightly
+build: build-ghc-8.4 build-ghc-8.6 build-ghc-8.8 build-nightly
 
-.PHONY: build-8.4
-build-8.4: build-deps-8.4 src
+.PHONY: build-ghc-8.4
+build-ghc-8.4: build-deps-ghc-8.4 src
 	stack --stack-yaml stack-ghc-8.4.yaml build --ghc-options -Werror
 
-.PHONY: build-8.6
-build-8.6: build-deps-8.6 src
+.PHONY: build-ghc-8.6
+build-ghc-8.6: build-deps-ghc-8.6 src
 	stack --stack-yaml stack-ghc-8.6.yaml build --ghc-options -Werror
 
-.PHONY: build-8.8
-build-8.8: build-deps-8.8 src
+.PHONY: build-ghc-8.8
+build-ghc-8.8: build-deps-ghc-8.8 src
 	stack --stack-yaml stack-ghc-8.8.yaml build --ghc-options -Werror
 
 .PHONY: build-nightly
 build-nightly: build-deps-nightly src
 	stack --stack-yaml stack-nightly.yaml --resolver nightly build --ghc-options -Werror
 
-.PHONY: build-deps-8.4
-build-deps-8.4: stack-ghc-8.4.yaml package.yaml
+.PHONY: build-deps-ghc-8.4
+build-deps-ghc-8.4: stack-ghc-8.4.yaml package.yaml
 	stack --stack-yaml stack-ghc-8.4.yaml build --only-dependencies
 
-.PHONY: build-deps-8.6
-build-deps-8.6: stack-ghc-8.6.yaml package.yaml
+.PHONY: build-deps-ghc-8.6
+build-deps-ghc-8.6: stack-ghc-8.6.yaml package.yaml
 	stack --stack-yaml stack-ghc-8.6.yaml build --only-dependencies
 
-.PHONY: build-deps-8.8
-build-deps-8.8: stack-ghc-8.8.yaml package.yaml
+.PHONY: build-deps-ghc-8.8
+build-deps-ghc-8.8: stack-ghc-8.8.yaml package.yaml
 	stack --stack-yaml stack-ghc-8.8.yaml build --only-dependencies
 
 .PHONY: build-deps-nightly
@@ -36,63 +36,63 @@ build-deps-nightly: stack-ghc-8.8.yaml package.yaml
 	stack --stack-yaml stack-nightly.yaml --resolver nightly build --only-dependencies
 
 .PHONY: test
-test: test-8.4 test-8.6 test-8.8 test-nightly
+test: test-ghc-8.4 test-ghc-8.6 test-ghc-8.8 test-nightly
 
-.PHONY: test-8.4
-test-8.4: test-doctest-8.4 test-original-8.4 test-hdbc-postgresql-8.4 test-relational-record-8.4
+.PHONY: test-ghc-8.4
+test-ghc-8.4: test-doctest-ghc-8.4 test-original-ghc-8.4 test-hdbc-postgresql-ghc-8.4 test-relational-record-ghc-8.4
 
-.PHONY: test-doctest-8.4
-test-doctest-8.4: build-8.4
+.PHONY: test-doctest-ghc-8.4
+test-doctest-ghc-8.4: build-ghc-8.4
 	stack --stack-yaml stack-ghc-8.4.yaml build --ghc-options -Werror postgresql-pure:test:doctest
 
-.PHONY: test-original-8.4
-test-original-8.4: build-8.4
+.PHONY: test-original-ghc-8.4
+test-original-ghc-8.4: build-ghc-8.4
 	stack --stack-yaml stack-ghc-8.4.yaml build --ghc-options -Werror postgresql-pure:test:original
 
-.PHONY: test-hdbc-postgresql-8.4
-test-hdbc-postgresql-8.4: build-8.4
+.PHONY: test-hdbc-postgresql-ghc-8.4
+test-hdbc-postgresql-ghc-8.4: build-ghc-8.4
 	stack --stack-yaml stack-ghc-8.4.yaml build --ghc-options -Werror postgresql-pure:test:hdbc-postgresql
 
-.PHONY: test-relational-record-8.4
-test-relational-record-8.4: build-8.4
+.PHONY: test-relational-record-ghc-8.4
+test-relational-record-ghc-8.4: build-ghc-8.4
 	stack --stack-yaml stack-ghc-8.4.yaml build --ghc-options -Werror postgresql-pure:test:relational-record
 
-.PHONY: test-8.6
-test-8.6: test-doctest-8.6 test-original-8.6 test-hdbc-postgresql-8.6 test-relational-record-8.6
+.PHONY: test-ghc-8.6
+test-ghc-8.6: test-doctest-ghc-8.6 test-original-ghc-8.6 test-hdbc-postgresql-ghc-8.6 test-relational-record-ghc-8.6
 
-.PHONY: test-doctest-8.6
-test-doctest-8.6: build-8.6
+.PHONY: test-doctest-ghc-8.6
+test-doctest-ghc-8.6: build-ghc-8.6
 	stack --stack-yaml stack-ghc-8.6.yaml build --ghc-options -Werror postgresql-pure:test:doctest
 
-.PHONY: test-original-8.6
-test-original-8.6: build-8.6
+.PHONY: test-original-ghc-8.6
+test-original-ghc-8.6: build-ghc-8.6
 	stack --stack-yaml stack-ghc-8.6.yaml build --ghc-options -Werror postgresql-pure:test:original
 
-.PHONY: test-hdbc-postgresql-8.6
-test-hdbc-postgresql-8.6: build-8.6
+.PHONY: test-hdbc-postgresql-ghc-8.6
+test-hdbc-postgresql-ghc-8.6: build-ghc-8.6
 	stack --stack-yaml stack-ghc-8.6.yaml build --ghc-options -Werror postgresql-pure:test:hdbc-postgresql
 
-.PHONY: test-relational-record-8.6
-test-relational-record-8.6: build-8.6
+.PHONY: test-relational-record-ghc-8.6
+test-relational-record-ghc-8.6: build-ghc-8.6
 	stack --stack-yaml stack-ghc-8.6.yaml build --ghc-options -Werror postgresql-pure:test:relational-record
 
-.PHONY: test-8.8
-test-8.8: test-doctest-8.8 test-original-8.8 test-hdbc-postgresql-8.8 test-relational-record-8.8
+.PHONY: test-ghc-8.8
+test-ghc-8.8: test-doctest-ghc-8.8 test-original-ghc-8.8 test-hdbc-postgresql-ghc-8.8 test-relational-record-ghc-8.8
 
-.PHONY: test-doctest-8.8
-test-doctest-8.8: build-8.8
+.PHONY: test-doctest-ghc-8.8
+test-doctest-ghc-8.8: build-ghc-8.8
 	stack --stack-yaml stack-ghc-8.8.yaml build --ghc-options -Werror postgresql-pure:test:doctest
 
-.PHONY: test-original-8.8
-test-original-8.8: build-8.8
+.PHONY: test-original-ghc-8.8
+test-original-ghc-8.8: build-ghc-8.8
 	stack --stack-yaml stack-ghc-8.8.yaml build --ghc-options -Werror postgresql-pure:test:original
 
-.PHONY: test-hdbc-postgresql-8.8
-test-hdbc-postgresql-8.8: build-8.8
+.PHONY: test-hdbc-postgresql-ghc-8.8
+test-hdbc-postgresql-ghc-8.8: build-ghc-8.8
 	stack --stack-yaml stack-ghc-8.8.yaml build --ghc-options -Werror postgresql-pure:test:hdbc-postgresql
 
-.PHONY: test-relational-record-8.8
-test-relational-record-8.8: build-8.8
+.PHONY: test-relational-record-ghc-8.8
+test-relational-record-ghc-8.8: build-ghc-8.8
 	stack --stack-yaml stack-ghc-8.8.yaml build --ghc-options -Werror postgresql-pure:test:relational-record
 
 .PHONY: test-nightly

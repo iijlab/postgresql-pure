@@ -1,0 +1,30 @@
+name: build
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ghc: [ghc-8.4, ghc-8.6, ghc-8.8, nightly]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-haskell@v1
+        with:
+          enable-stack: true
+          stack-version: 'latest'
+      - uses: actions/cache@v2
+        with:
+          path: .stack-work
+          key: project-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('src') }}-${{ hashFiles('package.yaml') }}-${{ hashFiles(format('stack-{0}.yaml.lock', matrix.ghc)) }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.stack
+          key: user-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('package.yaml') }}-${{ hashFiles(format('stack-{0}.yaml.lock', matrix.ghc)) }}
+      - run: make build-deps-${{ matrix.ghc }}
+      - run: make build-${{ matrix.ghc }}
