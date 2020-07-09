@@ -11,7 +11,7 @@ module Database.PostgreSQL.Pure.Internal.Connection
 import qualified Database.PostgreSQL.Pure.Internal.Builder   as Builder
 import           Database.PostgreSQL.Pure.Internal.Data      (Address (AddressNotResolved, AddressResolved),
                                                               AuthenticationMD5Password (AuthenticationMD5Password),
-                                                              AuthenticationResponse (AuthenticationMD5PasswordResponse, AuthenticationOkResponse, AuthenticationCleartextPasswordResponse),
+                                                              AuthenticationResponse (AuthenticationCleartextPasswordResponse, AuthenticationMD5PasswordResponse, AuthenticationOkResponse),
                                                               BackendKey, BackendKeyData (BackendKeyData),
                                                               BackendParameters, Buffer (Buffer),
                                                               Config (Config, address, database, password, receptionBufferSize, sendingBufferSize, user),
