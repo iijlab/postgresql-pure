@@ -105,7 +105,7 @@ receive parser = do
     Left e@(Exception.InternalResponseParsingFailed _ raw) ->
       case AP.parse Parser.skipUntilError raw of
         AP.Done rest (Error fields) -> throw $ Exception.InternalErrorResponse fields Nothing rest
-        AP.Fail _ _ _               -> throw e
+        AP.Fail {}                  -> throw e
         AP.Partial _                -> throw e
     Left e -> throw e
 
