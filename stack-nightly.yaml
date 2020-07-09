@@ -1,0 +1,6 @@
+resolver: nightly-2020-07-09
+
+extra-deps:
+- homotuple-0.1.2.1@sha256:845e9a1a3b14f2ad058729d8ebbe8fb3583d14f9a485bff717e866e5df6bc76d,1952
+- list-tuple-0.1.3.0@sha256:01ee6cb392c810ae6799672fc2c1c9722bcd96f8f79a1d01dd02ad20f153396f,2520
+- single-tuple-0.1.1.0@sha256:8dde826850b01f6b7ac053645e97e52e905e6e98cfbfec115c822ab7eb7e6dc5,1938
