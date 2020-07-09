@@ -1,0 +1,426 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 44ec6d69392c4f022a96f02dd05d733ef5b02d4d6e46c4e26baba0fc2347146b
+
+name:           postgresql-pure
+version:        0.1.3.0
+synopsis:       pure Haskell PostgreSQL driver
+description:    pure Haskell PostgreSQL driver
+category:       Database
+homepage:       https://github.com/iij-ii/postgresql-pure#readme
+bug-reports:    https://github.com/iij-ii/postgresql-pure/issues
+author:         Kazuki Okamoto
+maintainer:     kazukiokamoto@iij.ad.jp
+copyright:      2019 IIJ Innovation Institute Inc.
+license:        BSD-3-Clause
+license-file:   LICENSE
+build-type:     Custom
+extra-source-files:
+    README.md
+    ChangeLog.md
+    template/Builder.hs
+    template/BuilderItem.hs
+    template/Parser.hs
+    template/ParserItem.hs
+
+source-repository head
+  type: git
+  location: https://github.com/iij-ii/postgresql-pure
+
+custom-setup
+  setup-depends:
+      Cabal
+    , base
+    , directory
+
+flag pure-md5
+  manual: False
+  default: False
+
+library
+  exposed-modules:
+      Database.HDBC.PostgreSQL.Pure
+      Database.PostgreSQL.Pure
+      Database.PostgreSQL.Pure.List
+      Database.PostgreSQL.Pure.Oid
+      Database.PostgreSQL.Pure.Parser
+  other-modules:
+      Database.HDBC.PostgreSQL.Pure.Parser
+      Database.PostgreSQL.Pure.Internal.Connection
+      Database.PostgreSQL.Pure.Internal.Data
+      Database.PostgreSQL.Pure.Internal.Exception
+      Database.PostgreSQL.Pure.Internal.MonadFail
+      Database.PostgreSQL.Pure.Internal.Query
+      Database.PostgreSQL.Pure.Internal.SocketIO
+      Database.PostgreSQL.Simple.Time.Internal.Parser
+      Database.PostgreSQL.Simple.Time.Internal.Printer
+      Database.PostgreSQL.Pure.Internal.Builder
+      Database.PostgreSQL.Pure.Internal.Parser
+      Paths_postgresql_pure
+  autogen-modules:
+      Database.PostgreSQL.Pure.Internal.Builder
+      Database.PostgreSQL.Pure.Internal.Parser
+      Paths_postgresql_pure
+  hs-source-dirs:
+      src
+  default-extensions: Strict
+  ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates -Wmonomorphism-restriction -Wmissing-exported-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wno-name-shadowing -Wmissing-import-lists
+  build-depends:
+      HDBC
+    , Only
+    , attoparsec
+    , base >=4.7
+    , base16-bytestring
+    , bytestring
+    , containers
+    , convertible
+    , data-default-class
+    , double-conversion
+    , homotuple
+    , list-tuple
+    , memory
+    , mtl
+    , network
+    , postgresql-binary
+    , pretty-hex
+    , safe-exceptions
+    , scientific
+    , single-tuple
+    , text
+    , time
+    , utf8-string
+  if flag(pure-md5)
+    cpp-options: -DPURE_MD5
+    build-depends:
+        pureMD5
+  else
+    build-depends:
+        cryptohash-md5
+  default-language: Haskell2010
+
+test-suite doctest
+  type: exitcode-stdio-1.0
+  main-is: doctest.hs
+  other-modules:
+      Paths_postgresql_pure
+  hs-source-dirs:
+      test-doctest
+  ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates -Wmonomorphism-restriction -Wmissing-exported-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wno-name-shadowing -threaded -rtsopts -with-rtsopts=-N -Wno-all -Wno-compat -Wno-incomplete-uni-patterns -Wno-incomplete-record-updates -Wno-monomorphism-restriction -Wno-missing-exported-signatures -Wno-missing-export-lists -Wno-missing-home-modules -Wno-identities -Wno-redundant-constraints -Wno-partial-fields
+  build-depends:
+      HDBC
+    , Only
+    , attoparsec
+    , base >=4.7
+    , base16-bytestring
+    , bytestring
+    , containers
+    , convertible
+    , data-default-class
+    , doctest
+    , double-conversion
+    , homotuple
+    , list-tuple
+    , memory
+    , mtl
+    , network
+    , postgresql-binary
+    , pretty-hex
+    , safe-exceptions
+    , scientific
+    , single-tuple
+    , text
+    , time
+    , utf8-string
+  if flag(pure-md5)
+    cpp-options: -DPURE_MD5
+    build-depends:
+        pureMD5
+  else
+    build-depends:
+        cryptohash-md5
+  default-language: Haskell2010
+
+test-suite hdbc-postgresql
+  type: exitcode-stdio-1.0
+  main-is: runtests.hs
+  other-modules:
+      SpecificDB
+      SpecificDBTests
+      Testbasics
+      TestMisc
+      Tests
+      TestSbasics
+      TestTime
+      TestUtils
+      Database.HDBC.PostgreSQL.Pure
+      Database.HDBC.PostgreSQL.Pure.Parser
+      Database.PostgreSQL.Pure
+      Database.PostgreSQL.Pure.Internal.Builder
+      Database.PostgreSQL.Pure.Internal.Connection
+      Database.PostgreSQL.Pure.Internal.Data
+      Database.PostgreSQL.Pure.Internal.Exception
+      Database.PostgreSQL.Pure.Internal.MonadFail
+      Database.PostgreSQL.Pure.Internal.Parser
+      Database.PostgreSQL.Pure.Internal.Query
+      Database.PostgreSQL.Pure.Internal.SocketIO
+      Database.PostgreSQL.Pure.List
+      Database.PostgreSQL.Pure.Oid
+      Database.PostgreSQL.Pure.Parser
+      Database.PostgreSQL.Simple.Time.Internal.Parser
+      Database.PostgreSQL.Simple.Time.Internal.Printer
+      Paths_postgresql_pure
+  hs-source-dirs:
+      test-hdbc-postgresql
+      src
+  default-extensions: Strict
+  ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates -Wmonomorphism-restriction -Wmissing-exported-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wno-name-shadowing -threaded -rtsopts -with-rtsopts=-N -Wno-all -Wno-compat -Wno-incomplete-uni-patterns -Wno-incomplete-record-updates -Wno-monomorphism-restriction -Wno-missing-exported-signatures -Wno-missing-export-lists -Wno-missing-home-modules -Wno-identities -Wno-redundant-constraints -Wno-partial-fields
+  build-depends:
+      HDBC
+    , HUnit
+    , Only
+    , QuickCheck
+    , attoparsec
+    , base >=4.7
+    , base16-bytestring
+    , bytestring
+    , containers
+    , convertible
+    , data-default-class
+    , double-conversion
+    , homotuple
+    , list-tuple
+    , memory
+    , mtl
+    , network
+    , old-time
+    , postgresql-binary
+    , pretty-hex
+    , safe-exceptions
+    , scientific
+    , single-tuple
+    , text
+    , time
+    , utf8-string
+  if flag(pure-md5)
+    cpp-options: -DPURE_MD5
+    build-depends:
+        pureMD5
+  else
+    build-depends:
+        cryptohash-md5
+  default-language: Haskell2010
+
+test-suite original
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Database.HDBC.PostgreSQL.PureSpec
+      Database.PostgreSQL.Pure.ListSpec
+      Database.PostgreSQL.PureSpec
+      Test.Hspec.Core.Hooks.Extra
+      Paths_postgresql_pure
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates -Wmonomorphism-restriction -Wmissing-exported-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wno-name-shadowing -threaded -rtsopts -with-rtsopts=-N -Wno-incomplete-uni-patterns -Wno-missing-export-lists -Wno-monomorphism-restriction
+  build-depends:
+      HDBC
+    , Only
+    , attoparsec
+    , base >=4.7
+    , base16-bytestring
+    , bytestring
+    , containers
+    , convertible
+    , data-default-class
+    , double-conversion
+    , homotuple
+    , hspec
+    , hspec-core
+    , list-tuple
+    , memory
+    , mtl
+    , network
+    , postgresql-binary
+    , postgresql-pure
+    , pretty-hex
+    , safe-exceptions
+    , scientific
+    , single-tuple
+    , text
+    , time
+    , utf8-string
+  if flag(pure-md5)
+    cpp-options: -DPURE_MD5
+    build-depends:
+        pureMD5
+  else
+    build-depends:
+        cryptohash-md5
+  default-language: Haskell2010
+
+test-suite relational-record
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      DataSource
+      DataSource.Pure
+      Relation.Person
+      Relation.Pure.Person
+      Paths_postgresql_pure
+  hs-source-dirs:
+      test-relational-record
+  ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates -Wmonomorphism-restriction -Wmissing-exported-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wno-name-shadowing -threaded -rtsopts -with-rtsopts=-N -Wno-all -Wno-compat -Wno-incomplete-uni-patterns -Wno-incomplete-record-updates -Wno-monomorphism-restriction -Wno-missing-exported-signatures -Wno-missing-export-lists -Wno-missing-home-modules -Wno-identities -Wno-redundant-constraints -Wno-partial-fields
+  build-depends:
+      HDBC
+    , HDBC-postgresql
+    , HDBC-session
+    , Only
+    , attoparsec
+    , base >=4.7
+    , base16-bytestring
+    , bytestring
+    , containers
+    , convertible
+    , data-default-class
+    , double-conversion
+    , homotuple
+    , hspec
+    , hspec-core
+    , list-tuple
+    , memory
+    , mtl
+    , network
+    , persistable-record
+    , postgresql-binary
+    , postgresql-pure
+    , pretty-hex
+    , relational-query
+    , relational-query-HDBC
+    , relational-record
+    , safe-exceptions
+    , scientific
+    , single-tuple
+    , text
+    , time
+    , utf8-string
+  if flag(pure-md5)
+    cpp-options: -DPURE_MD5
+    build-depends:
+        pureMD5
+  else
+    build-depends:
+        cryptohash-md5
+  default-language: Haskell2010
+
+benchmark requests-per-second
+  type: exitcode-stdio-1.0
+  main-is: requests-per-second.hs
+  other-modules:
+      RepeatThreadPool
+      Paths_postgresql_pure
+  hs-source-dirs:
+      benchmark
+  ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates -Wmonomorphism-restriction -Wmissing-exported-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wno-name-shadowing -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      HDBC
+    , Only
+    , attoparsec
+    , base >=4.7 && <5
+    , base16-bytestring
+    , bytestring
+    , clock
+    , containers
+    , convertible
+    , data-default-class
+    , deepseq
+    , double-conversion
+    , homotuple
+    , list-tuple
+    , memory
+    , mtl
+    , network
+    , optparse-applicative
+    , postgresql-binary
+    , postgresql-libpq
+    , postgresql-pure
+    , pretty-hex
+    , safe-exceptions
+    , scientific
+    , single-tuple
+    , text
+    , time
+    , utf8-string
+    , vector
+  if flag(pure-md5)
+    cpp-options: -DPURE_MD5
+    build-depends:
+        pureMD5
+  else
+    build-depends:
+        cryptohash-md5
+  if !os(windows) && impl(ghc < 8.8.0)
+    build-depends:
+        postgres-wire
+  default-language: Haskell2010
+
+benchmark requests-per-second-constant
+  type: exitcode-stdio-1.0
+  main-is: requests-per-second-constant.hs
+  other-modules:
+      RepeatThreadPool
+      Paths_postgresql_pure
+  hs-source-dirs:
+      benchmark
+  ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates -Wmonomorphism-restriction -Wmissing-exported-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wno-name-shadowing -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      HDBC
+    , Only
+    , attoparsec
+    , base >=4.7 && <5
+    , base16-bytestring
+    , bytestring
+    , cassava
+    , clock
+    , containers
+    , convertible
+    , data-default-class
+    , deepseq
+    , double-conversion
+    , homotuple
+    , hourglass
+    , list-tuple
+    , memory
+    , mtl
+    , network
+    , optparse-applicative
+    , postgresql-binary
+    , postgresql-libpq
+    , postgresql-pure
+    , postgresql-simple
+    , pretty-hex
+    , random-shuffle
+    , safe-exceptions
+    , scientific
+    , single-tuple
+    , text
+    , time
+    , utf8-string
+    , vector
+  if flag(pure-md5)
+    cpp-options: -DPURE_MD5
+    build-depends:
+        pureMD5
+  else
+    build-depends:
+        cryptohash-md5
+  if !os(windows) && impl(ghc < 8.8.0)
+    build-depends:
+        postgres-wire
+  if impl(ghc < 8.8.0)
+    build-depends:
+        postgresql-typed
+  default-language: Haskell2010

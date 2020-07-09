@@ -1,6 +1,5 @@
 .stack-work/
 dist-newstyle/
-postgresql-pure.cabal
 stack.yaml
 *~
 
