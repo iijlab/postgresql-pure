@@ -1,0 +1,78 @@
+name: test
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        ghc: [ghc-8.4, ghc-8.6, ghc-8.8]
+        test: [doctest, original, hdbc-postgresql, relational-record]
+        continue-on-error: [false]
+        include:
+          - ghc: nightly
+            test: doctest
+            continue-on-error: true
+          - ghc: nightly
+            test: original
+            continue-on-error: true
+          - ghc: nightly
+            test: hdbc-postgresql
+            continue-on-error: true
+          - ghc: nightly
+            test: relational-record
+            continue-on-error: true
+
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: 'password'
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    continue-on-error: ${{ matrix.continue-on-error }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt-get install -y postgresql-client-12
+      - run: echo '::set-env name=PGHOST::localhost'
+      - run: echo '::set-env name=PGPORT::5432'
+      - run: echo '::set-env name=PGDATABASE::postgres'
+      - run: echo '::set-env name=PGUSER::postgres'
+      - run: echo '::set-env name=PGPASSWORD::password'
+      - run: echo '::set-env name=PURE_HOST::localhost'
+      - run: echo '::set-env name=PURE_PORT::5432'
+      - run: echo '::set-env name=PURE_DATABASE::postgres'
+      - run: echo '::set-env name=PURE_USER::postgres'
+      - run: echo '::set-env name=PURE_PASSWORD::password'
+      - run: |
+          pg_isready
+          psql < test-asset/create-tables.sql
+      - run: |
+          pg_isready
+          psql < test-asset/insert.sql
+      - uses: actions/setup-haskell@v1
+        with:
+          enable-stack: true
+          stack-version: 'latest'
+      - uses: actions/cache@v2
+        with:
+          path: .stack-work
+          key: project-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('src') }}-${{ hashFiles(format('test-', matrix.test)) }}-${{ hashFiles('package.yaml') }}-${{ hashFiles(format('stack-{0}.yaml.lock', matrix.ghc)) }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.stack
+          key: user-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('package.yaml') }}-${{ hashFiles(format('stack-{0}.yaml.lock', matrix.ghc)) }}
+      - run: make build-deps-${{ matrix.ghc }}
+      - run: make build-${{ matrix.ghc }}
+      - run: make test-${{ matrix.test }}-${{ matrix.ghc }}

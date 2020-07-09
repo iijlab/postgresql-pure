@@ -32,8 +32,18 @@
 -- >>> import Data.Int (Int32)
 -- >>> import Data.ByteString (ByteString)
 -- >>> import Data.Tuple.Only (Only (Only))
+-- >>> import Data.Maybe (fromMaybe)
+-- >>> import System.Environment (lookupEnv)
 -- >>>
--- >>> conn <- connect def
+-- >>> getEnvDef name value = fromMaybe value <$> lookupEnv name
+-- >>>
+-- >>> host' <- getEnvDef "PURE_HOST" "127.0.0.1"
+-- >>> port' <- getEnvDef "PURE_PORT" "5432"
+-- >>> user' <- getEnvDef "PURE_USER" "postgres"
+-- >>> password' <- getEnvDef "PURE_PASSWORD" ""
+-- >>> database' <- getEnvDef "PURE_DATABASE" "postgres"
+-- >>>
+-- >>> conn <- connect def { address = AddressNotResolved host' port', user = user', password = password', database = database' }
 -- >>> preparedStatementProcedure = parse "" "SELECT id, name FROM person WHERE id = $1" (Left (1, 2))
 -- >>> portalProcedure <- bind "" BinaryFormat BinaryFormat (parameters conn) (const $ fail "") (Only (1 :: Int32)) preparedStatementProcedure
 -- >>> executedProcedure = execute @_ @(Int32, ByteString) 0 (const $ fail "") portalProcedure

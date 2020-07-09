@@ -7,15 +7,15 @@ import Data.Maybe(fromMaybe)
 import System.Environment(lookupEnv)
 
 connectDB = 
-    handleSqlError (do hostString <- getEnvDef "PURE_HOST" "127.0.0.1"
-                       portString <- getEnvDef "PURE_PORT" "5432"
+    handleSqlError (do host <- getEnvDef "PURE_HOST" "127.0.0.1"
+                       port <- getEnvDef "PURE_PORT" "5432"
                        user <- getEnvDef "PURE_USER" "postgres"
                        password <- getEnvDef "PURE_PASSWORD" ""
                        database <- getEnvDef "PURE_DATABASE" "postgres"
                        let
                          config =
                            def
-                             { address = AddressNotResolved hostString portString
+                             { address = AddressNotResolved host port
                              , user = user
                              , password = password
                              , database = database

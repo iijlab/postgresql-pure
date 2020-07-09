@@ -6,11 +6,49 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        ghc: [ghc-8.4, ghc-8.6, ghc-8.8, nightly]
+        include:
+          - os: windows-latest
+            ghc: ghc-8.4
+            continue-on-error: false
+          - os: windows-latest
+            ghc: ghc-8.6
+            continue-on-error: false
+          - os: windows-latest
+            ghc: ghc-8.8
+            continue-on-error: true
+          - os: windows-latest
+            ghc: nightly
+            continue-on-error: true
+          - os: macos-latest
+            ghc: ghc-8.4
+            continue-on-error: false
+          - os: macos-latest
+            ghc: ghc-8.6
+            continue-on-error: false
+          - os: macos-latest
+            ghc: ghc-8.8
+            continue-on-error: false
+          - os: macos-latest
+            ghc: nightly
+            continue-on-error: true
+          - os: ubuntu-latest
+            ghc: ghc-8.4
+            continue-on-error: false
+          - os: ubuntu-latest
+            ghc: ghc-8.6
+            continue-on-error: false
+          - os: ubuntu-latest
+            ghc: ghc-8.8
+            continue-on-error: false
+          - os: ubuntu-latest
+            ghc: nightly
+            continue-on-error: true
+
+    runs-on: ${{ matrix.os }}
+
+    continue-on-error: ${{ matrix.continue-on-error }}
 
     steps:
       - uses: actions/checkout@v2

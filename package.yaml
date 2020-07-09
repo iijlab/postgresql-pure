@@ -103,7 +103,7 @@ library:
 tests:
   original:
     main: Spec.hs
-    source-dirs: test
+    source-dirs: test-original
     ghc-options:
     - -threaded
     - -rtsopts
