@@ -7,3 +7,4 @@ TAGS
 
 src/Database/PostgreSQL/Pure/Internal/Builder.hs
 src/Database/PostgreSQL/Pure/Internal/Parser.hs
+src/Database/PostgreSQL/Pure/Internal/Length.hs

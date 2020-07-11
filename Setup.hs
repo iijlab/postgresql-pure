@@ -15,7 +15,7 @@ main :: IO ()
 main =
   defaultMainWithHooks
     simpleUserHooks
-      { preBuild = \_ _ -> preProcessBuilder >> preProcessParser >> pure emptyHookedBuildInfo }
+      { preBuild = \_ _ -> preProcessBuilder >> preProcessParser >> preProcessLength >> pure emptyHookedBuildInfo }
 
 preProcessBuilder :: IO ()
 preProcessBuilder = do
@@ -165,4 +165,65 @@ preProcessParser = do
         decode = intercalate " <*> " $ take n $ ("column decode " ++) <$> i012
         paren xs = "(" ++ intercalate ", " xs ++ ")"
         bracket xs = "[" ++ intercalate ", " xs ++ "]"
+        i012 = ('i':) . show <$> [0 ..]
+
+preProcessLength :: IO ()
+preProcessLength = do
+  let
+    dir = "src/Database/PostgreSQL/Pure/Internal"
+    file = "Length.hs"
+    srcPath = dir ++ "/" ++ file
+    templatePath = "template/Length.hs"
+    templateItemPath = "template/LEngthItem.hs"
+  tempPath <-
+    withFile templatePath ReadMode $ \template -> do
+      tempDir <- (++ "/postgresql-pure") <$> getTemporaryDirectory
+      createDirectoryIfMissing True tempDir
+      (tempPath, temp) <- openTempFile tempDir file
+      putStrLn $ "temporaly file: " ++ tempPath
+      hSetNewlineMode template noNewlineTranslation
+      hSetNewlineMode temp noNewlineTranslation
+      hSetNewlineMode stdin noNewlineTranslation
+      templateItem <- lines <$> readFile templateItemPath
+      loop template temp templateItem
+      hClose temp
+      pure tempPath
+  copyFile tempPath srcPath
+  removeFile tempPath
+  where
+    loop :: Handle -> Handle -> [String] -> IO ()
+    loop template temp templateItem =
+      go
+      where
+        go = do
+          eof <- hIsEOF template
+          if eof
+            then pure ()
+            else do
+              line <- hGetLine template
+              for_ (preprocess line templateItem) (hPutStrLn temp)
+              go
+
+    preprocess :: String -> [String] -> [String]
+    preprocess line templateItem
+      | Just rest <- stripPrefix "---- embed " line
+      , let n = read $ takeWhile isDigit rest
+      = embed n templateItem
+      | otherwise = [line]
+
+    embed :: Word -> [String] -> [String]
+    embed l templateItem
+      | l >= 2 = concatMap go templateItem
+      | otherwise = error "length must be larger than or equal to 2"
+      where
+        go "" = [""]
+        go t
+          | Just rest <- stripPrefix "<tuple>" t = [tuple ++ Prelude.head (go rest)]
+          | Just rest <- stripPrefix "<length>" t = [length ++ Prelude.head (go rest)]
+          | Just rest <- stripPrefix "<" t = error $ "unknown tag: " ++ takeWhile (/= '>') rest
+          | (s, rest) <- span (/= '<') t = [s ++ Prelude.head (go rest)]
+        n = fromIntegral l
+        tuple = paren $ take n i012
+        length = show l
+        paren xs = "(" ++ intercalate ", " xs ++ ")"
         i012 = ('i':) . show <$> [0 ..]

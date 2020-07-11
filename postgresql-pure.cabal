@@ -4,7 +4,7 @@ cabal-version: 2.2
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8f428da6c6d6d6be4ad64aa993c4ecb49ae450bf7db8f2e0acdb622ff844c412
+-- hash: a7cfdce2159b3c7e9c6f85de2145617c96b1a62bcaaacc33874f57c0019d258d
 
 name:           postgresql-pure
 version:        0.1.3.0
@@ -59,10 +59,12 @@ library
       Database.PostgreSQL.Simple.Time.Internal.Printer
       Database.PostgreSQL.Pure.Internal.Builder
       Database.PostgreSQL.Pure.Internal.Parser
+      Database.PostgreSQL.Pure.Internal.Length
       Paths_postgresql_pure
   autogen-modules:
       Database.PostgreSQL.Pure.Internal.Builder
       Database.PostgreSQL.Pure.Internal.Parser
+      Database.PostgreSQL.Pure.Internal.Length
       Paths_postgresql_pure
   hs-source-dirs:
       src
@@ -70,6 +72,7 @@ library
   ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates -Wmonomorphism-restriction -Wmissing-exported-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wno-name-shadowing -Wmissing-import-lists
   build-depends:
       HDBC
+    , OneTuple
     , Only
     , attoparsec
     , base >=4.7
@@ -112,6 +115,7 @@ test-suite doctest
   ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates -Wmonomorphism-restriction -Wmissing-exported-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wno-name-shadowing -threaded -rtsopts -with-rtsopts=-N -Wno-all -Wno-compat -Wno-incomplete-uni-patterns -Wno-incomplete-record-updates -Wno-monomorphism-restriction -Wno-missing-exported-signatures -Wno-missing-export-lists -Wno-missing-home-modules -Wno-identities -Wno-redundant-constraints -Wno-partial-fields
   build-depends:
       HDBC
+    , OneTuple
     , Only
     , attoparsec
     , base >=4.7
@@ -181,6 +185,7 @@ test-suite hdbc-postgresql
   build-depends:
       HDBC
     , HUnit
+    , OneTuple
     , Only
     , QuickCheck
     , attoparsec
@@ -229,6 +234,7 @@ test-suite original
   ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates -Wmonomorphism-restriction -Wmissing-exported-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wno-name-shadowing -threaded -rtsopts -with-rtsopts=-N -Wno-incomplete-uni-patterns -Wno-missing-export-lists -Wno-monomorphism-restriction
   build-depends:
       HDBC
+    , OneTuple
     , Only
     , attoparsec
     , base >=4.7
@@ -280,6 +286,7 @@ test-suite relational-record
       HDBC
     , HDBC-postgresql
     , HDBC-session
+    , OneTuple
     , Only
     , attoparsec
     , base >=4.7
@@ -330,6 +337,7 @@ benchmark requests-per-second
   ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates -Wmonomorphism-restriction -Wmissing-exported-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wno-name-shadowing -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       HDBC
+    , OneTuple
     , Only
     , attoparsec
     , base >=4.7 && <5
@@ -382,6 +390,7 @@ benchmark requests-per-second-constant
   ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates -Wmonomorphism-restriction -Wmissing-exported-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wno-name-shadowing -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       HDBC
+    , OneTuple
     , Only
     , attoparsec
     , base >=4.7 && <5

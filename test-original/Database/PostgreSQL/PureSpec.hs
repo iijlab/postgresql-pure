@@ -23,7 +23,6 @@ import           Data.Int                         (Int32)
 import           Data.Maybe                       (fromMaybe)
 import qualified Data.Tuple.Homotuple             as T
 import           Data.Tuple.Homotuple.Only        ()
-import           Data.Tuple.List.Only             ()
 import           Data.Tuple.Only                  (Only (Only))
 import qualified Network.Socket                   as NS
 import           System.Environment               (lookupEnv)

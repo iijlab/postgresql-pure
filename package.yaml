@@ -38,6 +38,7 @@ dependencies:
 - memory
 - mtl
 - network
+- OneTuple
 - Only
 - postgresql-binary
 - postgresql-placeholder-converter
@@ -98,6 +99,7 @@ library:
   generated-other-modules:
   - Database.PostgreSQL.Pure.Internal.Builder
   - Database.PostgreSQL.Pure.Internal.Parser
+  - Database.PostgreSQL.Pure.Internal.Length
   - Paths_postgresql_pure
 
 tests:

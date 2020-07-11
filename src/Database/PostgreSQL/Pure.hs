@@ -60,7 +60,6 @@
 -- >>> import Data.Int (Int32)
 -- >>> import Data.ByteString (ByteString)
 -- >>> import Data.Tuple.Only (Only (Only))
--- >>> import Data.Tuple.List.Only ()
 -- >>> import Data.Tuple.Homotuple.Only ()
 -- >>> import Data.Maybe (fromMaybe)
 -- >>> import System.Environment (lookupEnv)
@@ -80,13 +79,6 @@
 -- >>> ((_, _, e, _), _) <- sync conn executedProcedure
 -- >>> records e
 -- [(1,"Ada")]
---
--- = Hints for Type Errors
---
--- This module uses type level natural numbers as the number of columns of parameters and results.
---
--- If you have constranit errors about tuples, you may forget to import @Data.Tuple.List@, @Data.Tuple.Homotuple@ and so on, because tuples are treated as vecters with typle level lengths.
--- You can use list interfaces with @Database.PostgreSQL.Pure.List@, if these errors bother you.
 module Database.PostgreSQL.Pure
   ( -- * Connection
     Config (..)
@@ -171,6 +163,7 @@ import           Database.PostgreSQL.Pure.Internal.Data       (Address (AddressN
                                                                TransactionState)
 import qualified Database.PostgreSQL.Pure.Internal.Data       as Data
 import qualified Database.PostgreSQL.Pure.Internal.Exception  as Exception
+import           Database.PostgreSQL.Pure.Internal.Length     (Length)
 import           Database.PostgreSQL.Pure.Internal.Query      (Close, Message, close, flush, sync)
 import qualified Database.PostgreSQL.Pure.Internal.Query      as Query
 
@@ -178,7 +171,7 @@ import           Data.Bifunctor                               (bimap)
 import           Data.Kind                                    (Type)
 import           Data.Proxy                                   (Proxy (Proxy))
 import           Data.Tuple.Homotuple                         (Homotuple, IsHomolisttuple, IsHomotupleItem)
-import           Data.Tuple.List                              (HasLength, Length)
+import qualified Data.Tuple.List                              as Tuple
 import           GHC.Exts                                     (IsList (Item, fromList, toList))
 import           GHC.Records                                  (HasField (getField))
 import           GHC.TypeLits                                 (KnownNat, Nat, natVal)
@@ -236,7 +229,7 @@ instance HasField "name" (PortalProcedure n m) PortalName where
 
 type instance MessageResult (PortalProcedure n m) = (PreparedStatement n m, Portal n m)
 
--- | This represents a result of a “Execute” message which is already processed by a server.
+-- | This represents a result of a "Execute" message which is already processed by a server.
 newtype Executed (parameterLength :: Nat) (resultLength :: Nat) r =
   Executed (Data.Executed r)
   deriving newtype (Show, Eq)
@@ -249,7 +242,7 @@ result (Executed Data.Executed { result }) = result
 records :: Executed n m r -> [r]
 records (Executed Data.Executed { records }) = records
 
--- | This represents a result of a “Execute” message which is not yet processed by a server.
+-- | This represents a result of a "Execute" message which is not yet processed by a server.
 newtype ExecutedProcedure (parameterLength :: Nat) (resultLength :: Nat) r =
   ExecutedProcedure (Data.ExecutedProcedure r)
   deriving newtype (Show, Message)
@@ -324,7 +317,7 @@ class Bind ps where
     :: forall rlen param m.
        ( ToRecord param
        , KnownNat rlen
-       , HasLength (Homotuple rlen ColumnInfo)
+       , Tuple.HasLength (Homotuple rlen ColumnInfo)
        , MonadFail m
        )
     => PortalName -- ^ A new name of portal.
@@ -340,7 +333,7 @@ instance Bind PreparedStatement where
   bind
     :: forall rlen param m.
        ( ToRecord param
-       , HasLength (Homotuple rlen ColumnInfo)
+       , Tuple.HasLength (Homotuple rlen ColumnInfo)
        , MonadFail m
        )
     => PortalName -> FormatCode -> FormatCode -> BackendParameters -> StringEncoder -> param -> PreparedStatement (Length param) rlen -> m (PortalProcedure (Length param) rlen)
@@ -365,7 +358,7 @@ class Execute p where
        , IsHomotupleItem (Length result) ColumnInfo
        , IsHomolisttuple (Length result) ColumnInfo
        )
-    => Word -- ^ How many records to get. “0” means unlimited.
+    => Word -- ^ How many records to get. "0" means unlimited.
     -> StringDecoder -- ^ How to decode strings.
     -> p plen (Length result) -- ^ Portal.
     -> ExecutedProcedure plen (Length result) result

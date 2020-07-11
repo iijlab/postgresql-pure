@@ -24,7 +24,6 @@ import           Data.Proxy
 import           Data.Scientific                              (Scientific)
 import           Data.Time                                    (Day, DiffTime, LocalTime, TimeOfDay, TimeZone, UTCTime)
 import           Data.Tuple.Homotuple.Only                    ()
-import           Data.Tuple.List.Only                         ()
 import           Data.Tuple.Only
 import           Options.Applicative
 import           System.Clock
