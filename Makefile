@@ -99,19 +99,19 @@ test-relational-record-ghc-8.8: build-ghc-8.8
 test-nightly: test-doctest-nightly test-original-nightly test-hdbc-postgresql-nightly test-relational-record-nightly
 
 .PHONY: test-doctest-nightly
-test-doctest:-nightly build-nightly
+test-doctest-nightly: build-nightly
 	stack --stack-yaml stack-nightly.yaml --resolver nightly build --ghc-options -Werror postgresql-pure:test:doctest
 
 .PHONY: test-original-nightly
-test-original:-nightly build-nightly
+test-original-nightly: build-nightly
 	stack --stack-yaml stack-nightly.yaml --resolver nightly build --ghc-options -Werror postgresql-pure:test:original
 
 .PHONY: test-hdbc-postgresql-nightly
-test-hdbc-postgresql:-nightly build-nightly
+test-hdbc-postgresql-nightly: build-nightly
 	stack --stack-yaml stack-nightly.yaml --resolver nightly build --ghc-options -Werror postgresql-pure:test:hdbc-postgresql
 
 .PHONY: test-relational-record-nightly
-test-relational-record:-nightly build-nightly
+test-relational-record-nightly: build-nightly
 	stack --stack-yaml stack-nightly.yaml --resolver nightly build --ghc-options -Werror postgresql-pure:test:relational-record
 
 .PHONY: format
