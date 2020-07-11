@@ -5,26 +5,26 @@
 
 packages:
 - completed:
-    hackage: homotuple-0.1.0.0@sha256:2a5e281a66d97ad3706a127922435d6c4f514c73a35b6f6988d4c8945f20c94e,1650
+    hackage: homotuple-0.1.2.1@sha256:845e9a1a3b14f2ad058729d8ebbe8fb3583d14f9a485bff717e866e5df6bc76d,1952
     pantry-tree:
-      size: 543
-      sha256: 9f22d7e876633514ca584e2412826595acad0330519b46d3ea2b936a08b5989a
+      size: 605
+      sha256: 23c1fefddde7355bc136766ca71844ca56c9f93250356b1527ff99a16290cafa
   original:
-    hackage: homotuple-0.1.0.0@rev:2
+    hackage: homotuple-0.1.2.1@rev:0
 - completed:
-    hackage: list-tuple-0.1.1.0@sha256:de3758edad345dffec328084203aebb9db5d38cd4832b6e5d44fd15fc9d409a4,2621
+    hackage: list-tuple-0.1.3.0@sha256:01ee6cb392c810ae6799672fc2c1c9722bcd96f8f79a1d01dd02ad20f153396f,2520
     pantry-tree:
-      size: 843
-      sha256: 47babd10aaa1b1f0c502c2ab0441f3e45d61bbd30007a80b26802b43bbabd5c5
+      size: 840
+      sha256: 3920f878eb8160fb09a777053ba5c70ad00bcd323f2f3d94e61e84f3f755c857
   original:
-    hackage: list-tuple-0.1.1.0@rev:1
+    hackage: list-tuple-0.1.3.0@rev:0
 - completed:
-    hackage: single-tuple-0.1.0.0@sha256:d1c1b4913df2f56f098c144a3eb56fae021f94699db02a7cab6ff57ae2d4b71b,2207
+    hackage: single-tuple-0.1.1.0@sha256:8dde826850b01f6b7ac053645e97e52e905e6e98cfbfec115c822ab7eb7e6dc5,1938
     pantry-tree:
-      size: 439
-      sha256: 54e63e5f9200ff05c96aee4ec7d443ddaa291367bc2c77fb8f9c31c72942956a
+      size: 441
+      sha256: 83d204053a79ac4620f4e411830b869766912a8dd1ade5f20bbce7e8de0f817c
   original:
-    hackage: single-tuple-0.1.0.0@rev:2
+    hackage: single-tuple-0.1.1.0@rev:0
 - completed:
     hackage: HDBC-postgresql-2.3.2.7@sha256:93d8e3c3d2dc9291a10f28ae3f8d0604a55ef47298ed43003a4d16f3d9905bae,3228
     pantry-tree:

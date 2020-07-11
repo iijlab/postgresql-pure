@@ -4,9 +4,9 @@ packages:
 - .
 
 extra-deps:
-- homotuple-0.1.0.0@rev:2
-- list-tuple-0.1.1.0@rev:1
-- single-tuple-0.1.0.0@rev:2
+- homotuple-0.1.2.1@rev:0
+- list-tuple-0.1.3.0@rev:0
+- single-tuple-0.1.1.0@rev:0
 
 - HDBC-postgresql-2.3.2.7@rev:0
 - socket-0.8.2.0@sha256:77a3fb851d1dba7f3fd979773174d62cdbb59b5ad927cc9d00779a3eb2e859e9
