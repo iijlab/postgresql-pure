@@ -129,6 +129,10 @@ lint:
 		test-relational-record\
 		benchmark
 
+.PHONY: targets
+targets:
+	$(PWSH) -Command "& { Get-Content .\Makefile | Where-Object { $$_ -like '.PHONY*' } | ForEach-Object { $$_.Substring(8) } }"
+
 .PHONY: clean
 clean:
 	stack --stack-yaml stack-ghc-8.4.yaml clean
