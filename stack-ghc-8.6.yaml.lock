@@ -26,6 +26,13 @@ packages:
   original:
     hackage: single-tuple-0.1.1.0@rev:0
 - completed:
+    hackage: postgresql-placeholder-converter-0.1.0.0@sha256:cc5ae9483bd8c965fd7db8a3e8e406d75b446318abecfdce5f2330bf220b8a56,2340
+    pantry-tree:
+      size: 608
+      sha256: 1a22ef9e412ed295f139f904f556f64317e43afcf2f66092ca8feed9bb2984c7
+  original:
+    hackage: postgresql-placeholder-converter-0.1.0.0@rev:1
+- completed:
     hackage: HDBC-postgresql-2.3.2.7@sha256:93d8e3c3d2dc9291a10f28ae3f8d0604a55ef47298ed43003a4d16f3d9905bae,3228
     pantry-tree:
       size: 1740

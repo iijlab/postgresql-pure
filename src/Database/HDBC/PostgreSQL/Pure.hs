@@ -26,8 +26,6 @@ module Database.HDBC.PostgreSQL.Pure
   , begin
   ) where
 
-import           Database.HDBC.PostgreSQL.Pure.Parser         (convertQuestionMarkStyleToDollarSignStyle, splitQueries)
-
 import qualified Database.PostgreSQL.Pure.Internal.Connection as Pure
 import qualified Database.PostgreSQL.Pure.Internal.Data       as Pure
 import qualified Database.PostgreSQL.Pure.Internal.Exception  as Pure
@@ -68,6 +66,7 @@ import           Data.Tuple.Only                              (Only (Only))
 import           Data.Typeable                                (Typeable, cast)
 import           Data.Version                                 (showVersion)
 import           Data.Word                                    (Word32, Word64)
+import           Database.PostgreSQL.Placeholder.Convert      (convertQuestionMarkStyleToDollarSignStyle, splitQueries)
 import           GHC.Records                                  (HasField (getField))
 import qualified PostgreSQL.Binary.Encoding                   as BE
 
@@ -187,11 +186,11 @@ instance IConnection Connection where
       let
         encode = encodeString charCode
         decode = decodeString charCode
-        queryQS :: Pure.Query
+        queryQS :: BS.ByteString
         queryQS = fromString query
         queryDS =
           case convertQuestionMarkStyleToDollarSignStyle queryQS of
-            Right q -> q
+            Right q -> Pure.Query q
             Left err -> impureThrow $ RequestBuildingFailed $ "conversion from question mark style to dollar sign style: " <> err
       ps <- Pure.flush connection $ Pure.parse "" queryDS (Left (0, 0)) -- footnote [1]
       let
@@ -209,7 +208,7 @@ instance IConnection Connection where
         decode = decodeString charCode
         queries = splitQueries $ fromString query
       for_ queries $ \q -> do
-        ps <- Pure.flush connection $ Pure.parse "" q (Left (0, 0)) -- footnote [1]
+        ps <- Pure.flush connection $ Pure.parse "" (Pure.Query q) (Left (0, 0)) -- footnote [1]
         Pure.flush connection $ Pure.execute @_ @() 0 decode $ forceBind $ Pure.bind "" Pure.TextFormat Pure.TextFormat parameters encode ([] :: [SqlValue]) ps
 
   prepare hc@Connection { connection = connection@Pure.Connection { parameters }, statementCounter, unnecessaryPreparedStatemtnts, config = Config { encodeString, decodeString } } query =
@@ -226,8 +225,8 @@ instance IConnection Connection where
       queryBS <- encodeIO query
       let
         queryDS =
-          case convertQuestionMarkStyleToDollarSignStyle $ Pure.Query queryBS of
-            Right q -> q
+          case convertQuestionMarkStyleToDollarSignStyle queryBS of
+            Right q -> Pure.Query q
             Left err -> impureThrow $ RequestBuildingFailed $ "conversion from question mark style to dollar sign style: " <> err
       countBS <- encodeIO $ show count
       let

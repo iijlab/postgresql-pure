@@ -40,6 +40,7 @@ dependencies:
 - network
 - Only
 - postgresql-binary
+- postgresql-placeholder-converter
 - pretty-hex
 - safe-exceptions
 - scientific
@@ -86,7 +87,6 @@ library:
   default-extensions:
   - Strict
   other-modules:
-  - Database.HDBC.PostgreSQL.Pure.Parser
   - Database.PostgreSQL.Pure.Internal.Connection
   - Database.PostgreSQL.Pure.Internal.Data
   - Database.PostgreSQL.Pure.Internal.Exception

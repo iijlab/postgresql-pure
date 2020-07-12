@@ -4,7 +4,7 @@ cabal-version: 2.2
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ebb7062d6b8f63e1149f4685cafa01abbdd42e4e1a9a6bf39ebc1057209d7a6a
+-- hash: 8f428da6c6d6d6be4ad64aa993c4ecb49ae450bf7db8f2e0acdb622ff844c412
 
 name:           postgresql-pure
 version:        0.1.3.0
@@ -49,7 +49,6 @@ library
       Database.PostgreSQL.Pure.Oid
       Database.PostgreSQL.Pure.Parser
   other-modules:
-      Database.HDBC.PostgreSQL.Pure.Parser
       Database.PostgreSQL.Pure.Internal.Connection
       Database.PostgreSQL.Pure.Internal.Data
       Database.PostgreSQL.Pure.Internal.Exception
@@ -86,6 +85,7 @@ library
     , mtl
     , network
     , postgresql-binary
+    , postgresql-placeholder-converter
     , pretty-hex
     , safe-exceptions
     , scientific
@@ -128,6 +128,7 @@ test-suite doctest
     , mtl
     , network
     , postgresql-binary
+    , postgresql-placeholder-converter
     , pretty-hex
     , safe-exceptions
     , scientific
@@ -157,7 +158,6 @@ test-suite hdbc-postgresql
       TestTime
       TestUtils
       Database.HDBC.PostgreSQL.Pure
-      Database.HDBC.PostgreSQL.Pure.Parser
       Database.PostgreSQL.Pure
       Database.PostgreSQL.Pure.Internal.Builder
       Database.PostgreSQL.Pure.Internal.Connection
@@ -198,6 +198,7 @@ test-suite hdbc-postgresql
     , network
     , old-time
     , postgresql-binary
+    , postgresql-placeholder-converter
     , pretty-hex
     , safe-exceptions
     , scientific
@@ -245,6 +246,7 @@ test-suite original
     , mtl
     , network
     , postgresql-binary
+    , postgresql-placeholder-converter
     , postgresql-pure
     , pretty-hex
     , safe-exceptions
@@ -296,6 +298,7 @@ test-suite relational-record
     , network
     , persistable-record
     , postgresql-binary
+    , postgresql-placeholder-converter
     , postgresql-pure
     , pretty-hex
     , relational-query
@@ -346,6 +349,7 @@ benchmark requests-per-second
     , optparse-applicative
     , postgresql-binary
     , postgresql-libpq
+    , postgresql-placeholder-converter
     , postgresql-pure
     , pretty-hex
     , safe-exceptions
@@ -399,6 +403,7 @@ benchmark requests-per-second-constant
     , optparse-applicative
     , postgresql-binary
     , postgresql-libpq
+    , postgresql-placeholder-converter
     , postgresql-pure
     , postgresql-simple
     , pretty-hex

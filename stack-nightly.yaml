@@ -7,6 +7,7 @@ extra-deps:
 - homotuple-0.1.2.1@rev:0
 - list-tuple-0.1.3.0@rev:0
 - single-tuple-0.1.1.0@rev:0
+- postgresql-placeholder-converter-0.1.0.0@rev:1
 
 - github: tfausak/hdbc-postgresql
   commit: 90372d22e4ec416faa00b18a715303027fa1128e
