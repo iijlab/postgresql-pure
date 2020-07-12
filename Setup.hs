@@ -1,15 +1,18 @@
-import           Prelude hiding (head, init, last, reverse, tail)
+import           Prelude                            hiding (head, init, last, reverse, tail)
 import qualified Prelude
 
-import Data.Char                          (isDigit)
-import Data.Foldable                      (for_)
-import Data.List                          (intercalate, intersperse, isPrefixOf, replicate, stripPrefix)
-import Distribution.Simple                (Args, UserHooks (preBuild), defaultMainWithHooks, simpleUserHooks)
-import Distribution.Simple.Setup          (BuildFlags)
-import Distribution.Types.HookedBuildInfo (HookedBuildInfo, emptyHookedBuildInfo)
-import System.Directory                   (copyFile, createDirectoryIfMissing, getTemporaryDirectory, removeFile)
-import System.IO                          (Handle, IOMode (ReadMode), hClose, hGetLine, hIsEOF, hPutStrLn,
-                                           hSetNewlineMode, noNewlineTranslation, openTempFile, stdin, withFile)
+import           Data.Char                          (isDigit)
+import           Data.Foldable                      (for_)
+import           Data.List                          (intercalate, intersperse, isPrefixOf, replicate, stripPrefix)
+import           Distribution.Simple                (Args, UserHooks (preBuild), defaultMainWithHooks, simpleUserHooks)
+import           Distribution.Simple.Setup          (BuildFlags)
+import           Distribution.Types.HookedBuildInfo (HookedBuildInfo, emptyHookedBuildInfo)
+import           System.Directory                   (copyFile, createDirectoryIfMissing, getModificationTime,
+                                                     getTemporaryDirectory, removeFile)
+import           System.FilePath                    (dropExtension, takeFileName, (</>))
+import           System.IO                          (Handle, IOMode (ReadMode), hClose, hGetLine, hIsEOF, hPutStrLn,
+                                                     hSetNewlineMode, noNewlineTranslation, openTempFile, stdin,
+                                                     withFile)
 
 main :: IO ()
 main =
@@ -17,29 +20,31 @@ main =
     simpleUserHooks
       { preBuild = \_ _ -> preProcessBuilder >> preProcessParser >> preProcessLength >> pure emptyHookedBuildInfo }
 
-preProcessBuilder :: IO ()
-preProcessBuilder = do
+preProcess :: FilePath -> (Word -> [String] -> [String]) -> IO ()
+preProcess srcPath embed = do
   let
-    dir = "src/Database/PostgreSQL/Pure/Internal"
-    file = "Builder.hs"
-    srcPath = dir ++ "/" ++ file
-    templatePath = "template/Builder.hs"
-    templateItemPath = "template/BuilderItem.hs"
-  tempPath <-
-    withFile templatePath ReadMode $ \template -> do
-      tempDir <- (++ "/postgresql-pure") <$> getTemporaryDirectory
-      createDirectoryIfMissing True tempDir
-      (tempPath, temp) <- openTempFile tempDir file
-      putStrLn $ "temporaly file: " ++ tempPath
-      hSetNewlineMode template noNewlineTranslation
-      hSetNewlineMode temp noNewlineTranslation
-      hSetNewlineMode stdin noNewlineTranslation
-      templateItem <- lines <$> readFile templateItemPath
-      loop template temp templateItem
-      hClose temp
-      pure tempPath
-  copyFile tempPath srcPath
-  removeFile tempPath
+    fileName = takeFileName srcPath
+    templatePath = "template" </> fileName
+    templateItemPath = "template" </> dropExtension fileName ++ "Item.hs"
+  d <- dirty srcPath templatePath templateItemPath
+  if d
+    then do
+      tempPath <-
+        withFile templatePath ReadMode $ \template -> do
+          tempDir <- (</> "postgresql-pure") <$> getTemporaryDirectory
+          createDirectoryIfMissing True tempDir
+          (tempPath, temp) <- openTempFile tempDir fileName
+          putStrLn $ "temporaly file: " ++ tempPath
+          hSetNewlineMode template noNewlineTranslation
+          hSetNewlineMode temp noNewlineTranslation
+          hSetNewlineMode stdin noNewlineTranslation
+          templateItem <- lines <$> readFile templateItemPath
+          loop template temp templateItem
+          hClose temp
+          pure tempPath
+      copyFile tempPath srcPath
+      removeFile tempPath
+    else putStrLn $ "unnecessary to update " ++ srcPath
   where
     loop :: Handle -> Handle -> [String] -> IO ()
     loop template temp templateItem =
@@ -61,6 +66,9 @@ preProcessBuilder = do
       = embed n templateItem
       | otherwise = [line]
 
+preProcessBuilder :: IO ()
+preProcessBuilder = preProcess "src/Database/PostgreSQL/Pure/Internal/Builder.hs" embed
+  where
     embed :: Word -> [String] -> [String]
     embed l templateItem
       | l >= 2 = concatMap go templateItem
@@ -96,49 +104,8 @@ preProcessBuilder = do
         v012 = ('v':) . show <$> [0 ..]
 
 preProcessParser :: IO ()
-preProcessParser = do
-  let
-    dir = "src/Database/PostgreSQL/Pure/Internal"
-    file = "Parser.hs"
-    srcPath = dir ++ "/" ++ file
-    templatePath = "template/Parser.hs"
-    templateItemPath = "template/ParserItem.hs"
-  tempPath <-
-    withFile templatePath ReadMode $ \template -> do
-      tempDir <- (++ "/postgresql-pure") <$> getTemporaryDirectory
-      createDirectoryIfMissing True tempDir
-      (tempPath, temp) <- openTempFile tempDir file
-      putStrLn $ "temporaly file: " ++ tempPath
-      hSetNewlineMode template noNewlineTranslation
-      hSetNewlineMode temp noNewlineTranslation
-      hSetNewlineMode stdin noNewlineTranslation
-      templateItem <- lines <$> readFile templateItemPath
-      loop template temp templateItem
-      hClose temp
-      pure tempPath
-  copyFile tempPath srcPath
-  removeFile tempPath
+preProcessParser = preProcess  "src/Database/PostgreSQL/Pure/Internal/Parser.hs" embed
   where
-    loop :: Handle -> Handle -> [String] -> IO ()
-    loop template temp templateItem =
-      go
-      where
-        go = do
-          eof <- hIsEOF template
-          if eof
-            then pure ()
-            else do
-              line <- hGetLine template
-              for_ (preprocess line templateItem) (hPutStrLn temp)
-              go
-
-    preprocess :: String -> [String] -> [String]
-    preprocess line templateItem
-      | Just rest <- stripPrefix "---- embed " line
-      , let n = read $ takeWhile isDigit rest
-      = embed n templateItem
-      | otherwise = [line]
-
     embed :: Word -> [String] -> [String]
     embed l templateItem
       | l >= 2 = concatMap go templateItem
@@ -168,49 +135,8 @@ preProcessParser = do
         i012 = ('i':) . show <$> [0 ..]
 
 preProcessLength :: IO ()
-preProcessLength = do
-  let
-    dir = "src/Database/PostgreSQL/Pure/Internal"
-    file = "Length.hs"
-    srcPath = dir ++ "/" ++ file
-    templatePath = "template/Length.hs"
-    templateItemPath = "template/LEngthItem.hs"
-  tempPath <-
-    withFile templatePath ReadMode $ \template -> do
-      tempDir <- (++ "/postgresql-pure") <$> getTemporaryDirectory
-      createDirectoryIfMissing True tempDir
-      (tempPath, temp) <- openTempFile tempDir file
-      putStrLn $ "temporaly file: " ++ tempPath
-      hSetNewlineMode template noNewlineTranslation
-      hSetNewlineMode temp noNewlineTranslation
-      hSetNewlineMode stdin noNewlineTranslation
-      templateItem <- lines <$> readFile templateItemPath
-      loop template temp templateItem
-      hClose temp
-      pure tempPath
-  copyFile tempPath srcPath
-  removeFile tempPath
+preProcessLength = preProcess "src/Database/PostgreSQL/Pure/Internal/Length.hs" embed
   where
-    loop :: Handle -> Handle -> [String] -> IO ()
-    loop template temp templateItem =
-      go
-      where
-        go = do
-          eof <- hIsEOF template
-          if eof
-            then pure ()
-            else do
-              line <- hGetLine template
-              for_ (preprocess line templateItem) (hPutStrLn temp)
-              go
-
-    preprocess :: String -> [String] -> [String]
-    preprocess line templateItem
-      | Just rest <- stripPrefix "---- embed " line
-      , let n = read $ takeWhile isDigit rest
-      = embed n templateItem
-      | otherwise = [line]
-
     embed :: Word -> [String] -> [String]
     embed l templateItem
       | l >= 2 = concatMap go templateItem
@@ -227,3 +153,11 @@ preProcessLength = do
         length = show l
         paren xs = "(" ++ intercalate ", " xs ++ ")"
         i012 = ('i':) . show <$> [0 ..]
+
+dirty :: FilePath -> FilePath -> FilePath -> IO Bool
+dirty src template templateItem = do
+  srcTime <- getModificationTime src
+  templateTime <- getModificationTime template
+  templateItemTime <- getModificationTime templateItem
+  setupTime <- getModificationTime "Setup.hs"
+  pure $ srcTime < maximum [templateTime, templateItemTime, setupTime]

@@ -80,6 +80,7 @@ custom-setup:
   - Cabal
   - base
   - directory
+  - filepath
 
 library:
   source-dirs: src
