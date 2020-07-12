@@ -117,6 +117,7 @@ test-relational-record-nightly: build-nightly
 .PHONY: format
 format:
 	$(PWSH) -Command "& { Get-ChildItem -Filter '*.hs' -Recurse src, test, test-doctest, test-relational-record, benchmark | Where-Object { $$_.Directory -notlike '*\src\Database\PostgreSQL\Simple\Time\Internal' } | ForEach-Object { stack exec -- stylish-haskell -i $$_.FullName } }"
+	stack exec -- stylish-haskell -i Setup.hs
 
 .PHONY: lint
 lint:
