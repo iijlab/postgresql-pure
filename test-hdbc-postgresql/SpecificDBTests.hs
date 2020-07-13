@@ -3,7 +3,7 @@
 module SpecificDBTests where
 import Database.HDBC
 import Database.HDBC.PostgreSQL.Pure
-import Database.HDBC.PostgreSQL.Pure.Parser(convertQuestionMarkStyleToDollarSignStyle)
+import Database.PostgreSQL.Placeholder.Convert (convertQuestionMarkStyleToDollarSignStyle)
 import Test.HUnit
 
 testp inp exp = TestCase $
