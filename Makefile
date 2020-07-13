@@ -130,6 +130,20 @@ lint:
 		test-relational-record\
 		benchmark
 
+pages-path=../postgresql-pure-pages
+
+.PHONY: doc
+doc:
+	$(PWSH) -Command "& {\
+		Remove-Item -Recurse $(pages-path)\*;\
+		stack --stack-yaml stack-nightly.yaml haddock --haddock-arguments '--odir $(pages-path)';\
+		$$revision = $$(git rev-parse HEAD);\
+		Push-Location $(pages-path);\
+		git add .;\
+		git commit -m $$revision;\
+		Pop-Location\
+	}"
+
 .PHONY: targets
 targets:
 	$(PWSH) -Command "& { Get-Content .\Makefile | Where-Object { $$_ -like '.PHONY*' } | ForEach-Object { $$_.Substring(8) } }"

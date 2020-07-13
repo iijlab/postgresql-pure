@@ -101,8 +101,8 @@ import           Control.Monad.Fail                               (MonadFail)
 -- 4096
 --
 -- @
--- encodeString def = \code -> case code of \"UTF8\" -> 'pure' . 'BSU.fromString'; _ -> 'const' $ 'fail' $ "unexpected character code: " <> 'show' code
--- decodeString def = \code -> case code of \"UTF8\" -> 'pure' . 'BSU.toString'; _ -> 'const' $ 'fail' $ "unexpected character code: " <> 'show' code
+-- encodeString def = \\code -> case code of \"UTF8\" -> 'pure' . 'BSU.fromString'; _ -> 'const' $ 'fail' $ "unexpected character code: " <> 'show' code
+-- decodeString def = \\code -> case code of \"UTF8\" -> 'pure' . 'BSU.toString'; _ -> 'const' $ 'fail' $ "unexpected character code: " <> 'show' code
 -- @
 data Config =
   Config

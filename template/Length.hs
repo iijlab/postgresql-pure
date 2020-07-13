@@ -20,6 +20,7 @@ import           Data.Tuple.Only                        (Only)
 import           Database.PostgreSQL.Pure.Internal.Data (Oid, Raw, SqlIdentifier, TimeOfDayWithTimeZone)
 import           GHC.TypeLits                           (Nat)
 
+-- | The number of columns.
 type family Length a :: Nat
 
 type instance Length Bool = 1
