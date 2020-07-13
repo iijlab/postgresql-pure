@@ -144,6 +144,14 @@ doc:
 		Pop-Location\
 	}"
 
+.PHONY: push-doc
+push-doc:
+	$(PWSH) -Command "& {\
+		Push-Location $(pages-path);\
+		git push;\
+		Pop-Location\
+	}"
+
 .PHONY: targets
 targets:
 	$(PWSH) -Command "& { Get-Content .\Makefile | Where-Object { $$_ -like '.PHONY*' } | ForEach-Object { $$_.Substring(8) } }"
