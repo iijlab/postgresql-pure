@@ -4,10 +4,10 @@ cabal-version: 2.2
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c401475640b1db36278cdd96378ae987840e458c06594e5eac434a2991e04cbf
+-- hash: e4d2fa99f191645581a127977d9ca699f4f42439e9ca768d527f4a8c37823ce8
 
 name:           postgresql-pure
-version:        0.2.0.0
+version:        0.2.1.0
 synopsis:       pure Haskell PostgreSQL driver
 description:    pure Haskell PostgreSQL driver
 category:       Database
@@ -26,6 +26,8 @@ extra-source-files:
     template/BuilderItem.hs
     template/Parser.hs
     template/ParserItem.hs
+    template/Length.hs
+    template/LengthItem.hs
 
 source-repository head
   type: git
