@@ -1,21 +1,68 @@
-{-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE DataKinds            #-}
+{-# LANGUAGE DefaultSignatures    #-}
+{-# LANGUAGE FlexibleContexts     #-}
+{-# LANGUAGE FlexibleInstances    #-}
+{-# LANGUAGE ScopedTypeVariables  #-}
+{-# LANGUAGE TypeFamilies         #-}
 {-# LANGUAGE UndecidableInstances #-}
-{-# LANGUAGE DefaultSignatures #-}
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 module Database.PostgreSQL.Pure.Internal.Length
   (Length) where
 
-import GHC.TypeLits (Nat)
-import Data.Tuple.OneTuple (OneTuple)
-import Data.Tuple.Only (Only)
-import Data.Functor.Identity (Identity)
-import Data.Proxy (Proxy)
+import qualified Data.ByteString                        as BS
+import           Data.Functor.Identity                  (Identity)
+import           Data.Int                               (Int16, Int32, Int64)
+import           Data.Proxy                             (Proxy)
+import           Data.Scientific                        (Scientific)
+import           Data.Time                              (Day, DiffTime, LocalTime, TimeOfDay, UTCTime)
+import           Data.Tuple.OneTuple                    (OneTuple)
+import           Data.Tuple.Only                        (Only)
+import           Database.PostgreSQL.Pure.Internal.Data (Oid, Raw, SqlIdentifier, TimeOfDayWithTimeZone)
+import           GHC.TypeLits                           (Nat)
 
 type family Length a :: Nat
+
+type instance Length Bool = 1
+
+type instance Length Int = 1
+
+type instance Length Int16 = 1
+
+type instance Length Int32 = 1
+
+type instance Length Int64 = 1
+
+type instance Length Scientific = 1
+
+type instance Length Float = 1
+
+type instance Length Double = 1
+
+type instance Length Oid = 1
+
+type instance Length Char = 1
+
+type instance Length String = 1
+
+type instance Length BS.ByteString = 1
+
+type instance Length Day = 1
+
+type instance Length TimeOfDay = 1
+
+type instance Length TimeOfDayWithTimeZone = 1
+
+type instance Length LocalTime = 1
+
+type instance Length UTCTime = 1
+
+type instance Length DiffTime = 1
+
+type instance Length SqlIdentifier = 1
+
+type instance Length Raw = 1
+
+type instance Length (Maybe a) = 1
 
 -- 0 tuple
 type instance Length () = 0

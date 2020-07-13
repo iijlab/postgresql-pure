@@ -139,6 +139,7 @@ module Database.PostgreSQL.Pure
   , ToField (..)
   , ToRecord (..)
   , Raw (..)
+  , Length
     -- * Exception
   , Exception.Exception (..)
   , Exception.ErrorResponse (..)

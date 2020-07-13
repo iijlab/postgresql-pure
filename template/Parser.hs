@@ -594,6 +594,90 @@ instance FromField a => FromField (Maybe a) where
   fromField decode i v@(Just _) = Just <$> fromField decode i v
   fromField _ _ Nothing         = pure Nothing
 
+instance FromRecord Bool where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord Int where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord Int16 where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord Int32 where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord Int64 where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord Scientific where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord Float where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord Double where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord Oid where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord Char where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord String where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord BS.ByteString where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord Day where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord TimeOfDay where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord TimeOfDayWithTimeZone where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord LocalTime where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord UTCTime where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord DiffTime where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord SqlIdentifier where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromRecord Raw where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
+instance FromField a => FromRecord (Maybe a) where
+  fromRecord decode [i] = column decode i
+  fromRecord _ is       = fail $ "length mismatch: expected 1: actual: " <> show (length is)
+
 -- 0 tuple
 instance FromRecord () where
   fromRecord _ [] = pure ()
@@ -727,7 +811,7 @@ instance {-# OVERLAPPABLE #-} (FromField a, Single c, t ~ c a) => FromRecord t w
 ---- embed 62
 
 -- list
-instance FromField a => FromRecord [a] where
+instance {-# OVERLAPPABLE #-} FromField a => FromRecord [a] where
   fromRecord decode is = sequence $ column decode <$> is
 
 -- | For implementing 'fromRecord'.
