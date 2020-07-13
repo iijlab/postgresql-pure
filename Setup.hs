@@ -29,12 +29,12 @@ preProcess srcPath embed = do
   d <- dirty srcPath templatePath templateItemPath
   if d
     then do
+      putStrLn $ "necessary to update " ++ srcPath
       tempPath <-
         withFile templatePath ReadMode $ \template -> do
           tempDir <- (</> "postgresql-pure") <$> getTemporaryDirectory
           createDirectoryIfMissing True tempDir
           (tempPath, temp) <- openTempFile tempDir fileName
-          putStrLn $ "temporaly file: " ++ tempPath
           hSetNewlineMode template noNewlineTranslation
           hSetNewlineMode temp noNewlineTranslation
           hSetNewlineMode stdin noNewlineTranslation
