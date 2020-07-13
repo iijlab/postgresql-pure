@@ -1,0 +1,469 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE ExistentialQuantification #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE NamedFieldPuns            #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE OverloadedStrings         #-}</span><span>
+</span><span id="line-4"></span><span>
+</span><span id="line-5"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Database.PostgreSQL.Pure.Internal.Exception</span><span>
+</span><span id="line-6"></span><span>  </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier">Exception</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-7"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ErrorResponse"><span class="hs-identifier">ErrorResponse</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-8"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ResponseParsingFailed"><span class="hs-identifier">ResponseParsingFailed</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-9"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#InternalException"><span class="hs-identifier">InternalException</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-10"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#convert"><span class="hs-identifier">convert</span></a></span><span>
+</span><span id="line-11"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#cantReachHere"><span class="hs-identifier">cantReachHere</span></a></span><span>
+</span><span id="line-12"></span><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-13"></span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Data.html"><span class="hs-identifier">Database.PostgreSQL.Pure.Internal.Data</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Data.html#ErrorFields"><span class="hs-identifier">ErrorFields</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Data.html#ErrorFields"><span class="hs-identifier">ErrorFields</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Data.html#Pretty"><span class="hs-identifier">Pretty</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Data.html#pretty"><span class="hs-identifier">pretty</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Data.html#TransactionState"><span class="hs-identifier">TransactionState</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-15"></span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Control.Exception.Safe</span></span><span>                 </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">displayException</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">fromException</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">throw</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">toException</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">try</span></span><span class="hs-special">)</span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Control.Exception.Safe</span></span><span>                 </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">E</span></span><span>
+</span><span id="line-18"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.ByteString</span></span><span>                        </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">BS</span></span><span>
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.ByteString.Short</span></span><span>                  </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">BSS</span></span><span>
+</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.ByteString.UTF8</span></span><span>                   </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">BSU</span></span><span>
+</span><span id="line-21"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Typeable</span></span><span>                          </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Typeable</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">cast</span></span><span class="hs-special">)</span><span>
+</span><span id="line-22"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">GHC.Stack</span></span><span>                              </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">HasCallStack</span></span><span class="hs-special">)</span><span>
+</span><span id="line-23"></span><span>
+</span><span id="line-24"></span><span class="hs-comment">-- | Root exception.</span><span>
+</span><span id="line-25"></span><span class="hs-comment">--</span><span>
+</span><span id="line-26"></span><span class="hs-comment">-- @</span><span>
+</span><span id="line-27"></span><span class="hs-comment">-- 'Exception'</span><span>
+</span><span id="line-28"></span><span class="hs-comment">--   &#9500; 'ErrorResponse'</span><span>
+</span><span id="line-29"></span><span class="hs-comment">--   &#9492; 'ResponseParsingFailed'</span><span>
+</span><span id="line-30"></span><span class="hs-comment">-- @</span><span>
+</span><span id="line-31"></span><span class="hs-keyword">data</span><span> </span><span id="Exception"><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-var">Exception</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679396762"><span class="annot"><a href="#local-6989586621679396762"><span class="hs-identifier hs-type">e</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">E.Exception</span></span><span> </span><span class="annot"><a href="#local-6989586621679396762"><span class="hs-identifier hs-type">e</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span id="Exception"><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-var">Exception</span></a></span></span><span> </span><span class="annot"><a href="#local-6989586621679396762"><span class="hs-identifier hs-type">e</span></a></span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Typeable</span></span><span class="hs-special">)</span><span>
+</span><span id="line-32"></span><span>
+</span><span id="line-33"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679396707"><span id="local-6989586621679396710"><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-type">Exception</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-34"></span><span>  </span><span id="local-6989586621679396705"><span class="annot"><span class="annottext">show :: Exception -&gt; String
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">show</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-type">Exception</span></a></span><span> </span><span id="local-6989586621679396703"><span class="annot"><span class="annottext">e
+</span><a href="#local-6989586621679396703"><span class="hs-identifier hs-var">e</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">e -&gt; String
+forall a. Show a =&gt; a -&gt; String
+</span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">e
+</span><a href="#local-6989586621679396703"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><span id="line-35"></span><span>
+</span><span id="line-36"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679396697"><span id="local-6989586621679396699"><span class="annot"><span class="hs-identifier hs-type">E.Exception</span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-type">Exception</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-37"></span><span>  </span><span id="local-6989586621679396694"><span class="annot"><span class="annottext">displayException :: Exception -&gt; String
+</span><a href="#local-6989586621679396694"><span class="hs-identifier hs-var hs-var hs-var hs-var">displayException</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-type">Exception</span></a></span><span> </span><span id="local-6989586621679396693"><span class="annot"><span class="annottext">e
+</span><a href="#local-6989586621679396693"><span class="hs-identifier hs-var">e</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">e -&gt; String
+forall e. Exception e =&gt; e -&gt; String
+</span><span class="hs-identifier hs-var">displayException</span></span><span> </span><span class="annot"><span class="annottext">e
+</span><a href="#local-6989586621679396693"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><span id="line-38"></span><span>
+</span><span id="line-39"></span><span class="hs-comment">-- | This means that the server responds an error.</span><span>
+</span><span id="line-40"></span><span class="hs-keyword">data</span><span> </span><span id="ErrorResponse"><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ErrorResponse"><span class="hs-identifier hs-var">ErrorResponse</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-41"></span><span>  </span><span id="ErrorResponse"><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ErrorResponse"><span class="hs-identifier hs-var">ErrorResponse</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="severity"><span class="annot"><span class="annottext">ErrorResponse -&gt; ByteString
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#severity"><span class="hs-identifier hs-var hs-var">severity</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">BS.ByteString</span></span><span class="hs-special">,</span><span> </span><span id="code"><span class="annot"><span class="annottext">ErrorResponse -&gt; ByteString
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#code"><span class="hs-identifier hs-var hs-var">code</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">BS.ByteString</span></span><span class="hs-special">,</span><span> </span><span id="message"><span class="annot"><span class="annottext">ErrorResponse -&gt; ByteString
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#message"><span class="hs-identifier hs-var hs-var">message</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">BS.ByteString</span></span><span class="hs-special">,</span><span> </span><span id="transactionState"><span class="annot"><span class="annottext">ErrorResponse -&gt; Maybe TransactionState
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#transactionState"><span class="hs-identifier hs-var hs-var">transactionState</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Data.html#TransactionState"><span class="hs-identifier hs-type">TransactionState</span></a></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-42"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679396682"><span id="local-6989586621679396684"><span id="local-6989586621679396686"><span class="annot"><span class="annottext">Int -&gt; ErrorResponse -&gt; ShowS
+[ErrorResponse] -&gt; ShowS
+ErrorResponse -&gt; String
+(Int -&gt; ErrorResponse -&gt; ShowS)
+-&gt; (ErrorResponse -&gt; String)
+-&gt; ([ErrorResponse] -&gt; ShowS)
+-&gt; Show ErrorResponse
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [ErrorResponse] -&gt; ShowS
+$cshowList :: [ErrorResponse] -&gt; ShowS
+show :: ErrorResponse -&gt; String
+$cshow :: ErrorResponse -&gt; String
+showsPrec :: Int -&gt; ErrorResponse -&gt; ShowS
+$cshowsPrec :: Int -&gt; ErrorResponse -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396674"><span id="local-6989586621679396676"><span id="local-6989586621679396678"><span id="local-6989586621679396680"><span class="annot"><span class="annottext">ReadPrec [ErrorResponse]
+ReadPrec ErrorResponse
+Int -&gt; ReadS ErrorResponse
+ReadS [ErrorResponse]
+(Int -&gt; ReadS ErrorResponse)
+-&gt; ReadS [ErrorResponse]
+-&gt; ReadPrec ErrorResponse
+-&gt; ReadPrec [ErrorResponse]
+-&gt; Read ErrorResponse
+forall a.
+(Int -&gt; ReadS a)
+-&gt; ReadS [a] -&gt; ReadPrec a -&gt; ReadPrec [a] -&gt; Read a
+readListPrec :: ReadPrec [ErrorResponse]
+$creadListPrec :: ReadPrec [ErrorResponse]
+readPrec :: ReadPrec ErrorResponse
+$creadPrec :: ReadPrec ErrorResponse
+readList :: ReadS [ErrorResponse]
+$creadList :: ReadS [ErrorResponse]
+readsPrec :: Int -&gt; ReadS ErrorResponse
+$creadsPrec :: Int -&gt; ReadS ErrorResponse
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Read</span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396669"><span id="local-6989586621679396671"><span class="annot"><span class="annottext">ErrorResponse -&gt; ErrorResponse -&gt; Bool
+(ErrorResponse -&gt; ErrorResponse -&gt; Bool)
+-&gt; (ErrorResponse -&gt; ErrorResponse -&gt; Bool) -&gt; Eq ErrorResponse
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: ErrorResponse -&gt; ErrorResponse -&gt; Bool
+$c/= :: ErrorResponse -&gt; ErrorResponse -&gt; Bool
+== :: ErrorResponse -&gt; ErrorResponse -&gt; Bool
+$c== :: ErrorResponse -&gt; ErrorResponse -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Typeable</span></span><span class="hs-special">)</span><span>
+</span><span id="line-43"></span><span>
+</span><span id="line-44"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">E.Exception</span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ErrorResponse"><span class="hs-identifier hs-type">ErrorResponse</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-45"></span><span>  </span><span id="local-6989586621679396662"><span class="annot"><span class="annottext">toException :: ErrorResponse -&gt; SomeException
+</span><a href="#local-6989586621679396662"><span class="hs-identifier hs-var hs-var hs-var hs-var">toException</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Exception -&gt; SomeException
+forall e. Exception e =&gt; e -&gt; SomeException
+</span><span class="hs-identifier hs-var">toException</span></span><span> </span><span class="annot"><span class="annottext">(Exception -&gt; SomeException)
+-&gt; (ErrorResponse -&gt; Exception) -&gt; ErrorResponse -&gt; SomeException
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">ErrorResponse -&gt; Exception
+forall e. Exception e =&gt; e -&gt; Exception
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-var">Exception</span></a></span><span>
+</span><span id="line-46"></span><span>  </span><span id="local-6989586621679396660"><span class="annot"><span class="annottext">fromException :: SomeException -&gt; Maybe ErrorResponse
+</span><a href="#local-6989586621679396660"><span class="hs-identifier hs-var hs-var hs-var hs-var">fromException</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="hs-special">(</span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-type">Exception</span></a></span><span> </span><span id="local-6989586621679396659"><span class="annot"><span class="annottext">e
+</span><a href="#local-6989586621679396659"><span class="hs-identifier hs-var">e</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">e -&gt; Maybe ErrorResponse
+forall a b. (Typeable a, Typeable b) =&gt; a -&gt; Maybe b
+</span><span class="hs-identifier hs-var">cast</span></span><span> </span><span class="annot"><span class="annottext">e
+</span><a href="#local-6989586621679396659"><span class="hs-identifier hs-var">e</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Exception -&gt; Maybe ErrorResponse)
+-&gt; Maybe Exception -&gt; Maybe ErrorResponse
+forall (m :: * -&gt; *) a b. Monad m =&gt; (a -&gt; m b) -&gt; m a -&gt; m b
+</span><span class="hs-operator hs-var">=&lt;&lt;</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Maybe Exception -&gt; Maybe ErrorResponse)
+-&gt; (SomeException -&gt; Maybe Exception)
+-&gt; SomeException
+-&gt; Maybe ErrorResponse
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">SomeException -&gt; Maybe Exception
+forall e. Exception e =&gt; SomeException -&gt; Maybe e
+</span><span class="hs-identifier hs-var">fromException</span></span><span>
+</span><span id="line-47"></span><span>  </span><span id="local-6989586621679396657"><span class="annot"><span class="annottext">displayException :: ErrorResponse -&gt; String
+</span><a href="#local-6989586621679396657"><span class="hs-identifier hs-var hs-var hs-var hs-var">displayException</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ErrorResponse -&gt; String
+forall a. Pretty a =&gt; a -&gt; String
+</span><a href="Database.PostgreSQL.Pure.Internal.Data.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span>
+</span><span id="line-48"></span><span>
+</span><span id="line-49"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Data.html#Pretty"><span class="hs-identifier hs-type">Pretty</span></a></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ErrorResponse"><span class="hs-identifier hs-type">ErrorResponse</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-50"></span><span>  </span><span id="local-6989586621679396654"><span class="annot"><span class="annottext">pretty :: ErrorResponse -&gt; String
+</span><a href="#local-6989586621679396654"><span class="hs-identifier hs-var hs-var hs-var hs-var">pretty</span></a></span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ErrorResponse"><span class="hs-identifier hs-type">ErrorResponse</span></a></span><span> </span><span class="hs-special">{</span><span> </span><span id="local-6989586621679396653"><span class="annot"><span class="annottext">ByteString
+severity :: ByteString
+severity :: ErrorResponse -&gt; ByteString
+</span><a href="#local-6989586621679396653"><span class="hs-identifier hs-var hs-var">severity</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396652"><span class="annot"><span class="annottext">ByteString
+code :: ByteString
+code :: ErrorResponse -&gt; ByteString
+</span><a href="#local-6989586621679396652"><span class="hs-identifier hs-var hs-var">code</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396651"><span class="annot"><span class="annottext">ByteString
+message :: ByteString
+message :: ErrorResponse -&gt; ByteString
+</span><a href="#local-6989586621679396651"><span class="hs-identifier hs-var hs-var">message</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396650"><span class="annot"><span class="annottext">Maybe TransactionState
+transactionState :: Maybe TransactionState
+transactionState :: ErrorResponse -&gt; Maybe TransactionState
+</span><a href="#local-6989586621679396650"><span class="hs-identifier hs-var hs-var">transactionState</span></a></span></span><span> </span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-51"></span><span>    </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;error response:\n&quot;</span></span><span>
+</span><span id="line-52"></span><span>    </span><span class="annot"><span class="annottext">String -&gt; ShowS
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;\tseverity: &quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; String
+</span><span class="hs-identifier hs-var">BSU.toString</span></span><span> </span><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679396653"><span class="hs-identifier hs-var">severity</span></a></span><span> </span><span class="hs-comment">-- only supports UTF-8</span><span>
+</span><span id="line-53"></span><span>    </span><span class="annot"><span class="annottext">String -&gt; ShowS
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;\n\tcode: &quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; String
+</span><span class="hs-identifier hs-var">BSU.toString</span></span><span> </span><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679396652"><span class="hs-identifier hs-var">code</span></a></span><span>
+</span><span id="line-54"></span><span>    </span><span class="annot"><span class="annottext">String -&gt; ShowS
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;\n\tmessage: &quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; String
+</span><span class="hs-identifier hs-var">BSU.toString</span></span><span> </span><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679396651"><span class="hs-identifier hs-var">message</span></a></span><span>
+</span><span id="line-55"></span><span>    </span><span class="annot"><span class="annottext">String -&gt; ShowS
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Maybe TransactionState
+</span><a href="#local-6989586621679396650"><span class="hs-identifier hs-var">transactionState</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-56"></span><span>         </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679396648"><span class="annot"><span class="annottext">TransactionState
+</span><a href="#local-6989586621679396648"><span class="hs-identifier hs-var">ts</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;\n\ttransaction state: &quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">TransactionState -&gt; String
+forall a. Pretty a =&gt; a -&gt; String
+</span><a href="Database.PostgreSQL.Pure.Internal.Data.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">TransactionState
+</span><a href="#local-6989586621679396648"><span class="hs-identifier hs-var">ts</span></a></span><span>
+</span><span id="line-57"></span><span>         </span><span class="annot"><span class="annottext">Maybe TransactionState
+</span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String
+forall a. Monoid a =&gt; a
+</span><span class="hs-identifier hs-var">mempty</span></span><span>
+</span><span id="line-58"></span><span>
+</span><span id="line-59"></span><span class="hs-comment">-- | This means that the server responds an unknown message.</span><span>
+</span><span id="line-60"></span><span class="hs-keyword">newtype</span><span> </span><span id="ResponseParsingFailed"><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ResponseParsingFailed"><span class="hs-identifier hs-var">ResponseParsingFailed</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-61"></span><span>  </span><span id="ResponseParsingFailed"><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ResponseParsingFailed"><span class="hs-identifier hs-var">ResponseParsingFailed</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="causedBy"><span class="annot"><span class="annottext">ResponseParsingFailed -&gt; String
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#causedBy"><span class="hs-identifier hs-var hs-var">causedBy</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-62"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679396640"><span id="local-6989586621679396642"><span id="local-6989586621679396644"><span class="annot"><span class="annottext">Int -&gt; ResponseParsingFailed -&gt; ShowS
+[ResponseParsingFailed] -&gt; ShowS
+ResponseParsingFailed -&gt; String
+(Int -&gt; ResponseParsingFailed -&gt; ShowS)
+-&gt; (ResponseParsingFailed -&gt; String)
+-&gt; ([ResponseParsingFailed] -&gt; ShowS)
+-&gt; Show ResponseParsingFailed
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [ResponseParsingFailed] -&gt; ShowS
+$cshowList :: [ResponseParsingFailed] -&gt; ShowS
+show :: ResponseParsingFailed -&gt; String
+$cshow :: ResponseParsingFailed -&gt; String
+showsPrec :: Int -&gt; ResponseParsingFailed -&gt; ShowS
+$cshowsPrec :: Int -&gt; ResponseParsingFailed -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Typeable</span></span><span class="hs-special">)</span><span>
+</span><span id="line-63"></span><span>
+</span><span id="line-64"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">E.Exception</span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ResponseParsingFailed"><span class="hs-identifier hs-type">ResponseParsingFailed</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-65"></span><span>  </span><span id="local-6989586621679396634"><span class="annot"><span class="annottext">toException :: ResponseParsingFailed -&gt; SomeException
+</span><a href="#local-6989586621679396634"><span class="hs-identifier hs-var hs-var hs-var hs-var">toException</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Exception -&gt; SomeException
+forall e. Exception e =&gt; e -&gt; SomeException
+</span><span class="hs-identifier hs-var">toException</span></span><span> </span><span class="annot"><span class="annottext">(Exception -&gt; SomeException)
+-&gt; (ResponseParsingFailed -&gt; Exception)
+-&gt; ResponseParsingFailed
+-&gt; SomeException
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">ResponseParsingFailed -&gt; Exception
+forall e. Exception e =&gt; e -&gt; Exception
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-var">Exception</span></a></span><span>
+</span><span id="line-66"></span><span>  </span><span id="local-6989586621679396633"><span class="annot"><span class="annottext">fromException :: SomeException -&gt; Maybe ResponseParsingFailed
+</span><a href="#local-6989586621679396633"><span class="hs-identifier hs-var hs-var hs-var hs-var">fromException</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="hs-special">(</span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-type">Exception</span></a></span><span> </span><span id="local-6989586621679396632"><span class="annot"><span class="annottext">e
+</span><a href="#local-6989586621679396632"><span class="hs-identifier hs-var">e</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">e -&gt; Maybe ResponseParsingFailed
+forall a b. (Typeable a, Typeable b) =&gt; a -&gt; Maybe b
+</span><span class="hs-identifier hs-var">cast</span></span><span> </span><span class="annot"><span class="annottext">e
+</span><a href="#local-6989586621679396632"><span class="hs-identifier hs-var">e</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Exception -&gt; Maybe ResponseParsingFailed)
+-&gt; Maybe Exception -&gt; Maybe ResponseParsingFailed
+forall (m :: * -&gt; *) a b. Monad m =&gt; (a -&gt; m b) -&gt; m a -&gt; m b
+</span><span class="hs-operator hs-var">=&lt;&lt;</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Maybe Exception -&gt; Maybe ResponseParsingFailed)
+-&gt; (SomeException -&gt; Maybe Exception)
+-&gt; SomeException
+-&gt; Maybe ResponseParsingFailed
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">SomeException -&gt; Maybe Exception
+forall e. Exception e =&gt; SomeException -&gt; Maybe e
+</span><span class="hs-identifier hs-var">fromException</span></span><span>
+</span><span id="line-67"></span><span>  </span><span id="local-6989586621679396631"><span class="annot"><span class="annottext">displayException :: ResponseParsingFailed -&gt; String
+</span><a href="#local-6989586621679396631"><span class="hs-identifier hs-var hs-var hs-var hs-var">displayException</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ResponseParsingFailed -&gt; String
+forall a. Pretty a =&gt; a -&gt; String
+</span><a href="Database.PostgreSQL.Pure.Internal.Data.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span>
+</span><span id="line-68"></span><span>
+</span><span id="line-69"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Data.html#Pretty"><span class="hs-identifier hs-type">Pretty</span></a></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ResponseParsingFailed"><span class="hs-identifier hs-type">ResponseParsingFailed</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-70"></span><span>  </span><span id="local-6989586621679396629"><span class="annot"><span class="annottext">pretty :: ResponseParsingFailed -&gt; String
+</span><a href="#local-6989586621679396629"><span class="hs-identifier hs-var hs-var hs-var hs-var">pretty</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ResponseParsingFailed"><span class="hs-identifier hs-type">ResponseParsingFailed</span></a></span><span> </span><span id="local-6989586621679396628"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679396628"><span class="hs-identifier hs-var">c</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;response parsing failed:\n\tcaused by &quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679396628"><span class="hs-identifier hs-var">c</span></a></span><span>
+</span><span id="line-71"></span><span>
+</span><span id="line-72"></span><span class="hs-keyword">data</span><span> </span><span id="InternalException"><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#InternalException"><span class="hs-identifier hs-var">InternalException</span></a></span></span><span>
+</span><span id="line-73"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="InternalResponseParsingFailed"><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#InternalResponseParsingFailed"><span class="hs-identifier hs-var">InternalResponseParsingFailed</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">BS.ByteString</span></span><span>
+</span><span id="line-74"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="InternalErrorResponse"><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#InternalErrorResponse"><span class="hs-identifier hs-var">InternalErrorResponse</span></a></span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Data.html#ErrorFields"><span class="hs-identifier hs-type">ErrorFields</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Data.html#TransactionState"><span class="hs-identifier hs-type">TransactionState</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="hs-identifier hs-type">BS.ByteString</span></span><span>
+</span><span id="line-75"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="InternalExtraData"><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#InternalExtraData"><span class="hs-identifier hs-var">InternalExtraData</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">BS.ByteString</span></span><span>
+</span><span id="line-76"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679396619"><span id="local-6989586621679396621"><span id="local-6989586621679396623"><span class="annot"><span class="annottext">Int -&gt; InternalException -&gt; ShowS
+[InternalException] -&gt; ShowS
+InternalException -&gt; String
+(Int -&gt; InternalException -&gt; ShowS)
+-&gt; (InternalException -&gt; String)
+-&gt; ([InternalException] -&gt; ShowS)
+-&gt; Show InternalException
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [InternalException] -&gt; ShowS
+$cshowList :: [InternalException] -&gt; ShowS
+show :: InternalException -&gt; String
+$cshow :: InternalException -&gt; String
+showsPrec :: Int -&gt; InternalException -&gt; ShowS
+$cshowsPrec :: Int -&gt; InternalException -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396611"><span id="local-6989586621679396613"><span id="local-6989586621679396615"><span id="local-6989586621679396617"><span class="annot"><span class="annottext">ReadPrec [InternalException]
+ReadPrec InternalException
+Int -&gt; ReadS InternalException
+ReadS [InternalException]
+(Int -&gt; ReadS InternalException)
+-&gt; ReadS [InternalException]
+-&gt; ReadPrec InternalException
+-&gt; ReadPrec [InternalException]
+-&gt; Read InternalException
+forall a.
+(Int -&gt; ReadS a)
+-&gt; ReadS [a] -&gt; ReadPrec a -&gt; ReadPrec [a] -&gt; Read a
+readListPrec :: ReadPrec [InternalException]
+$creadListPrec :: ReadPrec [InternalException]
+readPrec :: ReadPrec InternalException
+$creadPrec :: ReadPrec InternalException
+readList :: ReadS [InternalException]
+$creadList :: ReadS [InternalException]
+readsPrec :: Int -&gt; ReadS InternalException
+$creadsPrec :: Int -&gt; ReadS InternalException
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Read</span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396607"><span id="local-6989586621679396609"><span class="annot"><span class="annottext">InternalException -&gt; InternalException -&gt; Bool
+(InternalException -&gt; InternalException -&gt; Bool)
+-&gt; (InternalException -&gt; InternalException -&gt; Bool)
+-&gt; Eq InternalException
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: InternalException -&gt; InternalException -&gt; Bool
+$c/= :: InternalException -&gt; InternalException -&gt; Bool
+== :: InternalException -&gt; InternalException -&gt; Bool
+$c== :: InternalException -&gt; InternalException -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Typeable</span></span><span class="hs-special">)</span><span>
+</span><span id="line-77"></span><span>
+</span><span id="line-78"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679396599"><span id="local-6989586621679396601"><span id="local-6989586621679396603"><span class="annot"><span class="hs-identifier hs-type">E.Exception</span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#InternalException"><span class="hs-identifier hs-type">InternalException</span></a></span></span></span></span><span>
+</span><span id="line-79"></span><span>
+</span><span id="line-80"></span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#internalExcepionToExposedException"><span class="hs-identifier hs-type">internalExcepionToExposedException</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#InternalException"><span class="hs-identifier hs-type">InternalException</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-type">Exception</span></a></span><span>
+</span><span id="line-81"></span><span id="internalExcepionToExposedException"><span class="annot"><span class="annottext">internalExcepionToExposedException :: InternalException -&gt; Exception
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#internalExcepionToExposedException"><span class="hs-identifier hs-var hs-var">internalExcepionToExposedException</span></a></span></span><span> </span><span id="local-6989586621679396597"><span class="annot"><span class="annottext">e :: InternalException
+</span><a href="#local-6989586621679396597"><span class="hs-identifier hs-var">e</span></a></span></span><span class="hs-glyph">@</span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#InternalResponseParsingFailed"><span class="hs-identifier hs-type">InternalResponseParsingFailed</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ResponseParsingFailed -&gt; Exception
+forall e. Exception e =&gt; e -&gt; Exception
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-var">Exception</span></a></span><span> </span><span class="annot"><span class="annottext">(ResponseParsingFailed -&gt; Exception)
+-&gt; ResponseParsingFailed -&gt; Exception
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ResponseParsingFailed
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ResponseParsingFailed"><span class="hs-identifier hs-var">ResponseParsingFailed</span></a></span><span> </span><span class="annot"><span class="annottext">(String -&gt; ResponseParsingFailed)
+-&gt; String -&gt; ResponseParsingFailed
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">InternalException -&gt; String
+forall e. Exception e =&gt; e -&gt; String
+</span><span class="hs-identifier hs-var">displayException</span></span><span> </span><span class="annot"><span class="annottext">InternalException
+</span><a href="#local-6989586621679396597"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><span id="line-82"></span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#internalExcepionToExposedException"><span class="hs-identifier hs-var">internalExcepionToExposedException</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#InternalErrorResponse"><span class="hs-identifier hs-type">InternalErrorResponse</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Data.html#ErrorFields"><span class="hs-identifier hs-type">ErrorFields</span></a></span><span> </span><span id="local-6989586621679396596"><span class="annot"><span class="annottext">[(Char, ShortByteString)]
+</span><a href="#local-6989586621679396596"><span class="hs-identifier hs-var">fields</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679396595"><span class="annot"><span class="annottext">Maybe TransactionState
+</span><a href="#local-6989586621679396595"><span class="hs-identifier hs-var">transactionState</span></a></span></span><span> </span><span class="annot"><span class="annottext">ByteString
+</span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-83"></span><span>  </span><span class="annot"><span class="annottext">ErrorResponse -&gt; Exception
+forall e. Exception e =&gt; e -&gt; Exception
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-var">Exception</span></a></span><span> </span><span class="annot"><span class="annottext">ErrorResponse :: ByteString
+-&gt; ByteString
+-&gt; ByteString
+-&gt; Maybe TransactionState
+-&gt; ErrorResponse
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ErrorResponse"><span class="hs-identifier hs-type">ErrorResponse</span></a></span><span> </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">ByteString
+severity :: ByteString
+severity :: ByteString
+</span><a href="#local-6989586621679396594"><span class="hs-identifier hs-var hs-var">severity</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ByteString
+code :: ByteString
+code :: ByteString
+</span><a href="#local-6989586621679396593"><span class="hs-identifier hs-var hs-var">code</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ByteString
+message :: ByteString
+message :: ByteString
+</span><a href="#local-6989586621679396592"><span class="hs-identifier hs-var hs-var">message</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Maybe TransactionState
+transactionState :: Maybe TransactionState
+transactionState :: Maybe TransactionState
+</span><a href="#local-6989586621679396595"><span class="hs-identifier hs-var hs-var">transactionState</span></a></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-84"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-85"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679396594"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679396594"><span class="hs-identifier hs-var">severity</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396593"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679396593"><span class="hs-identifier hs-var">code</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396592"><span class="annot"><span class="annottext">ByteString
+</span><a href="#local-6989586621679396592"><span class="hs-identifier hs-var">message</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(ShortByteString -&gt; ByteString)
+-&gt; (ShortByteString, ShortByteString, ShortByteString)
+-&gt; (ByteString, ByteString, ByteString)
+forall t c. (t -&gt; c) -&gt; (t, t, t) -&gt; (c, c, c)
+</span><a href="#local-6989586621679396591"><span class="hs-identifier hs-var">map3</span></a></span><span> </span><span class="annot"><span class="annottext">ShortByteString -&gt; ByteString
+</span><span class="hs-identifier hs-var">BSS.fromShort</span></span><span> </span><span class="annot"><span class="annottext">((ShortByteString, ShortByteString, ShortByteString)
+ -&gt; (ByteString, ByteString, ByteString))
+-&gt; (ShortByteString, ShortByteString, ShortByteString)
+-&gt; (ByteString, ByteString, ByteString)
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">((Char, ShortByteString)
+ -&gt; (ShortByteString, ShortByteString, ShortByteString)
+ -&gt; (ShortByteString, ShortByteString, ShortByteString))
+-&gt; (ShortByteString, ShortByteString, ShortByteString)
+-&gt; [(Char, ShortByteString)]
+-&gt; (ShortByteString, ShortByteString, ShortByteString)
+forall (t :: * -&gt; *) a b.
+Foldable t =&gt;
+(a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+</span><span class="hs-identifier hs-var">foldr</span></span><span> </span><span class="annot"><span class="annottext">(Char, ShortByteString)
+-&gt; (ShortByteString, ShortByteString, ShortByteString)
+-&gt; (ShortByteString, ShortByteString, ShortByteString)
+forall c. (Char, c) -&gt; (c, c, c) -&gt; (c, c, c)
+</span><a href="#local-6989586621679396588"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ShortByteString
+</span><span class="hs-string">&quot;&quot;</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ShortByteString
+</span><span class="hs-string">&quot;&quot;</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ShortByteString
+</span><span class="hs-string">&quot;&quot;</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[(Char, ShortByteString)]
+</span><a href="#local-6989586621679396596"><span class="hs-identifier hs-var">fields</span></a></span><span>
+</span><span id="line-86"></span><span>    </span><span id="local-6989586621679396588"><span class="annot"><span class="annottext">go :: (Char, c) -&gt; (c, c, c) -&gt; (c, c, c)
+</span><a href="#local-6989586621679396588"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Char
+</span><span class="hs-char">'S'</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396587"><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396587"><span class="hs-identifier hs-var">largeS</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">c
+</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396586"><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396586"><span class="hs-identifier hs-var">largeC</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396585"><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396585"><span class="hs-identifier hs-var">largeM</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396587"><span class="hs-identifier hs-var">largeS</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396586"><span class="hs-identifier hs-var">largeC</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396585"><span class="hs-identifier hs-var">largeM</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-87"></span><span>    </span><span class="annot"><a href="#local-6989586621679396588"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Char
+</span><span class="hs-char">'C'</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396584"><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396584"><span class="hs-identifier hs-var">largeC</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679396583"><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396583"><span class="hs-identifier hs-var">largeS</span></a></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">c
+</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396582"><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396582"><span class="hs-identifier hs-var">largeM</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396583"><span class="hs-identifier hs-var">largeS</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396584"><span class="hs-identifier hs-var">largeC</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396582"><span class="hs-identifier hs-var">largeM</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-88"></span><span>    </span><span class="annot"><a href="#local-6989586621679396588"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Char
+</span><span class="hs-char">'M'</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396581"><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396581"><span class="hs-identifier hs-var">largeM</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679396580"><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396580"><span class="hs-identifier hs-var">largeS</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396579"><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396579"><span class="hs-identifier hs-var">largeC</span></a></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">c
+</span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396580"><span class="hs-identifier hs-var">largeS</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396579"><span class="hs-identifier hs-var">largeC</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">c
+</span><a href="#local-6989586621679396581"><span class="hs-identifier hs-var">largeM</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-89"></span><span>    </span><span class="annot"><a href="#local-6989586621679396588"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">(Char, c)
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679396578"><span class="annot"><span class="annottext">(c, c, c)
+</span><a href="#local-6989586621679396578"><span class="hs-identifier hs-var">a</span></a></span></span><span>                               </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(c, c, c)
+</span><a href="#local-6989586621679396578"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-90"></span><span>    </span><span id="local-6989586621679396591"><span class="annot"><span class="annottext">map3 :: (t -&gt; c) -&gt; (t, t, t) -&gt; (c, c, c)
+</span><a href="#local-6989586621679396591"><span class="hs-identifier hs-var hs-var">map3</span></a></span></span><span> </span><span id="local-6989586621679396577"><span class="annot"><span class="annottext">t -&gt; c
+</span><a href="#local-6989586621679396577"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679396576"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396576"><span class="hs-identifier hs-var">v1</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396575"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396575"><span class="hs-identifier hs-var">v2</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396574"><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396574"><span class="hs-identifier hs-var">v3</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">t -&gt; c
+</span><a href="#local-6989586621679396577"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396576"><span class="hs-identifier hs-var">v1</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">t -&gt; c
+</span><a href="#local-6989586621679396577"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396575"><span class="hs-identifier hs-var">v2</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">t -&gt; c
+</span><a href="#local-6989586621679396577"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">t
+</span><a href="#local-6989586621679396574"><span class="hs-identifier hs-var">v3</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-91"></span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#internalExcepionToExposedException"><span class="hs-identifier hs-var">internalExcepionToExposedException</span></a></span><span> </span><span id="local-6989586621679396573"><span class="annot"><span class="annottext">e :: InternalException
+</span><a href="#local-6989586621679396573"><span class="hs-identifier hs-var">e</span></a></span></span><span class="hs-glyph">@</span><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#InternalExtraData"><span class="hs-identifier hs-type">InternalExtraData</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ResponseParsingFailed -&gt; Exception
+forall e. Exception e =&gt; e -&gt; Exception
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#Exception"><span class="hs-identifier hs-var">Exception</span></a></span><span> </span><span class="annot"><span class="annottext">(ResponseParsingFailed -&gt; Exception)
+-&gt; ResponseParsingFailed -&gt; Exception
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ResponseParsingFailed
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#ResponseParsingFailed"><span class="hs-identifier hs-var">ResponseParsingFailed</span></a></span><span> </span><span class="annot"><span class="annottext">(String -&gt; ResponseParsingFailed)
+-&gt; String -&gt; ResponseParsingFailed
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">InternalException -&gt; String
+forall e. Exception e =&gt; e -&gt; String
+</span><span class="hs-identifier hs-var">displayException</span></span><span> </span><span class="annot"><span class="annottext">InternalException
+</span><a href="#local-6989586621679396573"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><span id="line-92"></span><span>
+</span><span id="line-93"></span><span id="local-6989586621679396572"><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#convert"><span class="hs-identifier hs-type">convert</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679396572"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679396572"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-94"></span><span id="convert"><span class="annot"><span class="annottext">convert :: IO a -&gt; IO a
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#convert"><span class="hs-identifier hs-var hs-var">convert</span></a></span></span><span> </span><span id="local-6989586621679396571"><span class="annot"><span class="annottext">IO a
+</span><a href="#local-6989586621679396571"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-95"></span><span>  </span><span id="local-6989586621679396570"><span class="annot"><span class="annottext">Either InternalException a
+</span><a href="#local-6989586621679396570"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO a -&gt; IO (Either InternalException a)
+forall (m :: * -&gt; *) e a.
+(MonadCatch m, Exception e) =&gt;
+m a -&gt; m (Either e a)
+</span><span class="hs-identifier hs-var">try</span></span><span> </span><span class="annot"><span class="annottext">IO a
+</span><a href="#local-6989586621679396571"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-96"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Either InternalException a
+</span><a href="#local-6989586621679396570"><span class="hs-identifier hs-var">r</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-97"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679396569"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679396569"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">a -&gt; IO a
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679396569"><span class="hs-identifier hs-var">r</span></a></span><span>
+</span><span id="line-98"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679396568"><span class="annot"><span class="annottext">InternalException
+</span><a href="#local-6989586621679396568"><span class="hs-identifier hs-var">e</span></a></span></span><span>  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Exception -&gt; IO a
+forall (m :: * -&gt; *) e a. (MonadThrow m, Exception e) =&gt; e -&gt; m a
+</span><span class="hs-identifier hs-var">throw</span></span><span> </span><span class="annot"><span class="annottext">(Exception -&gt; IO a) -&gt; Exception -&gt; IO a
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">InternalException -&gt; Exception
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#internalExcepionToExposedException"><span class="hs-identifier hs-var">internalExcepionToExposedException</span></a></span><span> </span><span class="annot"><span class="annottext">InternalException
+</span><a href="#local-6989586621679396568"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><span id="line-99"></span><span>
+</span><span id="line-100"></span><span id="local-6989586621679396567"><span class="annot"><a href="Database.PostgreSQL.Pure.Internal.Exception.html#cantReachHere"><span class="hs-identifier hs-type">cantReachHere</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">HasCallStack</span></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679396567"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-101"></span><span id="cantReachHere"><span class="annot"><span class="annottext">cantReachHere :: a
+</span><a href="Database.PostgreSQL.Pure.Internal.Exception.html#cantReachHere"><span class="hs-identifier hs-var hs-var">cantReachHere</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; a
+forall a. HasCallStack =&gt; String -&gt; a
+</span><span class="hs-identifier hs-var">error</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;can't reach here&quot;</span></span><span>
+</span><span id="line-102"></span></pre></body></html>
