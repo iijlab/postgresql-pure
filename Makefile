@@ -32,7 +32,7 @@ build-deps-ghc-8.8: stack-ghc-8.8.yaml package.yaml
 	stack --stack-yaml stack-ghc-8.8.yaml build --only-dependencies
 
 .PHONY: build-deps-nightly
-build-deps-nightly: stack-ghc-8.8.yaml package.yaml
+build-deps-nightly: stack-nightly.yaml package.yaml
 	stack --stack-yaml stack-nightly.yaml --resolver nightly build --only-dependencies
 
 .PHONY: test
