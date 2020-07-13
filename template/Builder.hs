@@ -385,6 +385,10 @@ instance ToField Oid where
   toField backendParams encode (Just o) f v | o == Oid.oid = toField backendParams encode Nothing f v
                                             | otherwise = fail $ "type mismatch (ToField): OID: " <> show o <> ", Haskell: Oid"
 
+instance ToField a => ToField (Maybe a) where
+  toField backendParams encode oid f (Just v) = toField backendParams encode oid f v
+  toField _ _ _ _ Nothing = pure $ Just $ BE.encodingBytes $ BE.int4_int32 (-1)
+
 -- 0 tuple
 instance ToRecord () where
   toRecord _ _ Nothing [] _ =
