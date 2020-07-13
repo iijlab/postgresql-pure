@@ -1,5 +1,17 @@
 # Changelog for postgresql-pure
 
+## 0.2.0.0
+
+### Breaking changes
+
+- Remove orphan `IsLabel` instance definitions; #2 thanks to @nakaji-dayo.
+
+### Other changes
+
+- Add cleartext password authentication; #1 thanks to @goodlyrottenapple.
+- Change the Haskell type corresponding to `timetz` from `(TimeOfDay, TimeZone)` to `TimeOfDayWithTimeZone`.
+- Not only tuples but also other types which have `Length` type function can be record.
+
 ## 0.1.3.0
 
 2020.06.15
