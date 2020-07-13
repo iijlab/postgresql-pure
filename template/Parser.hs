@@ -38,6 +38,8 @@ module Database.PostgreSQL.Pure.Internal.Parser
   , skipUntilError
   , currentPos
   , column
+  , attoparsecParser
+  , valueParser
   ) where
 
 import           Database.PostgreSQL.Pure.Internal.Data          (AuthenticationMD5Password (AuthenticationMD5Password), AuthenticationResponse (AuthenticationMD5PasswordResponse, AuthenticationOkResponse, AuthenticationCleartextPasswordResponse),
@@ -55,7 +57,7 @@ import           Database.PostgreSQL.Pure.Internal.Data          (Authentication
                                                                   ParameterStatus (ParameterStatus), Raw (Null, Value),
                                                                   ReadyForQuery (ReadyForQuery), Response (..),
                                                                   RowDescription (RowDescription),
-                                                                  SqlIdentifier (SqlIdentifier), StringDecoder,
+                                                                  SqlIdentifier (SqlIdentifier), StringDecoder, TimeOfDayWithTimeZone (TimeOfDayWithTimeZone),
                                                                   TransactionState (Block, Failed, Idle),
                                                                   TypeLength (FixedLength, VariableLength))
 import qualified Database.PostgreSQL.Pure.Internal.Data          as Data
@@ -84,7 +86,7 @@ import           Data.Maybe                                      (fromMaybe)
 import           Data.Memory.Endian                              (BE, ByteSwap, fromBE)
 import           Data.Scientific                                 (Scientific, scientific)
 import qualified Data.Text                                       as Text
-import           Data.Time                                       (Day, DiffTime, LocalTime, TimeOfDay, TimeZone,
+import           Data.Time                                       (Day, DiffTime, LocalTime, TimeOfDay,
                                                                   UTCTime, utc)
 import           Data.Tuple.Single                               (Single, pattern Single)
 import           Data.Word                                       (Word16, Word32, Word64, Word8)
@@ -547,13 +549,13 @@ instance FromField TimeOfDay where
         BinaryFormat -> valueParser BD.time_int v
   fromField _ ColumnInfo { typeOid } _ = fail $ "type mismatch (FromField): OID: " <> show typeOid <> ", Haskell: TimeOfDay"
 
-instance FromField (TimeOfDay, TimeZone) where
+instance FromField TimeOfDayWithTimeZone where
   fromField _ ColumnInfo { typeOid, Data.formatCode } (Just v)
     | typeOid == Oid.timetz
     = case formatCode of
-        TextFormat   -> attoparsecParser ((,) <$> Time.timeOfDay <*> (fromMaybe utc <$> Time.timeZone)) v
-        BinaryFormat -> valueParser BD.timetz_int v
-  fromField _ ColumnInfo { typeOid } _ = fail $ "type mismatch (FromField): OID: " <> show typeOid <> ", Haskell: (TimeOfDay, TimeZone)"
+        TextFormat   -> attoparsecParser (TimeOfDayWithTimeZone <$> Time.timeOfDay <*> (fromMaybe utc <$> Time.timeZone)) v
+        BinaryFormat -> valueParser BD.timetz_int v >>= \(t, tz) -> pure $ TimeOfDayWithTimeZone t tz
+  fromField _ ColumnInfo { typeOid } _ = fail $ "type mismatch (FromField): OID: " <> show typeOid <> ", Haskell: TimeOfDayWithTimeZone"
 
 instance FromField LocalTime where
   fromField _ ColumnInfo { typeOid, Data.formatCode } (Just v)

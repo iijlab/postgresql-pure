@@ -50,6 +50,8 @@ module Database.PostgreSQL.Pure.Internal.Data
   , BackendKey
   , Oid (..)
   , Raw (Null, Value)
+  , SqlIdentifier (..)
+  , TimeOfDayWithTimeZone (..)
   , Query (..)
   , PreparedStatement (..)
   , PreparedStatementProcedure (..)
@@ -67,7 +69,6 @@ module Database.PostgreSQL.Pure.Internal.Data
   , FromRecord (..)
   , ToField (..)
   , ToRecord (..)
-  , SqlIdentifier (..)
   , Pretty (..)
   ) where
 
@@ -86,6 +87,7 @@ import           Data.Kind                    (Type)
 import           Data.List                    (intercalate)
 import           Data.Map.Strict              (Map)
 import           Data.String                  (IsString)
+import           Data.Time                    (TimeOfDay, TimeZone)
 import           Data.Word                    (Word8)
 import           Foreign                      (ForeignPtr)
 import           Hexdump                      (prettyHex, simpleHex)
@@ -465,6 +467,8 @@ class ToRecord a where
 
 -- | Type of PostgreSQL @sql_identifier@ type.
 newtype SqlIdentifier = SqlIdentifier BS.ByteString deriving (Show, Read, Eq)
+
+data TimeOfDayWithTimeZone = TimeOfDayWithTimeZone { timeOfDay :: TimeOfDay, timeZone :: TimeZone } deriving (Show, Read, Eq, Ord)
 
 class Pretty a where
   pretty :: a -> String

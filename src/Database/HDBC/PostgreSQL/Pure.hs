@@ -14,7 +14,7 @@
 -- |
 -- This is a compatible interface with @HDBC-postgresql@'s @Database.HDBC.PostgreSQL@ except 'Config'.
 --
--- Prepared statements are closed when some requests come once 'Statement's are GCed, because HDBC doesn't have “close” interface.
+-- Prepared statements are closed when some requests come once 'Statement's are GCed, because HDBC doesn't have "close" interface.
 module Database.HDBC.PostgreSQL.Pure
   ( -- * Connection
     Config (..)
@@ -26,52 +26,61 @@ module Database.HDBC.PostgreSQL.Pure
   , begin
   ) where
 
-import qualified Database.PostgreSQL.Pure.Internal.Connection as Pure
-import qualified Database.PostgreSQL.Pure.Internal.Data       as Pure
-import qualified Database.PostgreSQL.Pure.Internal.Exception  as Pure
-import qualified Database.PostgreSQL.Pure.Internal.MonadFail  as MonadFail
-import qualified Database.PostgreSQL.Pure.List                as Pure
-import qualified Database.PostgreSQL.Pure.Oid                 as Oid
+import qualified Database.PostgreSQL.Pure.Internal.Connection     as Pure
+import qualified Database.PostgreSQL.Pure.Internal.Data           as Pure
+import qualified Database.PostgreSQL.Pure.Internal.Exception      as Pure
+import qualified Database.PostgreSQL.Pure.Internal.MonadFail      as MonadFail
+import qualified Database.PostgreSQL.Pure.Internal.Parser         as Pure
+import qualified Database.PostgreSQL.Pure.List                    as Pure
+import qualified Database.PostgreSQL.Pure.Oid                     as Oid
+import qualified Database.PostgreSQL.Simple.Time.Internal.Parser  as TimeParser
+import qualified Database.PostgreSQL.Simple.Time.Internal.Printer as TimeBuilder
 
-import           Paths_postgresql_pure                        (version)
+import           Paths_postgresql_pure                            (version)
 
-import           Database.HDBC                                (IConnection (clone, commit, dbServerVer, dbTransactionSupport, describeTable, disconnect, getTables, hdbcClientVer, hdbcDriverName, prepare, proxiedClientName, proxiedClientVer, rollback, run, runRaw),
-                                                               SqlColDesc (SqlColDesc, colDecDigits, colNullable, colOctetLength, colSize, colType),
-                                                               SqlError (SqlError, seErrorMsg, seNativeError, seState),
-                                                               SqlTypeId, throwSqlError)
-import           Database.HDBC.ColTypes                       (SqlInterval (SqlIntervalSecondT), SqlTypeId (SqlBigIntT, SqlBitT, SqlCharT, SqlDateT, SqlDecimalT, SqlDoubleT, SqlFloatT, SqlIntervalT, SqlTimeT, SqlTimeWithZoneT, SqlTimestampT, SqlTimestampWithZoneT, SqlUnknownT, SqlVarBinaryT, SqlVarCharT))
-import           Database.HDBC.Statement                      (SqlValue (SqlBool, SqlByteString, SqlChar, SqlDiffTime, SqlDouble, SqlInt32, SqlInt64, SqlInteger, SqlLocalDate, SqlLocalTime, SqlLocalTimeOfDay, SqlNull, SqlPOSIXTime, SqlRational, SqlString, SqlUTCTime, SqlWord32, SqlWord64, SqlZonedLocalTimeOfDay, SqlZonedTime),
-                                                               Statement (Statement, describeResult, execute, executeMany, executeRaw, fetchRow, finish, getColumnNames, originalQuery))
+import           Database.HDBC                                    (IConnection (clone, commit, dbServerVer, dbTransactionSupport, describeTable, disconnect, getTables, hdbcClientVer, hdbcDriverName, prepare, proxiedClientName, proxiedClientVer, rollback, run, runRaw),
+                                                                   SqlColDesc (SqlColDesc, colDecDigits, colNullable, colOctetLength, colSize, colType),
+                                                                   SqlError (SqlError, seErrorMsg, seNativeError, seState),
+                                                                   SqlTypeId, throwSqlError)
+import           Database.HDBC.ColTypes                           (SqlInterval (SqlIntervalSecondT), SqlTypeId (SqlBigIntT, SqlBitT, SqlCharT, SqlDateT, SqlDecimalT, SqlDoubleT, SqlFloatT, SqlIntervalT, SqlTimeT, SqlTimeWithZoneT, SqlTimestampT, SqlTimestampWithZoneT, SqlUnknownT, SqlVarBinaryT, SqlVarCharT))
+import           Database.HDBC.Statement                          (SqlValue (SqlBool, SqlByteString, SqlChar, SqlDiffTime, SqlDouble, SqlInt32, SqlInt64, SqlInteger, SqlLocalDate, SqlLocalTime, SqlLocalTimeOfDay, SqlNull, SqlPOSIXTime, SqlRational, SqlString, SqlUTCTime, SqlWord32, SqlWord64, SqlZonedLocalTimeOfDay, SqlZonedTime),
+                                                                   Statement (Statement, describeResult, execute, executeMany, executeRaw, fetchRow, finish, getColumnNames, originalQuery))
 
-import           Control.Concurrent                           (MVar, modifyMVar_, newMVar)
-import           Control.Exception.Safe                       (Exception (displayException, fromException, toException),
-                                                               impureThrow, try)
-import           Control.Monad                                (unless, void)
-import qualified Data.ByteString                              as BS
-import qualified Data.ByteString.Short                        as BSS
-import qualified Data.ByteString.UTF8                         as BSU
-import           Data.Convertible                             (Convertible (safeConvert), convert)
-import           Data.Default.Class                           (Default (def))
-import           Data.Foldable                                (for_)
-import           Data.Int                                     (Int32, Int64)
-import           Data.IORef                                   (IORef, mkWeakIORef, newIORef, readIORef, writeIORef)
-import qualified Data.Map.Strict                              as M
-import           Data.Maybe                                   (fromMaybe)
-import           Data.Scientific                              (FPFormat (Exponent), Scientific, formatScientific,
-                                                               fromRationalRepetend)
-import           Data.String                                  (IsString (fromString))
-import           Data.Time                                    (DiffTime, NominalDiffTime, zonedTimeToUTC)
-import           Data.Traversable                             (for)
-import           Data.Tuple.Only                              (Only (Only))
-import           Data.Typeable                                (Typeable, cast)
-import           Data.Version                                 (showVersion)
-import           Data.Word                                    (Word32, Word64)
-import           Database.PostgreSQL.Placeholder.Convert      (convertQuestionMarkStyleToDollarSignStyle, splitQueries)
-import           GHC.Records                                  (HasField (getField))
-import qualified PostgreSQL.Binary.Encoding                   as BE
+import           Control.Concurrent                               (MVar, modifyMVar_, newMVar)
+import           Control.Exception.Safe                           (Exception (displayException, fromException, toException),
+                                                                   impureThrow, try)
+import           Control.Monad                                    (unless, void)
+import qualified Data.ByteString                                  as BS
+import qualified Data.ByteString.Builder                          as BSB
+import qualified Data.ByteString.Builder.Prim                     as BSBP
+import qualified Data.ByteString.Lazy                             as BSL
+import qualified Data.ByteString.Short                            as BSS
+import qualified Data.ByteString.UTF8                             as BSU
+import           Data.Convertible                                 (Convertible (safeConvert), convert)
+import           Data.Default.Class                               (Default (def))
+import           Data.Foldable                                    (for_)
+import           Data.Int                                         (Int32, Int64)
+import           Data.IORef                                       (IORef, mkWeakIORef, newIORef, readIORef, writeIORef)
+import qualified Data.Map.Strict                                  as M
+import           Data.Maybe                                       (fromMaybe)
+import           Data.Scientific                                  (FPFormat (Exponent), Scientific, formatScientific,
+                                                                   fromRationalRepetend)
+import           Data.String                                      (IsString (fromString))
+import           Data.Time                                        (DiffTime, NominalDiffTime, zonedTimeToUTC)
+import           Data.Time                                        (TimeOfDay, TimeZone, utc)
+import           Data.Traversable                                 (for)
+import           Data.Tuple.Only                                  (Only (Only))
+import           Data.Typeable                                    (Typeable, cast)
+import           Data.Version                                     (showVersion)
+import           Data.Word                                        (Word32, Word64)
+import           Database.PostgreSQL.Placeholder.Convert          (convertQuestionMarkStyleToDollarSignStyle,
+                                                                   splitQueries)
+import           GHC.Records                                      (HasField (getField))
+import qualified PostgreSQL.Binary.Decoding                       as BD
+import qualified PostgreSQL.Binary.Encoding                       as BE
 
 #if !MIN_VERSION_base(4,13,0)
-import           Control.Monad.Fail                           (MonadFail)
+import           Control.Monad.Fail                               (MonadFail)
 #endif
 
 -- | A configuration of a connection.
@@ -542,7 +551,7 @@ instance Pure.ToField SqlValue where
 -- | Security risk of DoS attack.
 --
 -- You should convert 'Rational' to 'Scientific' with 'fromRationalRepetend' in the user side.
--- If the rational value is computed to repeating decimals like 1/3 = 0.3333…, this consumes a lot of memories.
+-- If the rational value is computed to repeating decimals like 1/3 = 0.3333., this consumes a lot of memories.
 -- This is provided because of the HDBC compatibility.
 instance Pure.ToField Rational where
   toField _ encode Nothing format v =
@@ -602,6 +611,25 @@ lookupClientEncoding params =
   case M.lookup "client_encoding" params of
     Nothing   -> fail "\"client_encoding\" backend parameter not found"
     Just code -> pure code
+
+instance Pure.FromField (TimeOfDay, TimeZone) where
+  fromField _ Pure.ColumnInfo { typeOid, Pure.formatCode } (Just v)
+    | typeOid == Oid.timetz
+    = case formatCode of
+        Pure.TextFormat   -> Pure.attoparsecParser ((,) <$> TimeParser.timeOfDay <*> (fromMaybe utc <$> TimeParser.timeZone)) v
+        Pure.BinaryFormat -> Pure.valueParser BD.timetz_int v
+  fromField _ Pure.ColumnInfo { typeOid } _ = fail $ "type mismatch (FromField): OID: " <> show typeOid <> ", Haskell: (TimeOfDay, TimeZone)"
+
+instance Pure.ToField (TimeOfDay, TimeZone) where
+  toField _ _ Nothing Pure.TextFormat = pure . Just . BSL.toStrict . BSB.toLazyByteString . BSBP.primBounded (TimeBuilder.timeOfDay BSBP.>*< TimeBuilder.timeZone)
+  toField backendParams _ Nothing Pure.BinaryFormat =
+    case M.lookup "integer_datetimes" backendParams of
+      Nothing    -> const $ fail "not found \"integer_datetimes\" backend parameter"
+      Just "on"  -> pure . Just . BE.encodingBytes . BE.timetz_int
+      Just "off" -> pure . Just . BE.encodingBytes . BE.timetz_float
+      Just v     -> const $ fail $ "\"integer_datetimes\" has unrecognized value: " <> show v
+  toField backendParams encode (Just o) f | o == Oid.timetz = Pure.toField backendParams encode Nothing f
+                                          | otherwise = const $ fail $ "type mismatch (ToField): OID: " <> show o <> ", Haskell: (TimeOfDay, TimeZone))"
 
 -- Footnote
 -- [1] Dirty hack: The numbers 0 and 0 are not used, when the prepared statement procedure is not given to "bind".

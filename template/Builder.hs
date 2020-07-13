@@ -32,7 +32,7 @@ import           Database.PostgreSQL.Pure.Internal.Data           (BindParameter
                                                                    FormatCode (BinaryFormat, TextFormat), Oid (Oid),
                                                                    PortalName (PortalName),
                                                                    PreparedStatementName (PreparedStatementName),
-                                                                   Query (Query), ToField (toField),
+                                                                   Query (Query), TimeOfDayWithTimeZone (TimeOfDayWithTimeZone), ToField (toField),
                                                                    ToRecord (toRecord))
 import           Database.PostgreSQL.Pure.Internal.Exception      (cantReachHere)
 import qualified Database.PostgreSQL.Pure.Internal.MonadFail      as MonadFail
@@ -51,7 +51,7 @@ import           Data.Int                                         (Int16, Int32,
 import qualified Data.Map.Strict                                  as M
 import           Data.Scientific                                  (FPFormat (Exponent), Scientific, formatScientific,
                                                                    scientific)
-import           Data.Time                                        (Day, DiffTime, NominalDiffTime, TimeOfDay, TimeZone,
+import           Data.Time                                        (Day, DiffTime, NominalDiffTime, TimeOfDay,
                                                                    UTCTime)
 import           Data.Time.LocalTime                              (LocalTime)
 import           Data.Tuple.Single                                (Single, pattern Single)
@@ -344,16 +344,17 @@ instance ToField TimeOfDay where
   toField backendParams encode (Just o) f | o == Oid.time = toField backendParams encode Nothing f
                                           | otherwise = const $ fail $ "type mismatch (ToField): OID: " <> show o <> ", Haskell: TimeOfDay"
 
-instance ToField (TimeOfDay, TimeZone) where
-  toField _ _ Nothing TextFormat = pure . Just . BSL.toStrict . BSB.toLazyByteString . BSBP.primBounded (Time.timeOfDay BSBP.>*< Time.timeZone)
+instance ToField TimeOfDayWithTimeZone where
+  toField _ _ Nothing TextFormat = pure . Just . BSL.toStrict . BSB.toLazyByteString . BSBP.primBounded (go BSBP.>$< Time.timeOfDay BSBP.>*< Time.timeZone)
+                                   where go (TimeOfDayWithTimeZone t tz) = (t, tz)
   toField backendParams _ Nothing BinaryFormat =
     case M.lookup "integer_datetimes" backendParams of
       Nothing    -> const $ fail "not found \"integer_datetimes\" backend parameter"
-      Just "on"  -> pure . Just . BE.encodingBytes . BE.timetz_int
-      Just "off" -> pure . Just . BE.encodingBytes . BE.timetz_float
+      Just "on"  -> pure . Just . BE.encodingBytes . BE.timetz_int . \(TimeOfDayWithTimeZone t tz) -> (t, tz)
+      Just "off" -> pure . Just . BE.encodingBytes . BE.timetz_float . \(TimeOfDayWithTimeZone t tz) -> (t, tz)
       Just v     -> const $ fail $ "\"integer_datetimes\" has unrecognized value: " <> show v
   toField backendParams encode (Just o) f | o == Oid.timetz = toField backendParams encode Nothing f
-                                          | otherwise = const $ fail $ "type mismatch (ToField): OID: " <> show o <> ", Haskell: (TimeOfDay, TimeZone)"
+                                          | otherwise = const $ fail $ "type mismatch (ToField): OID: " <> show o <> ", Haskell: TimeOfDayWithTimeZone)"
 
 instance ToField LocalTime where
   toField _ _ Nothing TextFormat = pure . Just . BSL.toStrict . BSB.toLazyByteString . BSBP.primBounded Time.localTime
