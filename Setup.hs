@@ -1,7 +1,11 @@
+{-# LANGUAGE TypeApplications #-}
+
 import           Prelude                            hiding (head, init, last, reverse, tail)
 import qualified Prelude
 
+import           Control.Exception                  (IOException, try)
 import           Data.Char                          (isDigit)
+import           Data.Either                        (fromRight)
 import           Data.Foldable                      (for_)
 import           Data.List                          (intercalate, intersperse, isPrefixOf, replicate, stripPrefix)
 import           Distribution.Simple                (Args, UserHooks (preBuild), defaultMainWithHooks, simpleUserHooks)
@@ -155,9 +159,11 @@ preProcessLength = preProcess "src/Database/PostgreSQL/Pure/Internal/Length.hs" 
         i012 = ('i':) . show <$> [0 ..]
 
 dirty :: FilePath -> FilePath -> FilePath -> IO Bool
-dirty src template templateItem = do
-  srcTime <- getModificationTime src
-  templateTime <- getModificationTime template
-  templateItemTime <- getModificationTime templateItem
-  setupTime <- getModificationTime "Setup.hs"
-  pure $ srcTime < maximum [templateTime, templateItemTime, setupTime]
+dirty src template templateItem =
+  try @IOException @Bool (do
+    srcTime <- getModificationTime src
+    templateTime <- getModificationTime template
+    templateItemTime <- getModificationTime templateItem
+    setupTime <- getModificationTime "Setup.hs"
+    pure $ srcTime < maximum [templateTime, templateItemTime, setupTime]
+  ) >>= pure . fromRight True
