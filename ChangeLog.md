@@ -12,11 +12,11 @@
 
 ### Breaking changes
 
-- Remove orphan `IsLabel` instance definitions; #2 thanks to @nakaji-dayo.
+- Remove orphan `IsLabel` instance definitions; [#2](https://github.com/iij-ii/postgresql-pure/pull/2) thanks to [@nakaji-dayo](https://github.com/nakaji-dayo).
 
 ### Other changes
 
-- Add cleartext password authentication; #1 thanks to @goodlyrottenapple.
+- Add cleartext password authentication; [#1](https://github.com/iij-ii/postgresql-pure/pull/1) thanks to [@goodlyrottenapple](https://github.com/goodlyrottenapple).
 - Change the Haskell type corresponding to `timetz` from `(TimeOfDay, TimeZone)` to `TimeOfDayWithTimeZone`.
 - Not only tuples but also other types which have `Length` type function can be record.
 
