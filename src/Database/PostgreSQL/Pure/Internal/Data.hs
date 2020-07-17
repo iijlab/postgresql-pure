@@ -1,6 +1,7 @@
 {-# LANGUAGE AllowAmbiguousTypes        #-}
 {-# LANGUAGE CPP                        #-}
 {-# LANGUAGE DataKinds                  #-}
+{-# LANGUAGE DefaultSignatures          #-}
 {-# LANGUAGE DerivingStrategies         #-}
 {-# LANGUAGE DuplicateRecordFields      #-}
 {-# LANGUAGE FlexibleContexts           #-}
@@ -67,6 +68,7 @@ module Database.PostgreSQL.Pure.Internal.Data
   , StringEncoder
   , FromField (..)
   , FromRecord (..)
+  , GFromRecord (..)
   , ToField (..)
   , ToRecord (..)
   , Pretty (..)
@@ -90,6 +92,8 @@ import           Data.String                  (IsString)
 import           Data.Time                    (TimeOfDay, TimeZone)
 import           Data.Word                    (Word8)
 import           Foreign                      (ForeignPtr)
+import           GHC.Generics                 (Generic (Rep))
+import qualified GHC.Generics                 as Generics
 import           Hexdump                      (prettyHex, simpleHex)
 import           Network.Socket               (Socket)
 import qualified Network.Socket               as NS
@@ -454,6 +458,15 @@ class FromField a where
 class FromRecord a where
   -- | Decoder of a record.
   fromRecord :: StringDecoder -> [ColumnInfo] -> AP.Parser a
+  default fromRecord :: (Generic a, GFromRecord (Rep a)) => StringDecoder -> [ColumnInfo] -> AP.Parser a
+  fromRecord decode infos = do
+    (rep, infos') <- gFromRecord decode infos
+    case infos' of
+      [] -> pure $ Generics.to rep
+      is -> fail $ "length mismatch: too many: actual: " <> show (length is)
+
+class GFromRecord f where
+  gFromRecord :: StringDecoder -> [ColumnInfo] -> AP.Parser ((f p), [ColumnInfo])
 
 -- | This means that @a@ can be encoded to a field.
 class ToField a where

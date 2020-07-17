@@ -5,8 +5,10 @@
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE PatternSynonyms      #-}
 {-# LANGUAGE ScopedTypeVariables  #-}
+{-# LANGUAGE TupleSections        #-}
 {-# LANGUAGE TypeApplications     #-}
 {-# LANGUAGE TypeFamilies         #-}
+{-# LANGUAGE TypeOperators        #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE UndecidableInstances #-}
 
@@ -42,7 +44,7 @@ module Database.PostgreSQL.Pure.Internal.Parser
   , valueParser
   ) where
 
-import           Database.PostgreSQL.Pure.Internal.Data          (AuthenticationMD5Password (AuthenticationMD5Password), AuthenticationResponse (AuthenticationMD5PasswordResponse, AuthenticationOkResponse, AuthenticationCleartextPasswordResponse),
+import           Database.PostgreSQL.Pure.Internal.Data          (AuthenticationMD5Password (AuthenticationMD5Password), AuthenticationResponse (AuthenticationCleartextPasswordResponse, AuthenticationMD5PasswordResponse, AuthenticationOkResponse),
                                                                   BackendKeyData (BackendKeyData),
                                                                   ColumnInfo (ColumnInfo, typeOid),
                                                                   CommandComplete (CommandComplete),
@@ -52,12 +54,13 @@ import           Database.PostgreSQL.Pure.Internal.Data          (Authentication
                                                                   ErrorFields (ErrorFields),
                                                                   FormatCode (BinaryFormat, TextFormat),
                                                                   FromField (fromField), FromRecord (fromRecord),
-                                                                  Notice (Notice), Oid (Oid),
+                                                                  GFromRecord (gFromRecord), Notice (Notice), Oid (Oid),
                                                                   ParameterDescription (ParameterDescription),
                                                                   ParameterStatus (ParameterStatus), Raw (Null, Value),
                                                                   ReadyForQuery (ReadyForQuery), Response (..),
                                                                   RowDescription (RowDescription),
-                                                                  SqlIdentifier (SqlIdentifier), StringDecoder, TimeOfDayWithTimeZone (TimeOfDayWithTimeZone),
+                                                                  SqlIdentifier (SqlIdentifier), StringDecoder,
+                                                                  TimeOfDayWithTimeZone (TimeOfDayWithTimeZone),
                                                                   TransactionState (Block, Failed, Idle),
                                                                   TypeLength (FixedLength, VariableLength))
 import qualified Database.PostgreSQL.Pure.Internal.Data          as Data
@@ -86,12 +89,12 @@ import           Data.Maybe                                      (fromMaybe)
 import           Data.Memory.Endian                              (BE, ByteSwap, fromBE)
 import           Data.Scientific                                 (Scientific, scientific)
 import qualified Data.Text                                       as Text
-import           Data.Time                                       (Day, DiffTime, LocalTime, TimeOfDay,
-                                                                  UTCTime, utc)
+import           Data.Time                                       (Day, DiffTime, LocalTime, TimeOfDay, UTCTime, utc)
 import           Data.Tuple.Single                               (Single, pattern Single)
 import           Data.Word                                       (Word16, Word32, Word64, Word8)
 import           Foreign                                         (withForeignPtr)
 import           Foreign.Storable                                (Storable, peekByteOff, sizeOf)
+import qualified GHC.Generics                                    as Generics
 import           GHC.Stack                                       (HasCallStack, callStack, prettyCallStack)
 import qualified PostgreSQL.Binary.Decoding                      as BD
 import           System.IO.Unsafe                                (unsafeDupablePerformIO)
@@ -813,6 +816,20 @@ instance {-# OVERLAPPABLE #-} (FromField a, Single c, t ~ c a) => FromRecord t w
 -- list
 instance {-# OVERLAPPABLE #-} FromField a => FromRecord [a] where
   fromRecord decode is = sequence $ column decode <$> is
+
+-- generic
+instance GFromRecord f => GFromRecord (Generics.M1 i t f) where
+  gFromRecord decode infos = (\(r, is) -> (Generics.M1 r, is)) <$> gFromRecord decode infos
+
+instance FromField c => GFromRecord (Generics.K1 i c) where
+  gFromRecord decode (i:infos) = (, infos) . Generics.K1 <$> column decode i
+  gFromRecord _ []             = fail "length mismatch: too few"
+
+instance (GFromRecord f, GFromRecord g) => GFromRecord (f Generics.:*: g) where
+  gFromRecord decode infos = do
+    (rep, infos') <- gFromRecord decode infos
+    (rep', infos'') <- gFromRecord decode infos'
+    pure (rep Generics.:*: rep', infos'')
 
 -- | For implementing 'fromRecord'.
 column :: FromField a => StringDecoder -> ColumnInfo -> AP.Parser a
