@@ -6,7 +6,7 @@
 --   
 --   pure Haskell PostgreSQL driver
 @package postgresql-pure
-@version 0.2.1.0
+@version 0.2.2.0
 
 module Database.PostgreSQL.Pure.Oid
 
@@ -446,6 +446,9 @@ class FromRecord a
 -- | Decoder of a record.
 fromRecord :: FromRecord a => StringDecoder -> [ColumnInfo] -> Parser a
 
+-- | Decoder of a record.
+fromRecord :: (FromRecord a, Generic a, GFromRecord (Rep a)) => StringDecoder -> [ColumnInfo] -> Parser a
+
 -- | This means that <tt>a</tt> can be encoded to a field.
 class ToField a
 
@@ -457,6 +460,9 @@ class ToRecord a
 
 -- | Encoder of a field.
 toRecord :: (ToRecord a, MonadFail m) => BackendParameters -> StringEncoder -> Maybe [Oid] -> [FormatCode] -> a -> m [Maybe ByteString]
+
+-- | Encoder of a field.
+toRecord :: (ToRecord a, MonadFail m, Generic a, GToRecord (Rep a)) => BackendParameters -> StringEncoder -> Maybe [Oid] -> [FormatCode] -> a -> m [Maybe ByteString]
 
 -- | Data without encoding nor decoding of a field.
 data Raw
@@ -851,6 +857,9 @@ class FromRecord a
 -- | Decoder of a record.
 fromRecord :: FromRecord a => StringDecoder -> [ColumnInfo] -> Parser a
 
+-- | Decoder of a record.
+fromRecord :: (FromRecord a, Generic a, GFromRecord (Rep a)) => StringDecoder -> [ColumnInfo] -> Parser a
+
 -- | This means that <tt>a</tt> can be encoded to a field.
 class ToField a
 
@@ -862,6 +871,9 @@ class ToRecord a
 
 -- | Encoder of a field.
 toRecord :: (ToRecord a, MonadFail m) => BackendParameters -> StringEncoder -> Maybe [Oid] -> [FormatCode] -> a -> m [Maybe ByteString]
+
+-- | Encoder of a field.
+toRecord :: (ToRecord a, MonadFail m, Generic a, GToRecord (Rep a)) => BackendParameters -> StringEncoder -> Maybe [Oid] -> [FormatCode] -> a -> m [Maybe ByteString]
 
 -- | Data without encoding nor decoding of a field.
 data Raw

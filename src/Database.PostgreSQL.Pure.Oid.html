@@ -128,14 +128,14 @@
 </span><span id="line-128"></span><span class="hs-comment">-- | OID.</span><span>
 </span><span id="line-129"></span><span class="hs-comment">--</span><span>
 </span><span id="line-130"></span><span class="hs-comment">-- Constant values are listed in @Database.PostgreSQL.Pure.Oid@.</span><span>
-</span><span id="line-131"></span><span class="hs-keyword">newtype</span><span> </span><span id="Oid"><span class="annot"><a href="Database.PostgreSQL.Pure.Oid.html#Oid"><span class="hs-identifier hs-var">Oid</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Oid"><span class="annot"><a href="Database.PostgreSQL.Pure.Oid.html#Oid"><span class="hs-identifier hs-var">Oid</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int32</span></span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679393347"><span id="local-6989586621679393349"><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><span id="line-131"></span><span class="hs-keyword">newtype</span><span> </span><span id="Oid"><span class="annot"><a href="Database.PostgreSQL.Pure.Oid.html#Oid"><span class="hs-identifier hs-var">Oid</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Oid"><span class="annot"><a href="Database.PostgreSQL.Pure.Oid.html#Oid"><span class="hs-identifier hs-var">Oid</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int32</span></span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679394200"><span id="local-6989586621679394202"><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 (Oid -&gt; Oid -&gt; Bool) -&gt; (Oid -&gt; Oid -&gt; Bool) -&gt; Eq Oid
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 /= :: Oid -&gt; Oid -&gt; Bool
 $c/= :: Oid -&gt; Oid -&gt; Bool
 == :: Oid -&gt; Oid -&gt; Bool
 $c== :: Oid -&gt; Oid -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679393332"><span id="local-6989586621679393334"><span id="local-6989586621679393336"><span id="local-6989586621679393338"><span id="local-6989586621679393340"><span id="local-6989586621679393342"><span id="local-6989586621679393344"><span class="annot"><span class="annottext">Integer -&gt; Oid
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679394185"><span id="local-6989586621679394187"><span id="local-6989586621679394189"><span id="local-6989586621679394191"><span id="local-6989586621679394193"><span id="local-6989586621679394195"><span id="local-6989586621679394197"><span class="annot"><span class="annottext">Integer -&gt; Oid
 Oid -&gt; Oid
 Oid -&gt; Oid -&gt; Oid
 (Oid -&gt; Oid -&gt; Oid)
@@ -746,708 +746,708 @@ $c+ :: Oid -&gt; Oid -&gt; Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#sqlIdentifier"><span class="hs-identifier hs-var hs-var">sqlIdentifier</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Oid
 </span><span class="hs-number">12664</span></span><span>
 </span><span id="line-477"></span><span>
-</span><span id="line-478"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679393326"><span id="local-6989586621679393329"><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Oid.html#Oid"><span class="hs-identifier hs-type">Oid</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-479"></span><span>  </span><span id="local-6989586621679393324"><span class="annot"><span class="annottext">show :: Oid -&gt; String
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">show</span></span></span><span> </span><span id="local-6989586621679393322"><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><span id="line-478"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679394179"><span id="local-6989586621679394182"><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Oid.html#Oid"><span class="hs-identifier hs-type">Oid</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-479"></span><span>  </span><span id="local-6989586621679394177"><span class="annot"><span class="annottext">show :: Oid -&gt; String
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">show</span></span></span><span> </span><span id="local-6989586621679394175"><span class="annot"><span class="annottext">Oid
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#bool"><span class="hs-identifier hs-var">bool</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;bool&quot;</span></span><span>
 </span><span id="line-480"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#bytea"><span class="hs-identifier hs-var">bytea</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;bytea&quot;</span></span><span>
 </span><span id="line-481"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#char"><span class="hs-identifier hs-var">char</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;char&quot;</span></span><span>
 </span><span id="line-482"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#name"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;name&quot;</span></span><span>
 </span><span id="line-483"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#int8"><span class="hs-identifier hs-var">int8</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;int8&quot;</span></span><span>
 </span><span id="line-484"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#int2"><span class="hs-identifier hs-var">int2</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;int2&quot;</span></span><span>
 </span><span id="line-485"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#int4"><span class="hs-identifier hs-var">int4</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;int4&quot;</span></span><span>
 </span><span id="line-486"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#regproc"><span class="hs-identifier hs-var">regproc</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;regproc&quot;</span></span><span>
 </span><span id="line-487"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#text"><span class="hs-identifier hs-var">text</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;text&quot;</span></span><span>
 </span><span id="line-488"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#oid"><span class="hs-identifier hs-var">oid</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;oid&quot;</span></span><span>
 </span><span id="line-489"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#tid"><span class="hs-identifier hs-var">tid</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;tid&quot;</span></span><span>
 </span><span id="line-490"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#xid"><span class="hs-identifier hs-var">xid</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;xid&quot;</span></span><span>
 </span><span id="line-491"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#cid"><span class="hs-identifier hs-var">cid</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;cid&quot;</span></span><span>
 </span><span id="line-492"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#xml"><span class="hs-identifier hs-var">xml</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;xml&quot;</span></span><span>
 </span><span id="line-493"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#point"><span class="hs-identifier hs-var">point</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;point&quot;</span></span><span>
 </span><span id="line-494"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#lseg"><span class="hs-identifier hs-var">lseg</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;lseg&quot;</span></span><span>
 </span><span id="line-495"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#path"><span class="hs-identifier hs-var">path</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;path&quot;</span></span><span>
 </span><span id="line-496"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#box"><span class="hs-identifier hs-var">box</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;box&quot;</span></span><span>
 </span><span id="line-497"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#polygon"><span class="hs-identifier hs-var">polygon</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;polygon&quot;</span></span><span>
 </span><span id="line-498"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#line"><span class="hs-identifier hs-var">line</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;line&quot;</span></span><span>
 </span><span id="line-499"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#cidr"><span class="hs-identifier hs-var">cidr</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;cidr&quot;</span></span><span>
 </span><span id="line-500"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#float4"><span class="hs-identifier hs-var">float4</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;float4&quot;</span></span><span>
 </span><span id="line-501"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#float8"><span class="hs-identifier hs-var">float8</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;float8&quot;</span></span><span>
 </span><span id="line-502"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#unknown"><span class="hs-identifier hs-var">unknown</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;unknown&quot;</span></span><span>
 </span><span id="line-503"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#circle"><span class="hs-identifier hs-var">circle</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;circle&quot;</span></span><span>
 </span><span id="line-504"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#money"><span class="hs-identifier hs-var">money</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;money&quot;</span></span><span>
 </span><span id="line-505"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#macaddr"><span class="hs-identifier hs-var">macaddr</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;macaddr&quot;</span></span><span>
 </span><span id="line-506"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#inet"><span class="hs-identifier hs-var">inet</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;inet&quot;</span></span><span>
 </span><span id="line-507"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#bpchar"><span class="hs-identifier hs-var">bpchar</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;bpchar&quot;</span></span><span>
 </span><span id="line-508"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#varchar"><span class="hs-identifier hs-var">varchar</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;varchar&quot;</span></span><span>
 </span><span id="line-509"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#date"><span class="hs-identifier hs-var">date</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;date&quot;</span></span><span>
 </span><span id="line-510"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#time"><span class="hs-identifier hs-var">time</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;time&quot;</span></span><span>
 </span><span id="line-511"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#timestamp"><span class="hs-identifier hs-var">timestamp</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;timestamp&quot;</span></span><span>
 </span><span id="line-512"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#timestamptz"><span class="hs-identifier hs-var">timestamptz</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;timestamptz&quot;</span></span><span>
 </span><span id="line-513"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#interval"><span class="hs-identifier hs-var">interval</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;interval&quot;</span></span><span>
 </span><span id="line-514"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#timetz"><span class="hs-identifier hs-var">timetz</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;timetz&quot;</span></span><span>
 </span><span id="line-515"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#bit"><span class="hs-identifier hs-var">bit</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;bit&quot;</span></span><span>
 </span><span id="line-516"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#varbit"><span class="hs-identifier hs-var">varbit</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;varbit&quot;</span></span><span>
 </span><span id="line-517"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#numeric"><span class="hs-identifier hs-var">numeric</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;numeric&quot;</span></span><span>
 </span><span id="line-518"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#refcursor"><span class="hs-identifier hs-var">refcursor</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;refcursor&quot;</span></span><span>
 </span><span id="line-519"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#record"><span class="hs-identifier hs-var">record</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;record&quot;</span></span><span>
 </span><span id="line-520"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#void"><span class="hs-identifier hs-var">void</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;void&quot;</span></span><span>
 </span><span id="line-521"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#recordArray"><span class="hs-identifier hs-var">recordArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;recordArray&quot;</span></span><span>
 </span><span id="line-522"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#regprocedure"><span class="hs-identifier hs-var">regprocedure</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;regprocedure&quot;</span></span><span>
 </span><span id="line-523"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#regoper"><span class="hs-identifier hs-var">regoper</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;regoper&quot;</span></span><span>
 </span><span id="line-524"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#regoperator"><span class="hs-identifier hs-var">regoperator</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;regoperator&quot;</span></span><span>
 </span><span id="line-525"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#regclass"><span class="hs-identifier hs-var">regclass</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;regclass&quot;</span></span><span>
 </span><span id="line-526"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#regtype"><span class="hs-identifier hs-var">regtype</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;regtype&quot;</span></span><span>
 </span><span id="line-527"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#uuid"><span class="hs-identifier hs-var">uuid</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;uuid&quot;</span></span><span>
 </span><span id="line-528"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#json"><span class="hs-identifier hs-var">json</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;json&quot;</span></span><span>
 </span><span id="line-529"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#jsonb"><span class="hs-identifier hs-var">jsonb</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;jsonb&quot;</span></span><span>
 </span><span id="line-530"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#int2vector"><span class="hs-identifier hs-var">int2vector</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;int2vector&quot;</span></span><span>
 </span><span id="line-531"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#oidvector"><span class="hs-identifier hs-var">oidvector</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;oidvector&quot;</span></span><span>
 </span><span id="line-532"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#xmlArray"><span class="hs-identifier hs-var">xmlArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;xmlArray&quot;</span></span><span>
 </span><span id="line-533"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#jsonArray"><span class="hs-identifier hs-var">jsonArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;jsonArray&quot;</span></span><span>
 </span><span id="line-534"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#lineArray"><span class="hs-identifier hs-var">lineArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;lineArray&quot;</span></span><span>
 </span><span id="line-535"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#cidrArray"><span class="hs-identifier hs-var">cidrArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;cidrArray&quot;</span></span><span>
 </span><span id="line-536"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#circleArray"><span class="hs-identifier hs-var">circleArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;circleArray&quot;</span></span><span>
 </span><span id="line-537"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#moneyArray"><span class="hs-identifier hs-var">moneyArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;moneyArray&quot;</span></span><span>
 </span><span id="line-538"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#boolArray"><span class="hs-identifier hs-var">boolArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;boolArray&quot;</span></span><span>
 </span><span id="line-539"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#byteaArray"><span class="hs-identifier hs-var">byteaArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;byteaArray&quot;</span></span><span>
 </span><span id="line-540"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#charArray"><span class="hs-identifier hs-var">charArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;charArray&quot;</span></span><span>
 </span><span id="line-541"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#nameArray"><span class="hs-identifier hs-var">nameArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;nameArray&quot;</span></span><span>
 </span><span id="line-542"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#int2Array"><span class="hs-identifier hs-var">int2Array</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;int2Array&quot;</span></span><span>
 </span><span id="line-543"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#int2vectorArray"><span class="hs-identifier hs-var">int2vectorArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;int2vectorArray&quot;</span></span><span>
 </span><span id="line-544"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#int4Array"><span class="hs-identifier hs-var">int4Array</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;int4Array&quot;</span></span><span>
 </span><span id="line-545"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#regprocArray"><span class="hs-identifier hs-var">regprocArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;regprocArray&quot;</span></span><span>
 </span><span id="line-546"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#textArray"><span class="hs-identifier hs-var">textArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;textArray&quot;</span></span><span>
 </span><span id="line-547"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#tidArray"><span class="hs-identifier hs-var">tidArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;tidArray&quot;</span></span><span>
 </span><span id="line-548"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#xidArray"><span class="hs-identifier hs-var">xidArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;xidArray&quot;</span></span><span>
 </span><span id="line-549"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#cidArray"><span class="hs-identifier hs-var">cidArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;cidArray&quot;</span></span><span>
 </span><span id="line-550"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#oidvectorArray"><span class="hs-identifier hs-var">oidvectorArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;oidvectorArray&quot;</span></span><span>
 </span><span id="line-551"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#bpcharArray"><span class="hs-identifier hs-var">bpcharArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;bpcharArray&quot;</span></span><span>
 </span><span id="line-552"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#varcharArray"><span class="hs-identifier hs-var">varcharArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;varcharArray&quot;</span></span><span>
 </span><span id="line-553"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#int8Array"><span class="hs-identifier hs-var">int8Array</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;int8Array&quot;</span></span><span>
 </span><span id="line-554"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#pointArray"><span class="hs-identifier hs-var">pointArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;pointArray&quot;</span></span><span>
 </span><span id="line-555"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#lsegArray"><span class="hs-identifier hs-var">lsegArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;lsegArray&quot;</span></span><span>
 </span><span id="line-556"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#pathArray"><span class="hs-identifier hs-var">pathArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;pathArray&quot;</span></span><span>
 </span><span id="line-557"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#boxArray"><span class="hs-identifier hs-var">boxArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;boxArray&quot;</span></span><span>
 </span><span id="line-558"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#float4Array"><span class="hs-identifier hs-var">float4Array</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;float4Array&quot;</span></span><span>
 </span><span id="line-559"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#float8Array"><span class="hs-identifier hs-var">float8Array</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;float8Array&quot;</span></span><span>
 </span><span id="line-560"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#polygonArray"><span class="hs-identifier hs-var">polygonArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;polygonArray&quot;</span></span><span>
 </span><span id="line-561"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#oidArray"><span class="hs-identifier hs-var">oidArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;oidArray&quot;</span></span><span>
 </span><span id="line-562"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#macaddrArray"><span class="hs-identifier hs-var">macaddrArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;macaddrArray&quot;</span></span><span>
 </span><span id="line-563"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#inetArray"><span class="hs-identifier hs-var">inetArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;inetArray&quot;</span></span><span>
 </span><span id="line-564"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#timestampArray"><span class="hs-identifier hs-var">timestampArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;timestampArray&quot;</span></span><span>
 </span><span id="line-565"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#dateArray"><span class="hs-identifier hs-var">dateArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;dateArray&quot;</span></span><span>
 </span><span id="line-566"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#timeArray"><span class="hs-identifier hs-var">timeArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;timeArray&quot;</span></span><span>
 </span><span id="line-567"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#timestamptzArray"><span class="hs-identifier hs-var">timestamptzArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;timestamptzArray&quot;</span></span><span>
 </span><span id="line-568"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#intervalArray"><span class="hs-identifier hs-var">intervalArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;intervalArray&quot;</span></span><span>
 </span><span id="line-569"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#numericArray"><span class="hs-identifier hs-var">numericArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;numericArray&quot;</span></span><span>
 </span><span id="line-570"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#timetzArray"><span class="hs-identifier hs-var">timetzArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;timetzArray&quot;</span></span><span>
 </span><span id="line-571"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#bitArray"><span class="hs-identifier hs-var">bitArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;bitArray&quot;</span></span><span>
 </span><span id="line-572"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#varbitArray"><span class="hs-identifier hs-var">varbitArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;varbitArray&quot;</span></span><span>
 </span><span id="line-573"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#refcursorArray"><span class="hs-identifier hs-var">refcursorArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;refcursorArray&quot;</span></span><span>
 </span><span id="line-574"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#regprocedureArray"><span class="hs-identifier hs-var">regprocedureArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;regprocedureArray&quot;</span></span><span>
 </span><span id="line-575"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#regoperArray"><span class="hs-identifier hs-var">regoperArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;regoperArray&quot;</span></span><span>
 </span><span id="line-576"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#regoperatorArray"><span class="hs-identifier hs-var">regoperatorArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;regoperatorArray&quot;</span></span><span>
 </span><span id="line-577"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#regclassArray"><span class="hs-identifier hs-var">regclassArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;regclassArray&quot;</span></span><span>
 </span><span id="line-578"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#regtypeArray"><span class="hs-identifier hs-var">regtypeArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;regtypeArray&quot;</span></span><span>
 </span><span id="line-579"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#uuidArray"><span class="hs-identifier hs-var">uuidArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;uuidArray&quot;</span></span><span>
 </span><span id="line-580"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#jsonbArray"><span class="hs-identifier hs-var">jsonbArray</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;jsonbArray&quot;</span></span><span>
 </span><span id="line-581"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#int4range"><span class="hs-identifier hs-var">int4range</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;int4range&quot;</span></span><span>
 </span><span id="line-582"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#_int4range"><span class="hs-identifier hs-var">_int4range</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;_int4range&quot;</span></span><span>
 </span><span id="line-583"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#numrange"><span class="hs-identifier hs-var">numrange</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;numrange&quot;</span></span><span>
 </span><span id="line-584"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#_numrange"><span class="hs-identifier hs-var">_numrange</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;_numrange&quot;</span></span><span>
 </span><span id="line-585"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#tsrange"><span class="hs-identifier hs-var">tsrange</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;tsrange&quot;</span></span><span>
 </span><span id="line-586"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#_tsrange"><span class="hs-identifier hs-var">_tsrange</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;_tsrange&quot;</span></span><span>
 </span><span id="line-587"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#tstzrange"><span class="hs-identifier hs-var">tstzrange</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;tstzrange&quot;</span></span><span>
 </span><span id="line-588"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#_tstzrange"><span class="hs-identifier hs-var">_tstzrange</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;_tstzrange&quot;</span></span><span>
 </span><span id="line-589"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#daterange"><span class="hs-identifier hs-var">daterange</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;daterange&quot;</span></span><span>
 </span><span id="line-590"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#_daterange"><span class="hs-identifier hs-var">_daterange</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;_daterange&quot;</span></span><span>
 </span><span id="line-591"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#int8range"><span class="hs-identifier hs-var">int8range</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;int8range&quot;</span></span><span>
 </span><span id="line-592"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#_int8range"><span class="hs-identifier hs-var">_int8range</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;_int8range&quot;</span></span><span>
 </span><span id="line-593"></span><span>         </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Oid
-</span><a href="#local-6989586621679393322"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
+</span><a href="#local-6989586621679394175"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Oid -&gt; Oid -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Oid
 </span><a href="Database.PostgreSQL.Pure.Oid.html#sqlIdentifier"><span class="hs-identifier hs-var">sqlIdentifier</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;sqlIdentifier&quot;</span></span><span>
-</span><span id="line-594"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Database.PostgreSQL.Pure.Oid.html#Oid"><span class="hs-identifier hs-type">Oid</span></a></span><span> </span><span id="local-6989586621679393321"><span class="annot"><span class="annottext">Int32
-</span><a href="#local-6989586621679393321"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int32 -&gt; String
+</span><span id="line-594"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Database.PostgreSQL.Pure.Oid.html#Oid"><span class="hs-identifier hs-type">Oid</span></a></span><span> </span><span id="local-6989586621679394174"><span class="annot"><span class="annottext">Int32
+</span><a href="#local-6989586621679394174"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int32 -&gt; String
 forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">Int32
-</span><a href="#local-6989586621679393321"><span class="hs-identifier hs-var">n</span></a></span><span>
+</span><a href="#local-6989586621679394174"><span class="hs-identifier hs-var">n</span></a></span><span>
 </span><span id="line-595"></span><span>
-</span><span id="line-596"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679393314"><span id="local-6989586621679393317"><span id="local-6989586621679393319"><span class="annot"><span class="hs-identifier hs-type">Read</span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Oid.html#Oid"><span class="hs-identifier hs-type">Oid</span></a></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-597"></span><span>  </span><span id="local-6989586621679393312"><span class="annot"><span class="annottext">readPrec :: ReadPrec Oid
-</span><a href="#local-6989586621679393312"><span class="hs-identifier hs-var hs-var hs-var hs-var">readPrec</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-596"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679394167"><span id="local-6989586621679394170"><span id="local-6989586621679394172"><span class="annot"><span class="hs-identifier hs-type">Read</span></span><span> </span><span class="annot"><a href="Database.PostgreSQL.Pure.Oid.html#Oid"><span class="hs-identifier hs-type">Oid</span></a></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-597"></span><span>  </span><span id="local-6989586621679394165"><span class="annot"><span class="annottext">readPrec :: ReadPrec Oid
+</span><a href="#local-6989586621679394165"><span class="hs-identifier hs-var hs-var hs-var hs-var">readPrec</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-598"></span><span>    </span><span class="annot"><span class="annottext">ReadPrec Oid -&gt; ReadPrec Oid
 forall a. ReadPrec a -&gt; ReadPrec a
 </span><span class="hs-identifier hs-var">R.parens</span></span><span>
