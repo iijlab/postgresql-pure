@@ -71,6 +71,7 @@ module Database.PostgreSQL.Pure.Internal.Data
   , GFromRecord (..)
   , ToField (..)
   , ToRecord (..)
+  , GToRecord (..)
   , Pretty (..)
   ) where
 
@@ -477,6 +478,23 @@ class ToField a where
 class ToRecord a where
   -- | Encoder of a field.
   toRecord :: MonadFail m => BackendParameters -> StringEncoder -> Maybe [Oid] -> [FormatCode] -> a -> m [Maybe BS.ByteString]
+  default toRecord :: (MonadFail m, Generic a, GToRecord (Rep a)) => BackendParameters -> StringEncoder -> Maybe [Oid] -> [FormatCode] -> a -> m [Maybe BS.ByteString]
+  toRecord backendParams encode Nothing fs v = do
+    (record, os, fs') <- gToRecord backendParams encode Nothing fs $ Generics.from v
+    case (os, fs') of
+      (Nothing, []) -> pure record
+      (Nothing, _)  -> fail "There are too many format codes"
+      (_, _)        -> error "can't reach here"
+  toRecord backendParams encode os fs v = do
+    (record, os', fs') <- gToRecord backendParams encode os fs $ Generics.from v
+    case (os', fs') of
+      (Just [], []) -> pure record
+      (Just _, [])  -> fail "There are too many OIDs"
+      (Just _, _)   -> fail "There are too many format codes"
+      (_, _)        -> error "can't reach here"
+
+class GToRecord f where
+  gToRecord :: (MonadFail m) => BackendParameters -> StringEncoder -> Maybe [Oid] -> [FormatCode] -> f p -> m ([Maybe BS.ByteString], Maybe [Oid], [FormatCode])
 
 -- | Type of PostgreSQL @sql_identifier@ type.
 newtype SqlIdentifier = SqlIdentifier BS.ByteString deriving (Show, Read, Eq)

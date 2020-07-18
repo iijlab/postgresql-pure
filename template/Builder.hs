@@ -3,7 +3,9 @@
 {-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE PatternSynonyms      #-}
+{-# LANGUAGE TupleSections        #-}
 {-# LANGUAGE TypeFamilies         #-}
+{-# LANGUAGE TypeOperators        #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE UndecidableInstances #-}
 
@@ -29,11 +31,13 @@ module Database.PostgreSQL.Pure.Internal.Builder
 
 import           Database.PostgreSQL.Pure.Internal.Data           (BindParameterFormatCodes (BindParameterFormatCodesAll, BindParameterFormatCodesAllDefault, BindParameterFormatCodesEach),
                                                                    BindResultFormatCodes (BindResultFormatCodesAllDefault, BindResultFormatCodesEach, BindResultFormatCodesNothing),
-                                                                   FormatCode (BinaryFormat, TextFormat), Oid (Oid),
+                                                                   FormatCode (BinaryFormat, TextFormat),
+                                                                   GToRecord (gToRecord), Oid (Oid),
                                                                    PortalName (PortalName),
                                                                    PreparedStatementName (PreparedStatementName),
-                                                                   Query (Query), TimeOfDayWithTimeZone (TimeOfDayWithTimeZone), ToField (toField),
-                                                                   ToRecord (toRecord))
+                                                                   Query (Query),
+                                                                   TimeOfDayWithTimeZone (TimeOfDayWithTimeZone),
+                                                                   ToField (toField), ToRecord (toRecord))
 import           Database.PostgreSQL.Pure.Internal.Exception      (cantReachHere)
 import qualified Database.PostgreSQL.Pure.Internal.MonadFail      as MonadFail
 import qualified Database.PostgreSQL.Pure.Oid                     as Oid
@@ -51,10 +55,10 @@ import           Data.Int                                         (Int16, Int32,
 import qualified Data.Map.Strict                                  as M
 import           Data.Scientific                                  (FPFormat (Exponent), Scientific, formatScientific,
                                                                    scientific)
-import           Data.Time                                        (Day, DiffTime, NominalDiffTime, TimeOfDay,
-                                                                   UTCTime)
+import           Data.Time                                        (Day, DiffTime, NominalDiffTime, TimeOfDay, UTCTime)
 import           Data.Time.LocalTime                              (LocalTime)
 import           Data.Tuple.Single                                (Single, pattern Single)
+import qualified GHC.Generics                                     as Generics
 import qualified PostgreSQL.Binary.Encoding                       as BE
 
 startup
@@ -549,6 +553,22 @@ instance
     sequence $ uncurry (toField backendParams encode Nothing) <$> zip fs vs
   toRecord backendParams encode (Just os) fs vs =
     assert (length os == length fs && length fs == length vs) $ sequence $ uncurry3 (toField backendParams encode) <$> zip3 (Just <$> os) fs vs
+
+-- generics
+instance GToRecord f => GToRecord (Generics.M1 i t f) where
+  gToRecord backendParams encode os fs (Generics.M1 r) = gToRecord backendParams encode os fs r
+
+instance ToField c => GToRecord (Generics.K1 i c) where
+  gToRecord backendParams encode (Just (o:os)) (f:fs) (Generics.K1 v) = (, Just os, fs) . (:[]) <$> toField backendParams encode (Just o) f v
+  gToRecord backendParams encode Nothing (f:fs) (Generics.K1 v) = (, Nothing, fs) . (:[]) <$> toField backendParams encode Nothing f v
+  gToRecord _ _ (Just []) _ _ = fail "there are too few OIDs"
+  gToRecord _ _ _ [] _ = fail "there are too few format codes"
+
+instance (GToRecord f, GToRecord g) => GToRecord (f Generics.:*: g) where
+  gToRecord backendParams encode os fs (f Generics.:*: g) = do
+    (record, os', fs') <- gToRecord backendParams encode os fs f
+    (record', os'', fs'') <- gToRecord backendParams encode os' fs' g
+    pure (record ++ record', os'', fs'')
 
 uncurry3 :: (a -> b -> c -> d) -> (a, b, c) -> d
 uncurry3 f (a, b, c) = f a b c
