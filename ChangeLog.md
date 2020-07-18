@@ -1,5 +1,11 @@
 # Changelog for postgresql-pure
 
+## 0.2.2.0
+
+2020.07.19
+
+- Default implementations get to be given for `FromRecord` and `ToRecord`.
+
 ## 0.2.1.0
 
 2020.07.14
@@ -26,7 +32,7 @@
 
 - Expose a function for type class instance implementations.
 - A new instance `FromField String`.
-- New instances for `FromRecord`, `ToRecord`.
+- New instances for `FromRecord` and `ToRecord`.
 
 ## 0.1.2.0
 

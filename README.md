@@ -1,6 +1,6 @@
 # postgresql-pure
 
-[![Hackage](https://matrix.hackage.haskell.org/api/v2/packages/postgresql-pure/badge)](http://hackage.haskell.org/package/postgresql-pure) [![Haddock](https://img.shields.io/badge/Haddock-0.2.1.0-blue)](https://iij-ii.github.io/postgresql-pure/) [![CI build](https://github.com/iij-ii/postgresql-pure/workflows/build/badge.svg)](https://github.com/iij-ii/postgresql-pure/actions?query=workflow%3Abuild) [![CI test](https://github.com/iij-ii/postgresql-pure/workflows/test/badge.svg)](https://github.com/iij-ii/postgresql-pure/actions?query=workflow%3Atest)
+[![Hackage](https://matrix.hackage.haskell.org/api/v2/packages/postgresql-pure/badge)](http://hackage.haskell.org/package/postgresql-pure) [![Haddock](https://img.shields.io/badge/Haddock-0.2.2.0-blue)](https://iij-ii.github.io/postgresql-pure/) [![CI build](https://github.com/iij-ii/postgresql-pure/workflows/build/badge.svg)](https://github.com/iij-ii/postgresql-pure/actions?query=workflow%3Abuild) [![CI test](https://github.com/iij-ii/postgresql-pure/workflows/test/badge.svg)](https://github.com/iij-ii/postgresql-pure/actions?query=workflow%3Atest)
 
 ## Copyright
 
