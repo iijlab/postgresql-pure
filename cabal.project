@@ -1,0 +1,22 @@
+packages: .
+
+source-repository-package
+  type: git
+  location: https://github.com/kakkun61/foundation.git
+  tag: 9c0395fc578e20f39c1b0b7cd37176ecb906b4f7
+  subdir: basement
+
+source-repository-package
+  type: git
+  location: https://github.com/galenhuntington/bytestring-strict-builder.git
+  tag: 8a254ef1a42ec577f722e42f163d668d7fbcf0ad
+
+source-repository-package
+  type: git
+  location: https://github.com/andrewthad/hs-memory.git
+  tag: 683b402965e68800337af8f9b237d28be273c0d8
+
+source-repository-package
+  type: git
+  location: https://github.com/galenhuntington/data-serializer.git
+  tag: 070d681f97b705f47716e13b646512140524f940
